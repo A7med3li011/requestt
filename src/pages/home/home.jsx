@@ -216,7 +216,7 @@ const Home = () => {
                                 state={{ taskId: task._id }}
                               >
                                 <BoardView
-                                  ProgressValue={70}
+                                  ProgressValue={0}
                                   NameOfTask={task.title}
                                   Tagname={"Project"}
                                   taskPriority={task.taskPriority}
@@ -252,7 +252,7 @@ const Home = () => {
                                 state={{ taskId: task._id }}
                               >
                                 <ListView
-                                  ProgressValue={70}
+                                  ProgressValue={0}
                                   NameOfTask={task.title}
                                   Tagname={"Project"}
                                   taskPriority={task.taskPriority}
