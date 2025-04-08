@@ -22,26 +22,17 @@ const CreateVocation = () => {
     nameAR: "",
   });
   const [loading, setLoading] = useState(false);
-  let newArray = []
+  let newArray = [];
   useEffect(() => {
     const getVocations = async () => {
       setLoading(true);
       try {
         const res = await getAllVocations(userId, lang);
-        const data =  res.results;
+        const data = res.allVocations;
 
-        
-        console.log(data)
-       
-        
-        setVocations(prev => {
-          const existingNames = new Set(prev.map(item => item.name));
-        
-          const newUniqueItems = data.filter(item => !existingNames.has(item.name));
-        
-          return [...prev, ...newUniqueItems];
-        });
-        
+        console.log(data);
+
+        setVocations(data);
       } catch (error) {
         console.error("Error fetching vocations:", error);
       } finally {
@@ -49,7 +40,7 @@ const CreateVocation = () => {
       }
     };
     getVocations();
-  }, [userId,isUpdated]);
+  }, [userId, isUpdated]);
 
   const handleAddVocation = async () => {
     try {
@@ -69,7 +60,7 @@ const CreateVocation = () => {
         nameEN: "",
         nameAR: "",
       });
-      setisUpdated(prev=>!prev)
+      setisUpdated((prev) => !prev);
 
       return response;
     } catch (error) {
@@ -82,7 +73,6 @@ const CreateVocation = () => {
     console.log(vocations);
     console.log(
       setVocations((prev) => prev.filter((item) => item._id != voc._id))
-      
     );
     await axios.delete(
       `https://api.request-sa.com/api/v1/vocation/${voc._id}`,
@@ -91,7 +81,7 @@ const CreateVocation = () => {
       }
     );
   }
-  console.log(vocations)
+  console.log(vocations);
   return (
     <div className="CreateVocation">
       {loading ? (
@@ -102,23 +92,21 @@ const CreateVocation = () => {
         <div className="wrapper bg-white rounded-3xl p-3 m-2">
           <h6 className="font-semibold text-sm leading-4">{t("Vocations")}</h6>
 
-          {vocations.length > 0 ? (
+          {vocations?.length > 0 ? (
             <div className="PreviousTags grid grid-cols-2 md:grid-cols-4  gap-2 bg-white rounded-3xl p-4 shadow-lg">
-              {vocations.map(
-                (voc, index) =>
-                  (
-                    <div
-                      key={index}
-                      className="voc  col-span-1 rounded-3xl py-6 px-5 flex items-center justify-center relative text-center  bg-gray-100 text-sm "
-                    >
-                      <span
-                        onClick={() => handleUpdateVocation(voc)}
-                        className="text-lg text  rounded-full    !border-2 !border-black cursor-pointer absolute block top-1 left-1"
-                      >
-                        <IoMdClose />
-                      </span>
-                      {voc.name||voc.nameEN}
-                      {/* {newVocations.includes(voc) && (
+              {vocations.map((voc, index) => (
+                <div
+                  key={index}
+                  className="voc  col-span-1 rounded-3xl py-6 px-5 flex items-center justify-center relative text-center  bg-gray-100 text-sm "
+                >
+                  <span
+                    onClick={() => handleUpdateVocation(voc)}
+                    className="text-lg text  rounded-full    !border-2 !border-black cursor-pointer absolute block top-1 left-1"
+                  >
+                    <IoMdClose />
+                  </span>
+                  {lang=="en"? voc.nameEN:voc.nameAR}
+                  {/* {newVocations.includes(voc) && (
                     <button
                       className="absolute rounded-full bg-white w-6 -top-3 right-2"
                       onClick={() => handleDeleteVocation(voc)}
@@ -128,9 +116,8 @@ const CreateVocation = () => {
                       </span>
                     </button>
                   )} */}
-                    </div>
-                  )
-              )}
+                </div>
+              ))}
             </div>
           ) : (
             <div className="text-center text-sm leading-4 text-gray-600">

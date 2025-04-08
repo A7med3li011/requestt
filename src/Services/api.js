@@ -656,7 +656,7 @@ export const getUserGroup = async (token) => {
 export const getAllVocations = async (userId, lang) => {
   try {
     const response = await axiosInstance.get(
-      `vocation/user/${userId}?lang=${lang}`
+      `vocation/`
     );
 
     "Response from vocations => ", response;

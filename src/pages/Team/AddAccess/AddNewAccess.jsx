@@ -214,6 +214,7 @@ const AddNewAccess = () => {
   });
   const lang = i18next.language;
 
+  console.log(lang);
   useEffect(() => {
     "Current access list:", accessList;
   }, [accessList]);
@@ -229,7 +230,7 @@ const AddNewAccess = () => {
           ]
         );
 
-        setVocations(vocationResponse.results);
+        setVocations(vocationResponse.allVocations);
         setVocationLoading(false);
 
         setProjects(projectsResponse.results);
@@ -425,6 +426,8 @@ const AddNewAccess = () => {
     );
   }
 
+  console.log(vocations);
+
   return (
     <div className="AddNewAccess bg-white rounded-3xl m-2 p-4">
       <form
@@ -555,7 +558,10 @@ const AddNewAccess = () => {
             id="vocation"
             isClearable
             isLoading={VocationLoading}
-            options={vocations.map((v) => ({ value: v._id, label: v.name }))}
+            options={vocations?.map((v) => ({
+              value: v._id,
+              label: lang == "en" ? v.nameEN : v.nameAR,
+            }))}
             onChange={setSelectedVocation}
             value={selectedVocation}
             styles={customStyles}
