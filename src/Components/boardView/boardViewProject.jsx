@@ -25,8 +25,8 @@ const AvatarList = memo(({ avatars }) => {
         <img
           key={index}
           src={` ${
-            avatar.startsWith("/src")
-              ? avatar
+           ( avatar.startsWith("/src") || avatar.startsWith("/assets")
+)              ? avatar
               : `https://api.request-sa.com/${avatar}`
           }`}
           alt="avatar"

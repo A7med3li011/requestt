@@ -13,7 +13,11 @@ const AvatarList = memo(({ avatars }) => {
       {displayedAvatars.map((avatar, index) => (
         <img
           key={index}
-          src={avatar}
+          src={` ${
+            avatar.startsWith("/src") || avatar.startsWith("/assets")
+              ? avatar
+              : `https://api.request-sa.com/${avatar}`
+          }`}
           alt="avatar"
           className="w-8 h-8 border-2 border-white rounded-full m-1"
         />
