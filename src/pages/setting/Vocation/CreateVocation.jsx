@@ -22,15 +22,26 @@ const CreateVocation = () => {
     nameAR: "",
   });
   const [loading, setLoading] = useState(false);
-
+  let newArray = []
   useEffect(() => {
     const getVocations = async () => {
       setLoading(true);
       try {
         const res = await getAllVocations(userId, lang);
-        const data = Array.from(new Set(res.results));
+        const data =  res.results;
 
-        setVocations(data);
+        
+        console.log(data)
+       
+        
+        setVocations(prev => {
+          const existingNames = new Set(prev.map(item => item.name));
+        
+          const newUniqueItems = data.filter(item => !existingNames.has(item.name));
+        
+          return [...prev, ...newUniqueItems];
+        });
+        
       } catch (error) {
         console.error("Error fetching vocations:", error);
       } finally {
@@ -71,6 +82,7 @@ const CreateVocation = () => {
     console.log(vocations);
     console.log(
       setVocations((prev) => prev.filter((item) => item._id != voc._id))
+      
     );
     await axios.delete(
       `https://api.request-sa.com/api/v1/vocation/${voc._id}`,
@@ -79,6 +91,7 @@ const CreateVocation = () => {
       }
     );
   }
+  console.log(vocations)
   return (
     <div className="CreateVocation">
       {loading ? (
@@ -93,7 +106,7 @@ const CreateVocation = () => {
             <div className="PreviousTags grid grid-cols-2 md:grid-cols-4  gap-2 bg-white rounded-3xl p-4 shadow-lg">
               {vocations.map(
                 (voc, index) =>
-                  voc.nameEN && (
+                  (
                     <div
                       key={index}
                       className="voc  col-span-1 rounded-3xl py-6 px-5 flex items-center justify-center relative text-center  bg-gray-100 text-sm "
@@ -104,7 +117,7 @@ const CreateVocation = () => {
                       >
                         <IoMdClose />
                       </span>
-                      {voc.name}
+                      {voc.name||voc.nameEN}
                       {/* {newVocations.includes(voc) && (
                     <button
                       className="absolute rounded-full bg-white w-6 -top-3 right-2"

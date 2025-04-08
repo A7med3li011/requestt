@@ -21,17 +21,15 @@ import ListView from "../../Components/ListView/listView";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.user);
- 
+
   const token = useSelector((state) => state.auth.token);
   const userId = user?._id;
-
-
 
   const [data, setData] = useState({ results: [] });
   const [analysis, setAnalysis] = useState({});
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("board");
-     
+
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
@@ -52,7 +50,7 @@ const Home = () => {
       try {
         const projectsData = await getAllProjectsForUser(userId, token);
         setData(projectsData);
-        (projectsData);
+        projectsData;
       } catch (error) {
         console.error("Error fetching projects data:", error);
       } finally {
@@ -65,11 +63,11 @@ const Home = () => {
     setViewMode(mode);
   };
 
- const formatDate = (date) => {
-   if (!date) return "";
-   return format(new Date(date), "dd MMM");
- };  
-  
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd MMM");
+  };
+
   // Filter projects that have tasks more than 0
   const filteredProjects = data?.results?.filter(
     (project) => project.tasks && project.tasks.length > 0
@@ -182,12 +180,13 @@ const Home = () => {
               </button>
             </div>
 
-
             {filteredProjects?.length > 0 ? (
               filteredProjects.map((project) => {
                 return (
-                  <div className="project" key={project._id}>
-                    <Link
+                  <div className=" " key={project._id}>
+                
+                    <Link 
+                      className="block  w-[10%]"
                       to={`/ProjectDetails/${project._id}`}
                       state={{ projectId: project._id }}
                     >
@@ -281,8 +280,7 @@ const Home = () => {
           </div>
         </>
       )}
-        {/* <img className="w-[300px] h-[300px]" src={`https://api.request-sa.com/${user?.profilePic}`} alt=""/> */}
-      
+      {/* <img className="w-[300px] h-[300px]" src={`https://api.request-sa.com/${user?.profilePic}`} alt=""/> */}
     </div>
   );
 };

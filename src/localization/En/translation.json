@@ -3,7 +3,7 @@
   "Register": "Register", 
   "PhoneNumber": "Phone Number",
   "sendOtp": "Send OTP",
-  "ResendOtp": "Resend Otp",
+  "ResendOtp": "Resend OTP",
   "verify": "Verify",
   "An OTP Message containing your code has been sent to": "An OTP message containing your code has been sent to",
   "Code Sent. Resend Code in": "Code Sent. Resend Code in",
