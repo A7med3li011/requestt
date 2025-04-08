@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter/Inter-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("./assets/fonts/Jost/Jost-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Work Sans";
+  src: url("./assets/fonts/Work_Sans/WorkSans-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --blue: #86e3ce;
+  --green: #d0e6a5;
+  --yellow: #ffdd94;
+  --yellow2: #ca8a04;
+  --gold: #fdc055;
+  --red: #fc887b;
+  --purple: #ccabd8;
+  --purple2: #8744a4;
+  --light: #f2f2f7;
+  --gray: rgb(235, 238, 241);
+  --gray-md: #dde4e9;
+  --gray-dark: rgba(20, 21, 21, 1);
+  --linear1: linear-gradient(96.45deg, #ccabda 0%, #99d4d2 167.29%);
+  --linear2: linear-gradient(
+    88.9deg,
+    rgba(204, 171, 218, 0.77) 26.63%,
+    rgba(204, 171, 218, 0.4235) 98.84%
+  );
+  --linear3: linear-gradient(
+    88.03deg,
+    rgba(134, 227, 206, 0.81) 65.21%,
+    rgba(134, 227, 206, 0.5832) 106%
+  );
+  --linear4: linear-gradient(
+    86.92deg,
+    rgba(252, 136, 123, 0.58) 64.21%,
+    rgba(248, 176, 169, 0.435) 94.13%
+  );
+  --linear5: linear-gradient(
+    86.77deg,
+    rgba(255, 221, 149, 0.73) 75.53%,
+    rgba(255, 221, 149, 0.4015) 96.78%
+  );
+  --shadow-dark: 8px 8px 24px 0px rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0px 1px 3px 0px rgba(96, 108, 128, 0.05);
+}
+.dark {
+  --blue: #50b0a2;
+  --green: #fdc055;
+  --yellow: #ec8c50;
+  --gold: #fdc055;
+  --red: #df6f5b;
+  --purple: #336099;
+  --linear1: linear-gradient(95.7deg, #346399 0%, #50b0a2 145.42%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Work Sans", sans-serif;
+  scroll-behavior: smooth;
+  direction: ltr;
+  background-color: var(--light) !important;
+}
+
+body[dir="rtl"] {
+  direction: rtl;
+}
+::selection {
+  background-color: var(--purple);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: #d1d5db;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+}
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+input[type="password"] {
+  font-family: "inter", sans-serif;
+  font-size: 14px;
+}
+label {
+  font-family: "jost", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.30000001192092896px;
+  text-align: left;
+}
+option {
+  cursor: pointer;
+}
+
+.Wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+.LogIn_Image {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 20px;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.or {
+  font-family: Jost;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 77px;
+  color: #acadac;
+  &:before {
+    content: "";
+    background: #acadac;
+    height: 1px;
+    width: 90px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+  }
+  &:after {
+    content: "";
+    background: #acadac;
+    height: 1px;
+    width: 90px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+  }
+}
+.text-linear {
+  background: var(--linear1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.user-profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: brown;
+  color: #ffffff;
+
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.Notification_success {
+  color: #05c398;
+}
+
+.Notification_warning {
+  color: #f7ba1e;
+}
+.Notification_3 {
+  color: var(--purple2);
+}
+

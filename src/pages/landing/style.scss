@@ -1,0 +1,156 @@
+body {
+  background-color: #f2f2f7 !important;
+}
+
+.halfCircleEffect {
+  border-radius: 700px / 350px;
+  width: 1400px;
+  height: 700px;
+  background: rgb(204, 171, 218);
+  background: linear-gradient(
+    0deg,
+    rgba(204, 171, 218, 1) 0%,
+    rgba(153, 212, 210, 1) 100%
+  );
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-60%, -50%) rotate(45deg);
+  transition: transform 0.5s;
+  z-index: -10;
+  opacity: 0.6;
+}
+
+.halfCircleLineEffect {
+  border-radius: 700px / 350px;
+  width: 1400px;
+  height: 700px;
+  background: transparent;
+  border: 1px solid var(--purple);
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-30%, -25%) rotate(10deg);
+  transition: transform 0.5s;
+  z-index: -10;
+  opacity: 0.6;
+}
+
+.landing_box {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
+
+  &.active {
+    background: linear-gradient(
+      0deg,
+      rgba(204, 171, 218, 1) 0%,
+      rgba(153, 212, 210, 1) 100%
+    );
+    img {
+      -webkit-filter: grayscale(0);
+      filter: grayscale(0);
+    }
+  }
+}
+.services,
+.ContactUsLanding {
+  background: linear-gradient(90deg, #f9ecff 0%, #f2f2f7 16%);
+}
+.services:dir(rtl),
+.ContactUsLanding:dir(rtl) {
+  background: linear-gradient(270deg, #f9ecff 0%, #f2f2f7 16%);
+}
+.services_list {
+  list-style-type: circle;
+}
+
+.landing_effect {
+  background-color: var(--purple);
+  border-radius: 700px / 500px;
+  width: 1400px;
+  height: 700px;
+  position: absolute;
+  left: -800px;
+  top: -400px;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+/* General transition for all elements */
+.transition-all {
+  transition: all 0.5s ease-in-out;
+}
+
+/* Specific transitions for images */
+.landingImage1,
+.landingImage2,
+.landingImage3 {
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.landing_box {
+  transform: scale(0.9);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.landing_box.active {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.carousel .next-arrow,
+.carousel .prev-arrow {
+  display: none !important;
+}
+
+// .carousel-indicators button {
+//   background-color: #e0e0e0; // Default inactive color (gray)
+// }
+// .carousel-indicators button.active {
+//   background-color: #6a0dad; // Purple for active dots
+//   transition: background-color 0.3s ease-in-out;
+// }
+
+/* // Fade and scale animation for images and text */
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* // Slide and rotate animation for background images */
+@keyframes slideInRotate {
+  0% {
+    transform: translateX(50px) rotate(20deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* // Apply animation classes */
+.fade-scale {
+  animation: fadeScale 1s ease-in-out;
+}
+
+.slide-rotate {
+  animation: slideInRotate 1s ease-in-out;
+}

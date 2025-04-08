@@ -1,0 +1,50 @@
+.switchingTabs {
+  background-color: #eceff1;
+  padding: 2px;
+  border-radius: 15px;
+
+  .tabItems {
+    position: relative;
+    display: flex;
+  
+    width: 100%;
+
+    .tabItem {
+      width: 220px;
+      //  width: 100%;
+      color: var(--black);
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      text-align: center;
+
+      &.activeTabItem {
+        color: var(--purple);
+      }
+    }
+
+    .movingBg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-radius: 15px;
+      background-color: white;
+      transition: left cubic-bezier(0.88, -0.35, 0.565, 1.35) 0.4s,
+                  right cubic-bezier(0.88, -0.35, 0.565, 1.35) 0.4s;
+    }
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+ .switchingTabs .tabItems .tabItem {
+    width: 170px; 
+  }
+}
+
+@media (max-width: 768px) {
+  .tabItem {
+    width: 150px; 
+  }
+}

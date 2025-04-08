@@ -1,0 +1,19 @@
+.audio-recorder {
+    background: transparent!important;
+    border: none;
+    box-shadow: unset!important;
+}
+.audio-recorder-mic {
+  filter: invert(25%) sepia(91%) saturate(7495%) hue-rotate(355deg)
+    brightness(101%) contrast(108%);
+}
+.recording {
+    width: 100%;
+}
+.audio-recorder-visualizer canvas{
+    color: var(--purple)!important;
+}
+
+// .audio-recorder-mic[title="Save recording"] {
+//   display: none!important;
+// }

@@ -1,0 +1,25 @@
+body{
+    background-color: white!important;
+}
+.effect_right {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 50%;
+    border-radius: 50%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(100px);
+    z-index: -30;
+  }
+
+  &::before {
+    background-image: url("../../../assets/images/effect.jpg");
+    transform: translate(90%, 20%)!important;
+  }
+}

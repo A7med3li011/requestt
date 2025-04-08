@@ -1,0 +1,6 @@
+.w-color-swatch {
+  display: grid !important;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 10px;
+  margin-inline: 8px;
+}

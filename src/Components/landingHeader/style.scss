@@ -1,0 +1,16 @@
+.header_effect{
+     background: linear-gradient(
+      90deg,
+      #F9ECFF 0%,
+      #f2f2f7 16%
+    );
+}
+// rtl 
+                   
+.header_effect:dir(rtl){
+     background: linear-gradient(
+      270deg,
+      #F9ECFF 0%,
+      #f2f2f7 16%
+    );
+}

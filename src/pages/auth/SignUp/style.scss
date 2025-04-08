@@ -1,0 +1,120 @@
+body {
+  background-color: white !important;
+}
+
+.box_Apple,
+.box_phone,
+.box_Google {
+  border-radius: 10px;
+  padding: 14px 38px;
+}
+
+.box_Google,
+.box_phone {
+  background: #f6f6f6;
+  border: 1px solid #dddfdd;
+}
+.box_Apple {
+  background-color: white;
+  box-shadow: 0px 10px 13px 0px #00000021;
+}
+
+.RoleBtn {
+  padding: 40px;
+  width: 354px;
+  gap: 0px;
+  border-radius: 24px;
+  box-shadow: 8px 8px 24px 0px #0000000d;
+  background-color: white;
+  font-family: Inter;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 56px;
+  color: #98a2b2;
+
+  &.selected.owner {
+    background-color: var(--purple2);
+    color: white;
+  }
+  &.selected.consultant {
+    background-color: var(--red);
+    color: white;
+  }
+  &.selected.contractor {
+    background-color: var(--blue);
+    color: white;
+  }
+
+  &:hover:not(.selected):not(:disabled) {
+    background-color: white;
+  }
+
+  &:hover:not(.selected):not(:disabled).owner {
+    color: var(--purple2);
+  }
+  &:hover:not(.selected):not(:disabled).consultant {
+    color: var(--red);
+  }
+  &:hover:not(.selected):not(:disabled).contractor {
+    color: var(--blue);
+  }
+  &:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+  }
+
+  .RoleBtn:disabled.selected {
+    background-color: #007bff;
+    color: white;
+    cursor: not-allowed;
+  }
+}
+
+.effect {
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 150px;
+    left: 0;
+    width: 50%;
+    border-radius: 50%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(100px);
+    z-index: -30;
+  }
+
+  &::before {
+    background-image: url("../../../assets/images/effect.jpg");
+    transform: translate(20%, 5%)!important;
+  }
+}
+
+.confirmPassword_label {
+  opacity: 1;
+  transition: all ease-in-out 0.5s;
+}
+.confirmPassword:focus-within .confirmPassword_label {
+  opacity: 0 !important;
+}
+
+.confirmPassword_input:focus {
+  border: 1px solid var(--purple2);
+}
+
+
+@media (max-width: 1024px) {
+  .RoleBtn{
+    width: 290px;
+    padding: 5px;
+    font-size: 24px;
+  }
+  .effect{
+    top: 100px;
+  }
+}
+

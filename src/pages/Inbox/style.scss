@@ -1,0 +1,12 @@
+.active{
+    background-color: rgba(168, 85, 247, 0.1);
+}
+.send{
+    border-radius: 0 12px 12px 12px;
+}
+.receive{
+    border-radius: 12px 12px 0 12px;
+}
+.Send_btn:hover svg{
+   transform:skewY(30deg) ;
+}

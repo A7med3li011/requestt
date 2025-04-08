@@ -1,0 +1,43 @@
+body{
+    background-color: white!important;
+}
+
+.Otp_text {
+  color: #00000080;
+  width: 474px;
+}
+.effect {
+  &::before,
+   &::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 50%;
+    border-radius: 50%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    filter: blur(100px); 
+    z-index: -30; 
+  }
+
+  &::before {
+    background-image: url('../../../assets/images/yellow.png');
+    transform: translate(-20%, -10%);
+  }
+
+  &::after {
+    background-image: url('../../../assets/images/purple.png');
+    transform: translate(20%, 10%);
+  }
+}
+
+
+@media (max-width: 1024px) {
+
+  .effect{
+    top: 100px;
+  }
+}
