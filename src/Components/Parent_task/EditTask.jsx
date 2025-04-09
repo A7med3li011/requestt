@@ -315,7 +315,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                     fieldErrors.member && "border-red  border rounded-2xl"
                   }`}
                   onChange={(value) => handleSelectChange("assignees", value)}
-                  options={members.map((member) => ({
+                  options={members?.map((member) => ({
                     value: member._id,
                     label: member.name,
                   }))}

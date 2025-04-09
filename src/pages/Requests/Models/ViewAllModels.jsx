@@ -13,16 +13,17 @@ const ViewAllModels = () => {
   const token = useSelector((state) => state.auth.token);
   const { projectId, projectName, members, taskId, TaskName } =
     location.state || {};
-  (location.state);
+  location.state;
 
   const [loading, setLoading] = useState(false);
   const [Models, setModels] = useState([]);
 
+  console.log(projectId);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const id = taskId ? taskId : projectId;
+        const id = projectId?projectId : taskId.id;
         const data = await getModelsByProject(token, id);
         setModels(data.results);
       } catch (error) {
@@ -38,7 +39,7 @@ const ViewAllModels = () => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
   };
- 
+
   return (
     <div className="ViewAllModels min-h-screen">
       {loading ? (
@@ -72,9 +73,9 @@ const ViewAllModels = () => {
                 {t("AddModel")}
               </span>
             </Link>
-            {Models.length > 0 && (
+            {Models?.length > 0 && (
               <>
-                {Models.map((model) => (
+                {Models?.map((model) => (
                   <Link
                     to={`/viewModel/${model._id}`}
                     state={{
