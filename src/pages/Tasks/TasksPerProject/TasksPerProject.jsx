@@ -163,7 +163,7 @@ const TasksPerProject = () => {
             className={`AddTask box bg-white  ${
               viewMode === "list"
                 ? "flex items-center justify-center text-2xl"
-                : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 h-[286px]"
+                : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 "
             } rounded-md shadow-sm p-5 `}
           >
             <span>
