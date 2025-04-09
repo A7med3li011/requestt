@@ -181,7 +181,11 @@ const ViewRequest = () => {
               <div className="flex flex-col items-center gap-3">
                 <ProfileAvatar
                   name={"owner Name"}
-                  profilePic={avatar}
+                  profilePic={
+                    model?.owner?.companyLogo
+                      ? model?.owner?.companyLogo
+                      : model?.owner?.name
+                  }
                   className={`!w-16 !h-16`}
                 />
                 <span className="text-purple-dark  underline underline-offset-1 font-bold  text-sm">
@@ -208,7 +212,11 @@ const ViewRequest = () => {
               <div className="flex flex-col items-center gap-3">
                 <ProfileAvatar
                   name={"ConsultantName"}
-                  profilePic={avatar}
+                  profilePic={
+                    model?.consultant?.companyLogo
+                      ? model?.consultant?.companyLogo
+                      : model?.consultant?.name
+                  }
                   className={`!w-16 !h-16`}
                 />
                 <span className="text-purple-dark  underline underline-offset-1 font-bold  text-sm">
@@ -235,7 +243,11 @@ const ViewRequest = () => {
               <div className="flex flex-col items-center gap-3">
                 <ProfileAvatar
                   name={"ContractorName"}
-                  profilePic={avatar}
+                  profilePic={
+                    model?.contractor?.companyLogo !== ""
+                      ? model?.contractor?.companyLogo
+                      : model?.contractor?.name
+                  }
                   className={`!w-16 !h-16`}
                 />
                 <span className="text-purple-dark  underline underline-offset-1 font-bold  text-sm">

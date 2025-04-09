@@ -201,6 +201,7 @@ const TableOfQuantities = () => {
   useEffect(() => {
     getTasksbyProject();
   }, [reFetch]);
+  console.log(tasks)
   return (
     <div className="TableOfQuantities w-[320px] sm:w-[600px] lg:w-[750px] mx-auto overflow-x-scroll lg:overflow-hidden ">
       <div className="header  bg-white w-[500px] sm:w-[600px] lg:w-[750px]   p-4 rounded-l-3xl flex items-center justify-between">
@@ -213,7 +214,6 @@ const TableOfQuantities = () => {
           projectId={projectId}
         />
       </div>
-
       {tasks.length > 0 ? (
         <div className="content bg-white p-4  w-[500px] sm:w-[600px] lg:w-[750px] rounded-3xl mx-auto   my-6">
           <div className="flex justify-between px-3 font-semibold">
@@ -234,7 +234,7 @@ const TableOfQuantities = () => {
             </p>
           </div>
 
-          {tasks.map((task, index) => (
+          {tasks.map((task, index) => task.type=="toq" && (
             <TaskRow
               key={index}
               task={task}
