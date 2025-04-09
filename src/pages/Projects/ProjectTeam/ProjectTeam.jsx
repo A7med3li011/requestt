@@ -59,7 +59,7 @@ const customStyles = {
   option: (provided, state) => ({
     ...provided,
     backgroundColor: "white",
-    color: "var(--gray)",
+    // color: "var(--gray)",
     padding: "10px",
     borderRadius: "8px",
     cursor: "pointer",
@@ -153,7 +153,7 @@ const AnimatedMultiValue = (props) => (
 );
 
 const ProjectTeam = () => {
-    const lang = i18next.language;
+  const lang = i18next.language;
   const user = useSelector((state) => state.auth.user);
   const [membersData, setMembersData] = useState(null);
   const token = useSelector((state) => state.auth.token);
@@ -204,7 +204,7 @@ const ProjectTeam = () => {
     setOpenAcc((prevOpen) => (prevOpen === idx ? null : idx));
   };
   useEffect(() => {
-    ("Current access list:", accessList);
+    "Current access list:", accessList;
   }, [accessList]);
   useEffect(() => {
     const fetchData = async () => {
@@ -223,7 +223,7 @@ const ProjectTeam = () => {
           getAllMembersByProject(projectId, lang),
         ]);
 
-        setVocations(vocationResponse.results);
+        setVocations(vocationResponse.allVocations);
         setVocationLoading(false);
 
         // setProjects(projectsResponse.results);
@@ -237,7 +237,7 @@ const ProjectTeam = () => {
         setTagsLoading(false);
 
         setMembersData(MembersRes);
-        (membersData);
+        membersData;
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -328,14 +328,14 @@ const ProjectTeam = () => {
         role: user.role._id,
         tags: SelectedTags.map((t) => t.value),
       };
-      (payload);
+      payload;
 
       await addMemberForProject(projectId, payload, token);
       clearFields();
       toast.success(t("toast.MemberAdded"));
       window.location.reload();
     } catch (error) {
-      (error);
+      error;
       setFieldErrors(error);
     }
   };
@@ -351,9 +351,9 @@ const ProjectTeam = () => {
         members: SelectedUserId,
       };
       const res = await deleteMemberFromProjectTeam(projectId, Member);
-      ("log from project team ", projectId, "/", Member);
+      "log from project team ", projectId, "/", Member;
 
-      ("res : ", res);
+      "res : ", res;
 
       toast.success(t("toast.userDeletedSuccessfully"));
       window.location.reload();
@@ -423,6 +423,7 @@ const ProjectTeam = () => {
   } = membersData || {};
   const { owner, consultant, contractor } = admins;
 
+  console.log(vocations);
   return (
     <div className="ProjectTeam">
       <div className="header bg-white rounded-3xl p-2">
@@ -811,7 +812,7 @@ const ProjectTeam = () => {
                   ripple={false}
                   variant="text"
                   color="blue-gray"
-                  className="flex h-10 items-center gap-2  ltr:rounded-r-none rtl:rounded-l-none border ltr:border-r-0 rtl:border-l-0 border-gray border-solid pl-3"
+                  className="flex h-10 items-center gap-2  ltr:rounded-r-none rtl:rounded-l-none border ltr:border-r-0 rtl:border-l-0 border-[#EeEE] border-solid pl-3"
                 >
                   <img
                     src={flags.svg}
@@ -842,18 +843,34 @@ const ProjectTeam = () => {
                 })}
               </MenuList>
             </Menu>
-            <MaterialInput
+            {/* <MaterialInput
               type="tel"
               value={Phone}
               onChange={handlePhoneChange}
               placeholder="Mobile Number"
-              className="ltr:rounded-l-none rtl:rounded-r-none border border-solid !border-gray focus:!border-gray"
+              className="ltr:rounded-l-none rtl:rounded-r-none border "
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
               containerProps={{
                 className: "min-w-0",
               }}
+            /> */}
+            <input
+              dir={lang == "en" ? "ltr" : "rtl"}
+              type="tel"
+              min={11}
+              minLength={11}
+              maxLength={15}
+              // country={country.value}
+              placeholder={t("Phone number")}
+              value={Phone}
+              onChange={handlePhoneChange}
+              className={` mb-[1.5px] border-[1px]  w-full focus:outline-none  px-2 ${
+                lang == "en"
+                  ? "rounded-l-none rounded-lg"
+                  : "rounded-r-none rounded-lg"
+              }  `}
             />
           </div>
           <div className="col-span-4">
@@ -868,7 +885,10 @@ const ProjectTeam = () => {
               id="vocation"
               isClearable
               isLoading={loading}
-              options={vocations.map((v) => ({ value: v._id, label: v.name }))}
+              options={vocations?.map((v) => ({
+                value: v._id,
+                label: lang == "en" ? v.nameEN : v.nameAR,
+              }))}
               onChange={setSelectedVocation}
               value={selectedVocation}
               styles={customStyles}
@@ -979,4 +999,3 @@ const ProjectTeam = () => {
 };
 
 export default ProjectTeam;
-

@@ -18,7 +18,7 @@ import {
 } from "../../../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 import Loader from "../../../Components/Loader/Loader";
-import PhoneInput from "react-phone-number-input/input";
+import {PhoneInput} from "react-international-phone";
 import "react-phone-number-input/style.css";
 import Select from "react-select";
 import countries from "react-select-country-list";
@@ -81,6 +81,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const countries = useCountries().countries;
+  console.log(countries[0].flags.png);
   const [countryIndex, setCountryIndex] = useState(230);
   const { name, flags, countryCallingCode } = countries[countryIndex];
   const { roleId } = location.state || {};
@@ -362,7 +363,7 @@ const SignUp = () => {
                   >
                     {t("Phone number")}
                   </label>
-                  <div className="flex relative bg-[#E8F0FE] ">
+                  {/* <div className="flex relative bg-[#E8F0FE] ">
                     <Menu placement="bottom-start">
                       <MenuHandler>
                         <Btn
@@ -446,6 +447,39 @@ const SignUp = () => {
                           ? "rounded-l-none rounded-lg"
                           : "rounded-r-none rounded-lg"
                       } ${phoneError ? "" : ""}`}
+                    />
+                  </div> */}
+                  <div className="flex flex-col gap-1">
+                    
+                    <PhoneInput
+                      name="phoneNumber"
+                      className={`flex flex-row w-full g`}
+                      value={phone}
+                      onChange={(phone) => setPhone(phone)}
+                      defaultCountry="sa"
+                      inputStyle={{
+                        // border: "#258F424D solid 2px",
+                        borderRadius: "",
+                        height: "44px",
+                        width:"100%",
+                        backgroundColor:"#DADFE4",
+                        fontSize:"15px"
+                        
+                      }}
+                      countrySelectorStyleProps={{
+                        flagStyle: {
+                          borderRadius: "20px",
+                          height: "20px",
+                          objectFit: "fill",
+                        },
+                        buttonStyle: {
+                          
+                          width: "60px",
+                          height: "44px",
+                          backgroundColor:"#DADFE4"
+                        },
+                      }}
+                      prefix="+"
                     />
                   </div>
                   {phoneError && (

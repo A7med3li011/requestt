@@ -206,7 +206,7 @@ const Setting = () => {
     setSelectedTab(index);
   };
 
-    console.log(buttons[selectedTab].label)
+  console.log(buttons[selectedTab].label);
   return (
     <div className="Settings">
       <div className="wrapper bg-white rounded-xl p-4 mx-auto   lg:max-w-2xl ">
@@ -215,12 +215,15 @@ const Setting = () => {
             {buttons[selectedTab].label}
           </p>
           <div className="saveChanges hidden lg:block">
-            {buttons[selectedTab].label != "Company Information"&&<Button
-              className={"!px-12 font-medium"}
-              onClick={handleSaveChanges}
-            >
-              {t("Save Changes")}
-            </Button>}
+            {buttons[selectedTab].label !== "Company Information" &&
+            buttons[selectedTab].label !== "Create Vocation" ? (
+              <Button
+                className={"!px-12 font-medium"}
+                onClick={handleSaveChanges}
+              >
+                {t("Save Changes")}
+              </Button>
+            ) : null}
           </div>
           <div className="mobile_menu block lg:hidden">
             <button onClick={openDrawer}>
