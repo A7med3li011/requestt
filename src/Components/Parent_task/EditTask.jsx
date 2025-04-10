@@ -11,7 +11,6 @@ import { BiEdit } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 
 export const EditTask = ({ task, onUpdateTask }) => {
-  
   const location = useLocation();
   const { members } = location.state || {};
 
@@ -38,10 +37,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
     total: task.price * task.quantity,
     unit: task?.unit?.name,
   });
-  ("form data :",  formData);
-
-  
-  
+  "form data :", formData;
 
   const [fieldErrors, setFieldErrors] = useState({});
 
@@ -119,7 +115,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFieldErrors({})
+    setFieldErrors({});
 
     // Validate each field and set errors
     const newFieldErrors = {
@@ -136,7 +132,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
       // filteredQuantity: formData.filteredQuantity < 0,
       price: formData.price <= 0,
       quantity: formData.quantity <= 0,
-      unit:!formData.unit,
+      unit: !formData.unit,
     };
 
     setFieldErrors(newFieldErrors);
@@ -164,18 +160,18 @@ export const EditTask = ({ task, onUpdateTask }) => {
         total: formData.price * formData.quantity,
         unit: task.unit,
       };
-      (updatedTask);
-      
+      updatedTask;
+
       onUpdateTask(updatedTask);
 
-      setIsOpen(false)
+      setIsOpen(false);
     } catch (err) {
-      (err);
+      err;
     } finally {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="EditSub">
       <button
@@ -311,9 +307,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   id="assignees"
                   isMulti={false}
                   value={task?.assignees[0]?.name}
-                  InputClassName={` ${
-                    fieldErrors.member && "border-red  border rounded-2xl"
-                  }`}
+                  InputClassName={` `}
                   onChange={(value) => handleSelectChange("assignees", value)}
                   options={members?.map((member) => ({
                     value: member._id,
@@ -433,7 +427,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   name="quantity"
                   placeholder={t("Quantity")}
                   a
-                  value={task.requiredQuantity}
+                  value={formData.quantity || formData.total / formData.price}
                   onChange={handleChange}
                 />
               </div>
@@ -456,7 +450,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   onChange={handleChange}
                 />
               </div>
-              <div className="Unit col-span-1">
+              <div className="Unit col-span-1 mt-2">
                 <label
                   htmlFor="unit"
                   className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
@@ -495,7 +489,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
 };
 
 // {
-  /* <div className="grid grid-cols-4 gap-2">
+/* <div className="grid grid-cols-4 gap-2">
               <div className="price col-span-1">
                 <label
                   htmlFor="requiredQuantity"

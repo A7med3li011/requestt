@@ -98,7 +98,7 @@ const Inbox = () => {
     }
   }, [messages, ChatLoading]);
   const fetchData = async () => {
-    setLoading(true);
+    setLoading(false);
     try {
       const projectsData = await getAllProjectsByUser(token, userId);
       setProjects(projectsData.results);
@@ -132,77 +132,6 @@ const Inbox = () => {
       setChatLoading(false);
     }
   };
-  // const fetchMessagesData = async (prepend = false) => {
-  //   if (!activeChat || isFetching || !hasMoreMessages) return;
-
-  //   setIsFetching(true);
-  //   setChatLoading(true);
-  //   const { projectId, member } = activeChat;
-
-  //   try {
-  //     let newMessages = [];
-  //     let totalMsgs = 0;
-  //     const nextPage = prepend ? page + 1 : page;
-
-  //     // Fetch messages based on group or user chat
-  //     if (IsGroup) {
-  //       const groupData = await getGroupData(token, projectId, member._id);
-  //       newMessages = groupData.results;
-  //     } else {
-  //       const messagesData = await getMessagesBetweenUsers(
-  //         token,
-  //         projectId,
-  //         userId,
-  //         member._id,
-  //         20,
-  //         nextPage
-  //       );
-  //       newMessages = messagesData.results;
-  //       totalMsgs = messagesData.totalMessages; // Total number of messages for this chat
-  //     }
-
-  //     // Check if there are no more messages
-  //     if (newMessages.length === 0 || totalMsgs <= messages.length) {
-  //       setHasMoreMessages(false); // Stop fetching when no more messages are available
-  //     } else if (prepend) {
-  //       setPage((prev) => prev + 1); // Increment page only when prepending
-  //     }
-
-  //     // Update messages state based on whether we're prepending or appending
-  //     setMessages((prevMessages) => {
-  //       return prepend
-  //         ? [...newMessages, ...prevMessages]
-  //         : [...prevMessages, ...newMessages];
-  //     });
-
-  //     // Adjust scroll position after prepending messages
-  //     if (prepend && chatContainerRef.current) {
-  //       chatContainerRef.current.scrollTop += 200; // Adjust scroll offset
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching messages:", error);
-  //   } finally {
-  //     setIsFetching(false);
-  //     setChatLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting && hasMoreMessages && !isFetching) {
-  //         fetchMessagesData(true); // Fetch older messages when scrolled to top
-  //       }
-  //     },
-  //     { threshold: 0.5 } // Trigger when 50% of the top element is visible
-  //   );
-
-  //   if (topRef.current) observer.observe(topRef.current);
-
-  //   return () => {
-  //     if (topRef.current) observer.unobserve(topRef.current); // Disconnect observer cleanly
-  //   };
-  // }, [hasMoreMessages, isFetching]);
 
   const handleChatClick = (member, projectId) => {
     setActiveChat({ member, projectId });
@@ -213,6 +142,9 @@ const Inbox = () => {
   // Fetch projects when component mounts
   useEffect(() => {
     fetchData();
+    // const interval = setInterval(fetchData, 3000);
+
+    // // Clear on unmount
   }, [token, userId]);
 
   // Detect if the active chat is a group chat
@@ -223,6 +155,11 @@ const Inbox = () => {
   // Fetch group or direct messages based on the active chat type
   useEffect(() => {
     fetchMessagesData();
+
+    const interval = setInterval(fetchMessagesData, 5000);
+
+    // Clear on unmount
+    return () => clearInterval(interval);
   }, [messageInput, IsGroup, token, userId]);
 
   // const loadMoreMessages = async () => {
@@ -316,6 +253,7 @@ const Inbox = () => {
         project: activeChat.projectId,
         isSender: true,
         type: messageInput ? "text" : file ? "doc" : "text",
+        name: "sss",
       };
 
       if (messageInput.trim()) {

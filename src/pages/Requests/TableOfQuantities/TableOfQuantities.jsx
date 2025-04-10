@@ -67,7 +67,7 @@ const TaskRow = ({
         <Input
           type="number"
           min={0}
-          value={task.requiredQuantity}
+          value={task.total /task.price}
           onChange={(e) => {
             const value = e.target.value;
             handleChange("requiredQuantity", value);
@@ -84,7 +84,7 @@ const TaskRow = ({
           className="bg-white border w-full rounded-2xl p-2 border-gray "
           type="number"
           min={0}
-          value={task.price * task.requiredQuantity}
+          value={task.total }
           disabled
         />
       </div>
@@ -201,7 +201,7 @@ const TableOfQuantities = () => {
   useEffect(() => {
     getTasksbyProject();
   }, [reFetch]);
-  console.log(tasks)
+ 
   return (
     <div className="TableOfQuantities w-[320px] sm:w-[600px] lg:w-[750px] mx-auto overflow-x-scroll lg:overflow-hidden ">
       <div className="header  bg-white w-[500px] sm:w-[600px] lg:w-[750px]   p-4 rounded-l-3xl flex items-center justify-between">

@@ -10,6 +10,7 @@ import "./style.scss";
 import { PlayIcon } from "../../../Components/UI/checkMark/Playbtn";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function Point({ checked }) {
   if (!checked) return null;
@@ -115,14 +116,20 @@ const CreateTag = ({ onTagsChange }) => {
     setNewTagName(""); // Clear input after adding the tag
   };
 
-  const handleDeleteTag = (tagToDelete) => {
-    const updatedTags = tags.filter((tag) => tag !== tagToDelete);
-    const updatedNewTags = newTags.filter((tag) => tag !== tagToDelete);
+  async function handleDeleteTag(id) {
+    // const updatedTags = tags.filter((tag) => tag !== tagToDelete);
+    // const updatedNewTags = newTags.filter((tag) => tag !== tagToDelete);
 
-    setTags(updatedTags);
-    setNewTags(updatedNewTags); // Update newTags
-    onTagsChange(updatedTags);
-  };
+    // setTags(updatedTags);
+    // setNewTags(updatedNewTags); // Update newTags
+    // onTagsChange(updatedTags);
+    await axios
+      .delete(`https://api.request-sa.com/api/v1/tags/${id}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+
+    setTags((prev) => prev.filter((ele) => ele._id != id));
+  }
 
   return (
     <div className="CreateTag">
@@ -134,30 +141,36 @@ const CreateTag = ({ onTagsChange }) => {
         <div className="wrapper bg-white rounded-3xl p-3 m-2">
           <h6 className="font-semibold text-sm leading-4">{t("Tags")}</h6>
           {tags.length > 0 ? (
-            <div className="PreviousTags  flex flex-wrap bg-white rounded-3xl p-4 shadow-lg">
+            <div className="PreviousTags  relative  flex flex-wrap bg-white rounded-3xl p-4 shadow-lg">
               {tags.map((tag, index) => (
                 <div
                   key={index}
-                  className={`tag col-span-1 rounded-3xl p-1 px-3 py-2 text-center relative`}
+                  className={`tag col-span-1 rounded-3xl mx-1 px-5 py-3 text-center relative`}
                   style={{
                     background: `${tag.colorCode}30`, // Opacity 25%
                     color: "black",
                   }}
                 >
+                  <button
+                    onClick={() => handleDeleteTag(tag._id)}
+                    className="text-xs px-2 py-1 bg-red text-white rounded-full right-0  absolute top-[-40%]"
+                  >
+                    X
+                  </button>
                   {tag.name}
-                  {newTags.includes(tag) && (
-                    <button
-                      className="absolute rounded-full bg-white w-6 -top-3 right-2"
-                      onClick={() => handleDeleteTag(tag)}
-                      style={{
-                        color: tag.colorCode,
-                      }}
-                    >
-                      <span className="w-4  font-semibold text-sm">
-                        &#x2715;
-                      </span>
-                    </button>
-                  )}
+                    {/* {newTags.includes(tag) && (
+                      <button
+                        className="absolute rounded-full bg-white w-6 -top-3 right-2"
+                        onClick={() => handleDeleteTag(tag)}
+                        style={{
+                          color: tag.colorCode,
+                        }}
+                      >
+                        <span className="w-4  font-semibold text-sm">
+                          &#x2715;
+                        </span>
+                      </button>
+                    )} */}
                 </div>
               ))}
             </div>
@@ -167,7 +180,6 @@ const CreateTag = ({ onTagsChange }) => {
             </div>
           )}
 
-          
           <form onSubmit={handleAddTag} className="py-5 px-3 lg:px-8">
             <Input
               label={t("TName")}

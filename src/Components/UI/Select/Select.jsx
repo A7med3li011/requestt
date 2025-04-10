@@ -10,7 +10,7 @@ const customStyles = {
     border: "1px solid black",
     borderRadius: "10px",
     padding: "2px 5px",
-    minHeight: "45px",
+    minHeight: "40px",
     boxShadow: "none",
     
     "&:hover": { borderColor: "black" },

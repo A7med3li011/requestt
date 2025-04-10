@@ -71,6 +71,7 @@ const ProjectDetails = () => {
     return format(new Date(date), "dd MMM");
   };
 
+  
   return (
     <div className="ProjectDetails mx-1">
       {loading ? (
@@ -154,7 +155,8 @@ const ProjectDetails = () => {
                       +{Project.members.length - 5}
                     </span>
                   )}
-                  {Project.members.slice(0, 5).map((member, index) => (
+                  {Project?.members?.map((member, index) =>  (
+                    
                     <Link
                       to="/ProjectTeam"
                       state={{ projectId: Project._id }}
@@ -163,11 +165,12 @@ const ProjectDetails = () => {
                       title={member.name}
                     >
                       <ProfileAvatar
-                        src={member?.profilePic}
+                        profilePic={member?.profilePic}
                         name={member?.name}
                         alt={`${member?.name}'s avatar`}
                         className="w-full h-full object-cover"
                       />
+                     
                     </Link>
                   ))}
                 </>

@@ -135,10 +135,10 @@ const Company = () => {
             />
           </div>
 
-          <div className="stamp">
+          <div className="stamp cursor-pointer">
             <label
               htmlFor="stamp"
-              className="box flex justify-start items-center bg-white py-1 px-6 gap-2 rounded-2xl m-2 shadow-mdc1 shadow-lg"
+              className="box flex justify-start cursor-pointer items-center bg-white py-1 px-6 gap-2 rounded-2xl m-2 shadow-mdc1 shadow-lg"
             >
               <div
                 className="icon_wrapper rounded-2xl p-5 my-2 mx-1 lg:mx-4"
