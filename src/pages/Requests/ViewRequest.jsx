@@ -44,7 +44,9 @@ const ViewRequest = () => {
           getModelById(token, ModelId),
           getAllActionCodes(),
         ]);
-        setModel(modelData.results);
+        setModel(modelData?.results);
+        setComment(modelData?.results?.comment||"")
+        setSelectedActionCodes  (modelData?.results?.actionCode?._id||"")
         modelData;
         setActionCodes(actionCodeData.results);
         setActionCodeLoading(false);
@@ -59,8 +61,13 @@ const ViewRequest = () => {
     if (ModelId) fetchData();
   }, []);
 
+  console.log(model );
   const handleApprove = async (e) => {
-    if (!Comment || !selectedActionCodes) return;
+    if (!Comment || !selectedActionCodes) {
+      console.log(Comment ,selectedActionCodes );
+      return;
+    }
+    console.log("ahmed");
     try {
       // Prepare payload dynamically based on roles
       const getApprovalPayload = () => {
@@ -182,9 +189,7 @@ const ViewRequest = () => {
                 <ProfileAvatar
                   name={"owner Name"}
                   profilePic={
-                    model?.owner?.companyLogo
-                      ? model?.owner?.companyLogo
-                      : model?.owner?.name
+                    model?.owner?.companyLogo ? model?.owner?.companyLogo : ""
                   }
                   className={`!w-16 !h-16`}
                 />
@@ -200,7 +205,7 @@ const ViewRequest = () => {
                   profilePic={
                     model?.consultant?.companyLogo
                       ? model?.consultant?.companyLogo
-                      : model?.consultant?.name
+                      : ""
                   }
                   className={`!w-16 !h-16 !text-3xl`}
                 />
@@ -231,7 +236,7 @@ const ViewRequest = () => {
                   profilePic={
                     model?.contractor?.companyLogo !== ""
                       ? model?.contractor?.companyLogo
-                      : model?.contractor?.name
+                      : ""
                   }
                   className={`!w-16 !h-16`}
                 />

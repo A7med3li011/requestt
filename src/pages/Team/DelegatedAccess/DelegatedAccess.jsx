@@ -39,7 +39,6 @@ const DelegatedAccess = () => {
     setOpenAcc((prevOpen) => (prevOpen === projectId ? null : projectId));
   };
 
- 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -55,7 +54,6 @@ const DelegatedAccess = () => {
     };
     fetchData();
   }, [token, user.team]);
-
 
   const handleDelete = async () => {
     if (selectedUserId && selectedProjectId) {
@@ -117,8 +115,8 @@ const DelegatedAccess = () => {
             </tr>
           </thead>
           <tbody>
-            {Team.map((project) => (
-              <>
+            {Team?.map((project, index) => (
+              <div key={index}>
                 <tr key={project.projectId}>
                   <td
                     colSpan="6"
@@ -175,7 +173,7 @@ const DelegatedAccess = () => {
                     </td>
                   </tr>
                 ))}
-              </>
+              </div>
             ))}
           </tbody>
         </table>
@@ -211,7 +209,6 @@ const DelegatedAccess = () => {
                 variant="gradient"
                 onClick={() => {
                   handleDelete();
-                  
                 }}
               >
                 Yes, delete
