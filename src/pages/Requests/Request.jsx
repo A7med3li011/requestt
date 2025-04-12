@@ -197,6 +197,13 @@ const RequestForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (IsReqForMaterial || IsRfiReq) {
+      if (!selectedUnit) {
+        toast.error("All fields are required");
+        return
+      };
+    }
     setLoading(true);
 
     // Validate required fields

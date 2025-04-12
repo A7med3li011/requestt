@@ -151,14 +151,14 @@ const Models = () => {
                   className="link flex justify-between items-center bg-white shadow-lg rounded-xl px-2 py-3 my-1 mx-3"
                 >
                   <div className="flex items-center gap-1">
-                    <input
+                    {/* <input
                       type="checkbox"
                       name={link.label}
                       id={index}
                       checked={link.approved}
                       onChange={() => handleReviewChange(index)}
                       className="appearance-none w-3 h-3 mt-2 mr-1 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
-                    />
+                    /> */}
                     {link.approved ? (
                       <span className="font-medium text-base text-left text-gray-500 mx-1">
                         {link.label}

@@ -4,29 +4,48 @@ import AddNewAccess from "./AddAccess/AddNewAccess";
 import DelegatedAccess from "./DelegatedAccess/DelegatedAccess";
 import { t } from "i18next";
 import { BsMicrosoftTeams } from "react-icons/bs";
-import { getTeamCount } from "../../Services/api";
+import { delegatedTeam, getTeamCount } from "../../Services/api";
 import { useSelector } from "react-redux";
 
 const Team = () => {
   const user = useSelector((state) => state.auth.user);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [teamCount, setTeamCount] = useState(null);
+  const [teamCount, setTeamCount] = useState(2);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const data = await getTeamCount(user.team);
-          setTeamCount(data.results);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchData();
-    }, []);
+  const [Team, setTeam] = useState([]);
+  const token = useSelector((state) => state.auth.token);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await getTeamCount(user.team);
+
+        setTeamCount(data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await delegatedTeam(token, user.team);
+        
+        setTeam(data.results);
+        data;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [token, user.team]);
   const buttons = [
     {
       label: t("Add new access"),
@@ -65,7 +84,7 @@ const Team = () => {
             >
               {t("Total Team Members")}
             </p>
-            <span className="font-medium  text-base">{teamCount}</span>
+            <span className="font-medium  text-base">{Team?.length||0}</span>
           </div>
         </div>
         <div className="divider h-px w-full bg-gray my-2" />

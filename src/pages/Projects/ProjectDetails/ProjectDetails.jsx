@@ -66,6 +66,7 @@ const ProjectDetails = () => {
     fetchProject();
   }, [projectId]);
 
+    // console.log(Project)
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
@@ -329,11 +330,12 @@ const ProjectDetails = () => {
               )}
               <Input
                 disabled
+                // value={Project.location}
                 type={"name"}
                 required={true}
                 className="bg-white border border-purple border-solid "
                 label={t("location")}
-                placeholder={t("location")}
+                placeholder={Project.location || t("location")}
               />
               <div className="flex right-0 my-2 items-center justify-end">
                 <Link

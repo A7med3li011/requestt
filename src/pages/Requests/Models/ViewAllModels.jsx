@@ -18,12 +18,12 @@ const ViewAllModels = () => {
   const [loading, setLoading] = useState(false);
   const [Models, setModels] = useState([]);
 
-  console.log(projectId);
+  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const id = projectId?projectId : taskId.id;
+        const id = projectId ? projectId : taskId.id;
         const data = await getModelsByProject(token, id);
         setModels(data.results);
       } catch (error) {
@@ -75,8 +75,9 @@ const ViewAllModels = () => {
             </Link>
             {Models?.length > 0 && (
               <>
-                {Models?.map((model) => (
+                {Models?.map((model, index) => (
                   <Link
+                    key={index}
                     to={`/viewModel/${model._id}`}
                     state={{
                       ModelId: model._id,

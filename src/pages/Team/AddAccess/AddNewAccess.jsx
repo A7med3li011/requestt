@@ -214,7 +214,7 @@ const AddNewAccess = () => {
   });
   const lang = i18next.language;
 
-  console.log(lang);
+ 
   useEffect(() => {
     "Current access list:", accessList;
   }, [accessList]);
@@ -426,7 +426,7 @@ const AddNewAccess = () => {
     );
   }
 
-  console.log(vocations);
+ 
 
   return (
     <div className="AddNewAccess bg-white rounded-3xl m-2 p-4">

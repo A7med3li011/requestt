@@ -32,6 +32,7 @@ const AddProject = () => {
     startDate: new Date(),
     endDate: new Date(),
   });
+  const [location, setLocation] = useState("");
   const [eDate, setEDate] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -81,6 +82,7 @@ const AddProject = () => {
       eDate: !eDate.endDate,
       budget: !+bdg.toString().trim() || +bdg < 10,
       priority: !priority,
+      location: !location,
     };
 
     if (+bdg < 10) {
@@ -107,6 +109,7 @@ const AddProject = () => {
         budget: bdg,
         projectPriority: priority,
         createdBy: user._id,
+        location
       };
 
       setLoading(true);
@@ -225,6 +228,20 @@ const AddProject = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   className={`${
                     fieldErrors.Description && "border-red"
+                  } bg-white w-full   sm:w-full  rounded-xl border border-purple focus:outline-none font-jost font-normal text-base  my-2 py-2 px-4  border-solid  focus:border   focus:border-purple  focus:border-solid`}
+                />
+              </div>
+              <div>
+                <label className="font-jost text-base font-medium block">
+                {t("location")}
+                </label>
+                <input
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  type="text"
+                  placeholder="Location"
+                  className={`${
+                    fieldErrors.location && "border-red"
                   } bg-white w-full   sm:w-full  rounded-xl border border-purple focus:outline-none font-jost font-normal text-base  my-2 py-2 px-4  border-solid  focus:border   focus:border-purple  focus:border-solid`}
                 />
               </div>
