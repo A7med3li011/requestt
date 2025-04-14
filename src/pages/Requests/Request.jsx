@@ -81,6 +81,7 @@ const RequestForm = ({
   const [IsWorkRequest, setIsWorkRequest] = useState(
     ReqTitle === "Work Request"
   );
+  const [projectData, setPRojectData] = useState("");
   const [newSig, setnewSig] = useState("");
   const [IsReqForMaterial, setIsReqForMaterial] = useState(
     ReqTitle === "Request For Material"
@@ -111,10 +112,22 @@ const RequestForm = ({
       .then((res) => setnewSig(res.data.results.signature))
       .catch((err) => console.log(err));
   }
+  async function getProjectData() {
+    await axios
+      .get(`https://api.request-sa.com/api/v1/project/${projectId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => setPRojectData(res.data.results))
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
     getUserData();
-  }, []);
+    getProjectData();
+  }, [projectId]);
   useEffect(() => {
     const savedSignature = localStorage.getItem("Signature");
     if (savedSignature) {
@@ -198,12 +211,12 @@ const RequestForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (IsReqForMaterial || IsRfiReq) {
-      if (!selectedUnit) {
-        toast.error("All fields are required");
-        return
-      };
-    }
+    // if (IsReqForMaterial || IsRfiReq) {
+    //   if (!selectedUnit) {
+    //     toast.error("All fields are required");
+    //     return;
+    //   }
+    // }
     setLoading(true);
 
     // Validate required fields
@@ -244,7 +257,7 @@ const RequestForm = ({
           qty: QTY,
           boqItemNo: BOQ,
           deliveryNoteNo: deliveryNote,
-          unit: selectedUnit,
+         
           approvedMaterialSubmittalNo: approvedMaterial,
           supplier,
           type: "requestForMaterialAndEquipment",
@@ -256,7 +269,7 @@ const RequestForm = ({
           cell,
           boqItemNo: BOQ,
           location: Location,
-          unit: selectedUnit,
+          // unit: selectedUnit,
           inspectionDate: new Date().toISOString(),
           quantity: Quantity,
           type: "requestForInspaction",
@@ -274,23 +287,23 @@ const RequestForm = ({
         });
       }
 
-      if (IsOwner) {
-        Object.assign(requestData, {
-          ownerStatus: "approved",
-        });
-      }
+      // if (IsOwner) {
+      //   Object.assign(requestData, {
+      //     ownerStatus: "approved",
+      //   });
+      // }
 
-      if (IsConsultant) {
-        Object.assign(requestData, {
-          consultantStatus: "approved",
-        });
-      }
+      // if (IsConsultant) {
+      //   Object.assign(requestData, {
+      //     consultantStatus: "approved",
+      //   });
+      // }
 
-      if (IsContractor) {
-        Object.assign(requestData, {
-          contractorStatus: "approved",
-        });
-      }
+      // if (IsContractor) {
+      //   Object.assign(requestData, {
+      //     contractorStatus: "approved",
+      //   });
+      // }
     };
 
     // Execute the conditional logic
@@ -331,75 +344,7 @@ const RequestForm = ({
     // setCommentInput("");
   };
 
-  // const handleAddComment = () => {
-  //   if (commentInput.trim() !== "") {
-  //     setComments([...comments, { text: commentInput, isEditing: false }]);
-  //     setCommentInput("");
-  //   }
-  // };
-
-  // const handleEditComment = (index) => {
-  //   const newComments = [...comments];
-  //   newComments[index].isEditing = !newComments[index].isEditing;
-  //   setComments(newComments);
-  // };
-
-  // const handleUpdateComment = (index, newText) => {
-  //   const newComments = [...comments];
-  //   newComments[index].text = newText;
-  //   setComments(newComments);
-  // };
-
-  // const handleSaveComment = (index) => {
-  //   const newComments = [...comments];
-  //   newComments[index].isEditing = false;
-  //   setComments(newComments);
-  // };
-
-  // const handleDeleteComment = (index) => {
-  //   const newComments = comments.filter((_, i) => i !== index);
-  //   setComments(newComments);
-  // };
-  // const customStyles = {
-  //   control: (provided) => ({
-  //     ...provided,
-  //     backgroundColor: "white",
-  //     border: "1px solid var(--gray)",
-  //     borderRadius: "12px",
-  //     padding: "0  15px",
-  //     boxShadow: "none",
-  //     "&:hover": { borderColor: "var(--gray)" },
-  //   }),
-  //   placeholder: (provided) => ({
-  //     ...provided,
-  //     color: "#999",
-  //   }),
-  //   dropdownIndicator: (provided) => ({
-  //     ...provided,
-  //     color: "var(--gray)",
-  //     "&:hover": { color: "var(--gray)" },
-  //   }),
-  //   indicatorSeparator: () => ({ display: "none" }),
-  //   option: (provided, state) => ({
-  //     ...provided,
-  //     backgroundColor: state.isSelected ? "#CCABDA66" : "white",
-  //     color: state.isSelected ? "var(--purple)" : "var(--gray)",
-  //     padding: "10px",
-  //     borderRadius: "8px",
-  //     cursor: "pointer",
-  //     "&:hover": {
-  //       backgroundColor: "var(--purple)",
-  //       color: "white",
-  //     },
-  //   }),
-  //   menu: (provided) => ({
-  //     ...provided,
-  //     borderRadius: "10px",
-  //     marginTop: "4px",
-  //     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-  //   }),
-  // };
-
+  
   return (
     <div className="RequestForm">
       {loading ? (
@@ -415,12 +360,14 @@ const RequestForm = ({
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col items-center gap-3">
                     <ProfileAvatar
-                      name={user.name}
-                      profilePic={user.profilePic}
+                      // name={user.name}
+                      name={MembersInProject?.owner?.name}
+                      // profilePic={user.profilePic}
+                      profilePic={MembersInProject?.owner?.profilePic}
                       className={`!w-16 !h-16 !text-3xl`}
                     />
                     <span className="text-purple-dark  underline underline-offset-1 font-bold  text-sm">
-                      {user.name}
+                      {MembersInProject?.owner?.name}
                     </span>
                   </div>
 
@@ -549,7 +496,9 @@ const RequestForm = ({
                   </label>
                   <input
                     placeholder={t("Action Code")}
-                    disabled
+                    disabled={
+                      user?._id == projectData?.contractor?._id ? false : true
+                    }
                     className="bg-white   my-1 w-full  text-gray border-solid border-gray rounded-2xl p-2"
                   />
                 </div>
@@ -564,43 +513,6 @@ const RequestForm = ({
                   value={t("Comment")}
                   className="bg-white w-full my-1 text-gray   border-solid border-gray rounded-2xl p-2"
                 />
-
-                {/* {showReasons && (
-                <CheckboxGroup
-                  label={t("Reason")}
-                  options={Reasons?.map((item) => ({
-                    id: item._id,
-                    label: item.name,
-                  }))}
-                  namePrefix="reason"
-                  selectedValue={selectedReasons}
-                  onChange={setSelectedReasons}
-                />
-              )}
-              {showDiscipline && (
-                <CheckboxGroup
-                  label={t("Discipline")}
-                  options={disciplines.map((item) => ({
-                    id: item._id,
-                    label: item.name,
-                  }))}
-                  namePrefix="discipline"
-                  selectedValue={selectedDisciplines}
-                  onChange={setSelectedDisciplines}
-                />
-              )}
-              {showActionCodes && (
-                <CheckboxGroup
-                  label={t("Action Code")}
-                  options={actionCodes.map((item) => ({
-                    id: item._id,
-                    label: item.name,
-                  }))}
-                  namePrefix="actionCode"
-                  selectedValue={selectedActionCodes}
-                  onChange={setSelectedActionCodes}
-                />
-              )} */}
 
                 <div className="flex items-center gap-3 my-4 mb-8">
                   <div className="flex flex-col gap-2 ">
@@ -619,81 +531,6 @@ const RequestForm = ({
                   </div>
                 </div>
 
-                {/* <div className="comment flex flex-col my-6  ">
-                <label
-                  htmlFor="comment"
-                  className="font-bold text-base text-gray-dark flex justify-start"
-                >
-                  {t("consultant comments")}
-                </label>
-                <input
-                  type="text"
-                  id="comment"
-                  name="comment"
-                  className="bg-white border border-gray rounded-2xl p-2"
-                  placeholder={t("Comment")}
-                  value={commentInput}
-                  onChange={(e) => setCommentInput(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="text-purple underline underline-offset-1 text-end my-2 mx-1"
-                  onClick={handleAddComment}
-                >
-                  {t("+add new")}
-                </button>
-              </div>
-
-              <div className="comments-container my-6 ">
-                {comments.map((comment, index) => (
-                  <div
-                    key={index}
-                    className="comment-item flex justify-between items-center bg-gray-100 p-2 rounded-lg mb-2"
-                  >
-                    {comment.isEditing ? (
-                      <input
-                        type="text"
-                        value={comment.text}
-                        className="w-full max-w-3xl h-full  p-1 rounded-md"
-                        onChange={(e) =>
-                          handleUpdateComment(index, e.target.value)
-                        }
-                      />
-                    ) : (
-                      <span>{comment.text}</span>
-                    )}
-                    <div className="flex items-center  gap-4">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (comment.isEditing) {
-                            handleSaveComment(index);
-                          } else {
-                            handleEditComment(index);
-                          }
-                        }}
-                      >
-                        {comment.isEditing ? (
-                          <>
-                            <FaSave className="text-blue w-5 h-5" />
-                          </>
-                        ) : (
-                          <>
-                            <MdOutlineEdit className="text-blue w-5 h-5" />
-                          </>
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteComment(index)}
-                      >
-                        <MdDelete className="text-red w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div> */}
-
                 <hr className="bg-gray my-4" />
 
                 <div className="grid  grid-cols-2 lg:grid-cols-4  my-4 gap-3">
@@ -704,6 +541,11 @@ const RequestForm = ({
                           value: item._id,
                           label: item.name,
                         }))}
+                        isDisabled={
+                          user?._id == projectData?.contractor?._id
+                            ? false
+                            : true
+                        }
                         placeholder={t("Discipline")}
                         disabled={UnitsLoading}
                         label={t("Discipline")}
@@ -724,6 +566,11 @@ const RequestForm = ({
                           value: item._id,
                           label: item.name,
                         }))}
+                        isDisabled={
+                          user?._id == projectData?.contractor?._id
+                            ? false
+                            : true
+                        }
                         placeholder={t("Reason")}
                         disabled={UnitsLoading}
                         label={t("Reason")}
@@ -745,6 +592,9 @@ const RequestForm = ({
                   <input
                     type="text"
                     id="desc"
+                    disabled={
+                      user?._id == projectData?.contractor?._id ? false : true
+                    }
                     placeholder={t("desc")}
                     value={Desc}
                     onChange={(e) => setDesc(e.target.value)}
@@ -764,6 +614,9 @@ const RequestForm = ({
                     <input
                       type="text"
                       id="Remarks"
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       placeholder={t("remarks")}
                       value={Remarks}
                       onChange={(e) => setRemarks(e.target.value)}
@@ -782,6 +635,9 @@ const RequestForm = ({
                       {t("supplier")}
                     </label>
                     <input
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       type="text"
                       id="supplier"
                       value={supplier}
@@ -798,6 +654,9 @@ const RequestForm = ({
                       {t("approved material submittal no")}
                     </label>
                     <input
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       type="number"
                       min="0"
                       id="approved"
@@ -823,6 +682,9 @@ const RequestForm = ({
                       {t("BOQ item no")}
                     </label>
                     <input
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       type="number"
                       min="0"
                       id="BOQ item no"
@@ -842,6 +704,9 @@ const RequestForm = ({
                       {t("qty")}
                     </label>
                     <input
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       type="number"
                       min="0"
                       id="QTY"
@@ -862,6 +727,11 @@ const RequestForm = ({
                         {t("cell")}
                       </label>
                       <input
+                        disabled={
+                          user?._id == projectData?.contractor?._id
+                            ? false
+                            : true
+                        }
                         type="number"
                         min="0"
                         id="cell"
@@ -913,6 +783,9 @@ const RequestForm = ({
                 {(IsReqForMaterial || IsRfiReq) && (
                   <div className="flex flex-col gap-2 col-span-2">
                     <Select
+                      isDisabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       options={units}
                       placeholder={t("Unit")}
                       disabled={UnitsLoading}
@@ -937,6 +810,9 @@ const RequestForm = ({
                       {t("delivery note no")}
                     </label>
                     <input
+                      disabled={
+                        user?._id == projectData?.contractor?._id ? false : true
+                      }
                       type="number"
                       min="0"
                       id="delivery note no"
@@ -957,6 +833,9 @@ const RequestForm = ({
                     {t("Work Area")}
                   </label>
                   <input
+                    disabled={
+                      user?._id == projectData?.contractor?._id ? false : true
+                    }
                     type="text"
                     id="WorkArea"
                     placeholder={t("Work Area")}
@@ -979,6 +858,9 @@ const RequestForm = ({
                     min="0"
                     id="Quantity"
                     placeholder={t(" Quantity")}
+                    disabled={
+                      user?._id == projectData?.contractor?._id ? false : true
+                    }
                     value={Quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                     className="bg-white border  my-1 w-full  text-gray border-solid border-gray rounded-2xl p-2"
@@ -994,6 +876,9 @@ const RequestForm = ({
                     {t("location")}
                   </label>
                   <input
+                    disabled={
+                      user?._id == projectData?.contractor?._id ? false : true
+                    }
                     type="text"
                     id="location"
                     placeholder={t("location")}
@@ -1020,13 +905,6 @@ const RequestForm = ({
                 )}
               </div>
 
-              {/* <div className="flex flex-col gap-2 mt-4">
-                <h5 className="font-bold text-base text-gray-dark">
-                  submitted by:
-                </h5>
-                <span className="font-medium text-sm">fadl mohamed</span>
-                <img src={signature} alt="signature" className="w-14 h-14" />
-              </div> */}
               <div className="review flex items-center gap-2 m-2">
                 <input
                   type="checkbox"
