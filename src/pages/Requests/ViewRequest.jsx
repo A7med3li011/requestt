@@ -247,7 +247,7 @@ const ViewRequest = () => {
     }
   };
 
-  console.log(model);
+ 
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyy");
@@ -259,7 +259,7 @@ const ViewRequest = () => {
       </div>
     );
   }
-
+  
   const ApprovalStatus = ({ status, label, reviewer }) => (
     <div className="flex flex-col gap-2">
       <h5 className="font-bold text-base text-gray-dark">{t(label)} :</h5>
@@ -524,7 +524,7 @@ const ViewRequest = () => {
           </div>
         )}
 
-        <div className="flex items-center gap-3 my-4">
+        {/* <div className="flex items-center gap-3 my-4">
           {model?.firstUpdatedBy !== null ? (
             <div className="flex flex-col gap-2">
               <h5 className="font-bold text-base text-gray-dark">
@@ -576,6 +576,29 @@ const ViewRequest = () => {
               </h5>
             </div>
           )}
+        </div> */}
+
+        <div className="flex gap-x-10">
+          <div className="w-fit">
+            <p className="font-semibold">{t("Reviewed by")}:</p>
+            {model?.consultantStatus == "approved" && (
+              <Image
+                src={model?.consultant?.profilePic}
+                alt="Signature"
+                className="w-full h-20"
+              />
+            )}
+          </div>
+          <div className="w-fit">
+            <p className="font-semibold"> {t("Noted by")}:</p>
+            {model?.ownerStatus == "approved" && (
+              <Image
+                src={model?.owner?.profilePic}
+                alt="Signature"
+                className="w-full h-20"
+              />
+            )}
+          </div>
         </div>
         <hr className="bg-gray my-4" />
 
@@ -1224,21 +1247,21 @@ const ViewRequest = () => {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-2 mt-4">
-          <h5 className="font-bold text-base text-gray-dark">
-            {t("submitted by")} :
-          </h5>
-          <span className="font-medium text-sm">{model?.createdBy?.name}</span>
-          {model?.createdBy?.signature ? (
+        {model?.contractorStatus == "approved" && (
+          <div className="flex flex-col gap-2 mt-4">
+            <h5 className="font-bold text-base text-gray-dark">
+              {t("submitted by")} :
+            </h5>
+            <span className="font-medium text-sm">
+              {model?.contractor?.name}
+            </span>
             <Image
-              src={model?.createdBy?.signature}
-              alt="Signature"
-              className="w-20 h-20"
-            />
-          ) : (
-            <p className="text-xs">{t("No signature found")}</p>
-          )}
-        </div>
+                src={model?.contractor?.profilePic}
+                alt="Signature"
+                className="w-20 h-20"
+              />
+          </div>
+        )}
         {((IsOwner && model?.ownerStatus === "pending") ||
           (IsConsultant && model?.consultantStatus === "pending") ||
           (IsContractor && model?.contractorStatus === "pending")) && (

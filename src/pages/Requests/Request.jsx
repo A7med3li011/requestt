@@ -889,7 +889,7 @@ const RequestForm = ({
                 </div>
               )}
 
-              <div className="flex flex-col gap-2 ">
+              {/* <div className="flex flex-col gap-2 ">
                 <h5 className="font-bold text-base text-gray-dark">
                   {t("submitted by")} :
                 </h5>
@@ -903,7 +903,7 @@ const RequestForm = ({
                 ) : (
                   <p>{t("No signature found")}</p>
                 )}
-              </div>
+              </div> */}
 
               <div className="review flex items-center gap-2 m-2">
                 <input
