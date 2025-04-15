@@ -621,7 +621,7 @@ const ViewRequest = () => {
                 label: item.name,
               }))}
               isDisabled={
-                user?._id == projectData?.contractor?._id ? false : true
+                (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
               }
               placeholder={t("Discipline")}
               disabled={UnitsLoading}
@@ -658,7 +658,7 @@ const ViewRequest = () => {
                   type="text"
                   id="Remarks"
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   placeholder={t("remarks")}
                   value={Remarks}
@@ -703,7 +703,7 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   type="number"
                   min="0"
@@ -750,7 +750,7 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   type="number"
                   min="0"
@@ -805,7 +805,7 @@ const ViewRequest = () => {
                   label: item.name,
                 }))}
                 isDisabled={
-                  user?._id == projectData?.contractor?._id ? false : true
+                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                 }
                 placeholder={t("Reason")}
                 disabled={UnitsLoading}
@@ -830,7 +830,7 @@ const ViewRequest = () => {
               id="desc"
               placeholder="desc"
               disabled={
-                user?._id == projectData?.contractor?._id ? false : true
+                (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id )? false : true
               }
               value={Desc}
               onChange={(e) => setDesc(e.target.value)}
@@ -906,7 +906,7 @@ const ViewRequest = () => {
                   type="text"
                   id="supplier"
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   value={supplier}
                   onChange={(e) => setSupplier(e.target.value)}
@@ -947,7 +947,7 @@ const ViewRequest = () => {
                   min={0}
                   id="approved"
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   value={approvedMaterial}
                   onChange={(e) => setApprovedMaterial(e.target.value)}
@@ -1025,7 +1025,7 @@ const ViewRequest = () => {
                   id="cell"
                   value={cell}
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   onChange={(e) => setCell(e.target.value)}
                   className="bg-white border  my-1   text-gray border-solid border-gray rounded-2xl p-2"
@@ -1072,7 +1072,7 @@ const ViewRequest = () => {
               <div className="flex flex-col gap-2 col-span-2">
                 <Select
                   isDisabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id )? false : true
                   }
                   options={units}
                   placeholder={t("Unit")}
@@ -1120,7 +1120,7 @@ const ViewRequest = () => {
                   min={0}
                   id="delivery note no"
                   disabled={
-                    user?._id == projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   onChange={(e) => setDeliveryNote(e.target.value)}
                   value={deliveryNote}
@@ -1158,7 +1158,7 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    user?._id === projectData?.contractor?._id ? false : true
+                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                   }
                   type="text"
                   id="location"
@@ -1199,7 +1199,7 @@ const ViewRequest = () => {
                 id="workArea"
                 placeholder="Work Area"
                 disabled={
-                  user?._id == projectData?.contractor?._id ? false : true
+                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
                 }
                 value={WorkArea}
                 onChange={(e) => setWorkArea(e.target.value)}
@@ -1238,7 +1238,7 @@ const ViewRequest = () => {
                 min={0}
                 id="quantity"
                 disabled={
-                  user?._id == projectData?.contractor?._id ? false : true
+                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant  ?._id) ? false : true
                 }
                 onChange={(e) => setQuantity(e.target.value)}
                 value={Quantity}
