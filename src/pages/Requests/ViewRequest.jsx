@@ -3,7 +3,7 @@ import avatar from "../../assets/images/Avatar.jpg";
 import signature from "../../assets/images/signature.png";
 import { useEffect, useState } from "react";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { format } from "date-fns";
 import Loader from "../../Components/Loader/Loader";
@@ -60,6 +60,8 @@ const ViewRequest = () => {
   const [supplier, setSupplier] = useState("");
   const location = useLocation();
   const { ModelId } = location.state || {};
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +125,19 @@ const ViewRequest = () => {
     fetchData();
   }, [user._id, token]);
 
+  async function handleReject() {
+    const body = { contId: projectData?.contractor?._id };
+    await axios
+      .post(
+        `https://api.request-sa.com/api/v1/request/${projectData?._id}`,
+        body
+      )
+      .then((res) => {
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  }
   async function getProjectData(id) {
     await axios
       .get(`https://api.request-sa.com/api/v1/project/${id}`, {
@@ -136,7 +151,6 @@ const ViewRequest = () => {
   }
   const handleApprove = async (e) => {
     if (!Comment) {
-      console.log(Comment, selectedActionCodes);
       return;
     }
     console.log("ahmed");
@@ -247,7 +261,6 @@ const ViewRequest = () => {
     }
   };
 
- 
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd-MM-yyy");
@@ -259,7 +272,7 @@ const ViewRequest = () => {
       </div>
     );
   }
-  
+
   const ApprovalStatus = ({ status, label, reviewer }) => (
     <div className="flex flex-col gap-2">
       <h5 className="font-bold text-base text-gray-dark">{t(label)} :</h5>
@@ -621,7 +634,10 @@ const ViewRequest = () => {
                 label: item.name,
               }))}
               isDisabled={
-                (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                user?._id == projectData?.contractor?._id ||
+                user?._id == projectData?.consultant?._id
+                  ? false
+                  : true
               }
               placeholder={t("Discipline")}
               disabled={UnitsLoading}
@@ -658,7 +674,10 @@ const ViewRequest = () => {
                   type="text"
                   id="Remarks"
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   placeholder={t("remarks")}
                   value={Remarks}
@@ -703,7 +722,10 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   type="number"
                   min="0"
@@ -750,7 +772,10 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   type="number"
                   min="0"
@@ -805,7 +830,10 @@ const ViewRequest = () => {
                   label: item.name,
                 }))}
                 isDisabled={
-                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                  user?._id == projectData?.contractor?._id ||
+                  user?._id == projectData?.consultant?._id
+                    ? false
+                    : true
                 }
                 placeholder={t("Reason")}
                 disabled={UnitsLoading}
@@ -830,7 +858,10 @@ const ViewRequest = () => {
               id="desc"
               placeholder="desc"
               disabled={
-                (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id )? false : true
+                user?._id == projectData?.contractor?._id ||
+                user?._id == projectData?.consultant?._id
+                  ? false
+                  : true
               }
               value={Desc}
               onChange={(e) => setDesc(e.target.value)}
@@ -906,7 +937,10 @@ const ViewRequest = () => {
                   type="text"
                   id="supplier"
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   value={supplier}
                   onChange={(e) => setSupplier(e.target.value)}
@@ -947,7 +981,10 @@ const ViewRequest = () => {
                   min={0}
                   id="approved"
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   value={approvedMaterial}
                   onChange={(e) => setApprovedMaterial(e.target.value)}
@@ -1025,7 +1062,10 @@ const ViewRequest = () => {
                   id="cell"
                   value={cell}
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   onChange={(e) => setCell(e.target.value)}
                   className="bg-white border  my-1   text-gray border-solid border-gray rounded-2xl p-2"
@@ -1072,7 +1112,10 @@ const ViewRequest = () => {
               <div className="flex flex-col gap-2 col-span-2">
                 <Select
                   isDisabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id )? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   options={units}
                   placeholder={t("Unit")}
@@ -1120,7 +1163,10 @@ const ViewRequest = () => {
                   min={0}
                   id="delivery note no"
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   onChange={(e) => setDeliveryNote(e.target.value)}
                   value={deliveryNote}
@@ -1158,7 +1204,10 @@ const ViewRequest = () => {
                 </label>
                 <input
                   disabled={
-                    (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                    user?._id == projectData?.contractor?._id ||
+                    user?._id == projectData?.consultant?._id
+                      ? false
+                      : true
                   }
                   type="text"
                   id="location"
@@ -1199,7 +1248,10 @@ const ViewRequest = () => {
                 id="workArea"
                 placeholder="Work Area"
                 disabled={
-                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant?._id ) ? false : true
+                  user?._id == projectData?.contractor?._id ||
+                  user?._id == projectData?.consultant?._id
+                    ? false
+                    : true
                 }
                 value={WorkArea}
                 onChange={(e) => setWorkArea(e.target.value)}
@@ -1238,7 +1290,10 @@ const ViewRequest = () => {
                 min={0}
                 id="quantity"
                 disabled={
-                  (user?._id == projectData?.contractor?._id || user?._id == projectData?.consultant  ?._id) ? false : true
+                  user?._id == projectData?.contractor?._id ||
+                  user?._id == projectData?.consultant?._id
+                    ? false
+                    : true
                 }
                 onChange={(e) => setQuantity(e.target.value)}
                 value={Quantity}
@@ -1256,19 +1311,27 @@ const ViewRequest = () => {
               {model?.contractor?.name}
             </span>
             <Image
-                src={model?.contractor?.profilePic}
-                alt="Signature"
-                className="w-20 h-20"
-              />
+              src={model?.contractor?.profilePic}
+              alt="Signature"
+              className="w-20 h-20"
+            />
           </div>
         )}
-        {((IsOwner && model?.ownerStatus === "pending") ||
-          (IsConsultant && model?.consultantStatus === "pending") ||
-          (IsContractor && model?.contractorStatus === "pending")) && (
-          <div className="flex right-0 my-2 items-center gap-3 justify-end">
-            <Button onClick={handleApprove}>{t("approve")}</Button>
-          </div>
-        )}
+        <div className="flex items-center  justify-between flex-row-reverse">
+          {((IsOwner && model?.ownerStatus === "pending") ||
+            (IsConsultant && model?.consultantStatus === "pending") ||
+            (IsContractor && model?.contractorStatus === "pending")) && (
+            <div className="flex right-0 my-2 items-center gap-3 justify-end">
+              <Button onClick={handleApprove}>{t("approve")}</Button>
+            </div>
+          )}
+          {user?._id == projectData?.contractor?._id &&
+            model?.discipline &&
+            model.consultantStatus == "approved" &&
+            model.contractorStatus != "approved" && (
+              <Button onClick={handleReject}>{t("reject")}</Button>
+            )}
+        </div>
       </div>
     </div>
   );
