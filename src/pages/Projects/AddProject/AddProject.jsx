@@ -80,16 +80,16 @@ const AddProject = () => {
       Description: !Description.trim(),
       sDate: !sDate.startDate,
       eDate: !eDate.endDate,
-      budget: !+bdg.toString().trim() || +bdg < 10,
+      budget: !bdg.trim() || +bdg < 10,
       priority: !priority,
       location: !location,
     };
 
-    if (+bdg < 10) {
-      setError({ message: "budget must be greater than or equal to 10" });
-      // console.log(budget)
-      return null; // Return null if validation fails
-    }
+    // if (+bdg < 10) {
+    //   setError({ message: "budget must be greater than or equal to 10" });
+    //   // console.log(budget)
+    //   return null; // Return null if validation fails
+    // }
     setFieldErrors(newFieldErrors);
 
     if (Object.values(newFieldErrors).some((hasError) => hasError)) {
@@ -109,7 +109,7 @@ const AddProject = () => {
         budget: bdg,
         projectPriority: priority,
         createdBy: user._id,
-        location
+        location,
       };
 
       setLoading(true);
@@ -233,7 +233,7 @@ const AddProject = () => {
               </div>
               <div>
                 <label className="font-jost text-base font-medium block">
-                {t("location")}
+                  {t("location")}
                 </label>
                 <input
                   value={location}
@@ -319,8 +319,8 @@ const AddProject = () => {
                   <Input
                     label={t("budget")}
                     placeholder={t("budget")}
-                    className={`bg-white text-black border border-purple !rounded-xl border-solid focus:border   focus:border-purple  focus:border-solid ${
-                      fieldErrors.Name && "border-red"
+                    className={`bg-white text-black border !py-2 border-purple !rounded-lg border-solid focus:border   focus:border-purple  focus:border-solid ${
+                      fieldErrors.budget && "border-red"
                     }`}
                     type={"text"}
                     required={true}

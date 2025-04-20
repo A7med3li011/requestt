@@ -184,9 +184,8 @@ const Home = () => {
               filteredProjects.map((project) => {
                 return (
                   <div className=" " key={project._id}>
-                
-                    <Link 
-                      className="block  w-[10%]"
+                    <Link
+                      className="block  w-fit pe-3 "
                       to={`/ProjectDetails/${project._id}`}
                       state={{ projectId: project._id }}
                     >
