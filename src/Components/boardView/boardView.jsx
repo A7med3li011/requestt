@@ -70,7 +70,7 @@ const BoardView = ({
         <div className="progress w-full mx-2 my-3">
           <div className="mb-2 flex items-center justify-between gap-4">
             <p className="font-inter font-normal text-xs text-gray-dark">
-              Progress
+              {t("Progress")}
             </p>
             <span className="font-inter font-normal text-xs text-gray-dark px-2">
               {ProgressValue} %
@@ -99,17 +99,17 @@ const BoardView = ({
         <span
           className={`${taskType} capitalize font-inter font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
         >
-          {taskType}
+          {t(taskType)}
         </span>
         <span
           className={`${taskPriority} font-inter font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
         >
-          {taskPriority}
+          {t(taskPriority)}
         </span>
         <span
           className={`${status} font-inter font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
         >
-          {status}
+          {t(status)}
         </span>
       </div>
       <div

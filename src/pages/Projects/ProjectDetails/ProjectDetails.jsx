@@ -66,13 +66,12 @@ const ProjectDetails = () => {
     fetchProject();
   }, [projectId]);
 
-    // console.log(Project)
+  // console.log(Project)
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
   };
 
-  
   return (
     <div className="ProjectDetails mx-1">
       {loading ? (
@@ -156,8 +155,7 @@ const ProjectDetails = () => {
                       +{Project.members.length - 5}
                     </span>
                   )}
-                  {Project?.members?.map((member, index) =>  (
-                    
+                  {Project?.members?.map((member, index) => (
                     <Link
                       to="/ProjectTeam"
                       state={{ projectId: Project._id }}
@@ -171,7 +169,6 @@ const ProjectDetails = () => {
                         alt={`${member?.name}'s avatar`}
                         className="w-full h-full object-cover"
                       />
-                     
                     </Link>
                   ))}
                 </>
@@ -196,7 +193,7 @@ const ProjectDetails = () => {
             <div className="box col-span-2 lg:col-span-1 relative flex flex-col ">
               <div className="head flex items-center  justify-between  my-3 mx-4">
                 <h5 className="font-bold  text-2xl ">{Project.name}</h5>
-                <p className="font-semibold  text-sm">{"Architecture"}</p>
+                <p className="font-semibold  text-sm">{t("Architecture")}</p>
               </div>
 
               <div className="analytics_box rounded-md shadow-md p-8 flex flex-col gap-3  mt-4 mb-4 mx-4 ">
@@ -253,12 +250,12 @@ const ProjectDetails = () => {
                   <span
                     className={`${Project.status} w-full capitalize text-center py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
                   >
-                    {Project.status}
+                    {t(Project.status)}
                   </span>
                   <span
                     className={`${Project.projectPriority} w-full capitalize text-center py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
                   >
-                    {Project.projectPriority}
+                    {t(Project.projectPriority)}
                   </span>
                 </div>
                 {tags && tags.length > 0 && (

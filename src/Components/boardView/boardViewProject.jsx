@@ -25,8 +25,8 @@ const AvatarList = memo(({ avatars }) => {
         <img
           key={index}
           src={` ${
-           ( avatar.startsWith("/src") || avatar.startsWith("/assets")
-)              ? avatar
+            avatar.startsWith("/src") || avatar.startsWith("/assets")
+              ? avatar
               : `https://api.request-sa.com/${avatar}`
           }`}
           alt="avatar"
@@ -58,14 +58,14 @@ const BoardViewProject = ({
   // const memoizedOnApprove = useCallback(onApprove, [onApprove]);
   // const memoizedOnCancel = useCallback(onCancel, [onCancel]);
   const statusDisplay = useMemo(() => getStatusDisplay(Status), [Status]);
-
+  console.log(statusDisplay);
   return (
     <div className="box h-full bg-white rounded-md shadow-sm p-2 flex flex-col col-span-1">
       <div className="tagName flex justify-center">
         <span
           className={`${Status} w-full text-center capitalize py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
         >
-          {statusDisplay}
+          {t(statusDisplay)}
         </span>
       </div>
       <div className="name flex justify-between items-center mx-2 my-3">
@@ -77,7 +77,7 @@ const BoardViewProject = ({
       <div className="progress w-full mx-2 my-3">
         <div className="mb-2 flex items-center justify-between gap-4">
           <p className="font-inter font-normal text-xs text-gray-dark">
-            Progress
+            {t("Progress")}
           </p>
           <span className="font-inter font-normal text-xs text-gray-dark px-2">
             {Math.round(ProgressValue)}%

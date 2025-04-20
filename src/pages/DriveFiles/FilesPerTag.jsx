@@ -4,14 +4,15 @@ import { getFilesPerTag } from "../../Services/api";
 import { useEffect, useState } from "react";
 import Loader from "../../Components/Loader/Loader";
 import Empty from "../../Components/empty/empty";
+import { t } from "i18next";
 
 const FilesPerTag = () => {
   const [files, setFiles] = useState({});
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const { TagId, projectId } = location.state || {}; 
-  (location.state);
-  
+  const { TagId, projectId } = location.state || {};
+  location.state;
+
   useEffect(() => {
     if (!TagId) return;
 
@@ -60,7 +61,7 @@ const FilesPerTag = () => {
           <div>
             {areAllTasksEmpty ? (
               <div className="empty-container flex items-center justify-center h-60">
-                <Empty paragraph="No documents available for this tag" />
+                <Empty paragraph={t("No documents available for this tag")} />
               </div>
             ) : (
               files.tasks?.map((task) => (

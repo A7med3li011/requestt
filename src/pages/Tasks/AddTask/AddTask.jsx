@@ -612,7 +612,7 @@ const AddTask = () => {
                     options={Units}
                     placeholder={t("Unit")}
                     disabled={UnitsLoading}
-                    label={"Unit"}
+                    label={t("Unit")}
                     value={selectedUnit}
                     onChange={(e) => setSelectedUnit(e)}
                     className={`bg-white mx-4`}

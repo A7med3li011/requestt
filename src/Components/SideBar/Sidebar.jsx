@@ -25,6 +25,7 @@ import {
   DialogHeader,
   Button as Btn,
 } from "@material-tailwind/react";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
   const [Open, setOpen] = useState(false);
@@ -35,6 +36,7 @@ const Sidebar = () => {
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
+  const { t, i18n } = useTranslation();
   "NotificationCounts", NotificationCounts;
 
   const [notifications, setNotifications] = useState({
@@ -180,7 +182,7 @@ const Sidebar = () => {
                 </p>
                 {user?.role && user?.role?.jobTitle && (
                   <p className="role text-gray-500 font-bold font-inter text-xs text-gray">
-                    {user?.role.jobTitle}
+                    {t(user?.role.jobTitle)}
                   </p>
                 )}
                 {user?.companyName && (

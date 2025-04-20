@@ -71,12 +71,12 @@ const ListView = ({
         <span
           className={`${taskPriority} font-inter font-semibold text-xs text-center py-1 px-1 md:px-2 rounded-3xl`}
         >
-          {taskPriority}
+          {t(taskPriority)}
         </span>
         <span
           className={`${status} font-inter font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
         >
-          {status}
+          {t(status)}
         </span>
       </div>
       <div className="members flex -space-x-2 mx-1">
@@ -86,7 +86,7 @@ const ListView = ({
         <div className="progress hidden md:block md:max-w-sm lg:max-w-lg w-full mx-1 my-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="font-inter font-normal text-xs text-gray-dark">
-              Progress
+              {t(Progress)}
             </p>
             <span className="font-inter font-normal text-xs text-gray-dark px-2">
               {ProgressValue} %

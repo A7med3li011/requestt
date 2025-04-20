@@ -31,6 +31,7 @@ const TaskDetails = () => {
     setIsToq(Task.type === "toq");
   }, [Task.type]);
 
+  console.log(Task.taskStatus);
   useEffect(() => {
     const fetchTask = async () => {
       setLoading(true);
@@ -75,12 +76,12 @@ const TaskDetails = () => {
   const handleSave = async () => {
     try {
       const updatedFields = getUpdatedFields();
-      ("updatedFields", updatedFields);
+      "updatedFields", updatedFields;
 
       const res = await updateTask(token, taskId, user._id, updatedFields);
 
       setIsEditing(false);
-      ("res from update task => ", res);
+      "res from update task => ", res;
       toast.success(t("toast.TaskSavedSuccess"));
       const updatedTask = await getTaskDetails(taskId);
       setTask(updatedTask.results);
@@ -180,7 +181,7 @@ const TaskDetails = () => {
             {IsToq && (
               <div className="progress_wrapper rounded-2xl shadow-md p-8 relative">
                 <span className="absolute top-1 font-inter font-extrabold text-xs leading-4 my-1 ">
-                  Progress
+                  {t("Progress")}
                 </span>
                 <CircularProgress
                   className="!text-black font-poppins font-normal text-4xl"
@@ -217,18 +218,12 @@ const TaskDetails = () => {
                   color: "#CA8A04",
                 }}
               >
-                {Task.taskStatus === "working"
-                  ? "Working On It"
-                  : "waiting"
-                  ? "Waiting For Review"
-                  : "Ended"
-                  ? "Completed"
-                  : Task.taskStatus}
+                {t(Task.taskStatus)}
               </span>
               <span
                 className={`Tag ${Task.taskPriority} px-14 py-2 w-full  rounded-3xl font-inter font-semibold text-sm mt-2 text-center`}
               >
-                {Task.taskPriority}
+                {t(Task.taskPriority)}
               </span>
             </div>
           </div>
@@ -332,7 +327,11 @@ const TaskDetails = () => {
               <FaFileLines className="text-purple-dark h-7 w-7" />
             </button>
 
-            <AddNote taskId={Task?._id} projectId={Task?.project?._id} Notes={Task.notes} />
+            <AddNote
+              taskId={Task?._id}
+              projectId={Task?.project?._id}
+              Notes={Task.notes}
+            />
           </div>
           {/* {IsToq && Task.parentTask === null && ( */}
           {isEditing ? (
