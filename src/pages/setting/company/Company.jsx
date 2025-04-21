@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { uploadCompanyFiles } from "../../../Services/api";
 import { Image } from "../../../Components/UI/Image/image";
 import axios from "axios";
+import defaultimage from "../../../assets/images/imagecompany.jpg";
 
 const Company = () => {
   const user = useSelector((state) => state.auth.user);
@@ -19,17 +20,23 @@ const Company = () => {
   const [preview, setPreview] = useState("");
   const [logo, setLogo] = useState(user?.companyLogo);
   const [name, setName] = useState(user?.companyName);
-  const [stampPreview, setStampPreview] = useState(user?.electronicStamp);
+  const [stampPreview, setStampPreview] = useState(null);
   const [stamp, setStamp] = useState(user?.electronicStamp);
   const [signature, setSignature] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [company, setCompany] = useState("");
+  const [currentStamp, setCurruntStamp] = useState(null);
   const handleStampChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setStampPreview(URL.createObjectURL(file));
       setStamp(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setStampPreview(reader.result);
+        setCurruntStamp(); // Assuming this sets some state or does something important
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -94,22 +101,34 @@ const Company = () => {
     getcomanyINfo();
   }, []);
 
+  console.log(defaultimage);
   return (
     <div className="Company">
       <div className="wrapper bg-white rounded-xl p-2 m-2">
         <div className="flex flex-col">
           <div className="logo my-2 mx-2 lg:mx-4 relative">
-            <img
-              src={
-                preview
-                  ? preview
-                  : `https://api.request-sa.com/${user?.companyLogo}`
-              }
-              alt={user?.companyName}
-              className={
-                "rounded-full w-20 h-20 lg:w-24 lg:h-24  object-contain border border-gray p-2"
-              }
-            />
+            {(user?.companyLogo || preview) && (
+              <img
+                src={
+                  preview
+                    ? preview
+                    : `https://api.request-sa.com/${user?.companyLogo}`
+                }
+                alt={user?.companyName}
+                className={
+                  "rounded-full w-20 h-20 lg:w-24 lg:h-24  object-contain border border-gray p-2"
+                }
+              />
+            )}
+            {!user?.companyLogo && !preview && (
+              <img
+                src={defaultimage}
+                alt={user?.companyName}
+                className={
+                  "rounded-full w-20 h-20 lg:w-24 lg:h-24  object-contain border border-gray p-2"
+                }
+              />
+            )}
             <button
               onClick={() => document.getElementById("fileInput").click()}
               className="absolute w-20 lg:w-24 h-10 rounded-b-full flex items-center justify-center ltr:left-0 rtl:right-0 bottom-px cursor-pointer"
@@ -146,15 +165,31 @@ const Company = () => {
               >
                 <LiaStampSolid className="text-purple w-6 h-6" />
               </div>
-              <img
-                src={
-                  user?.electronicStamp
-                    ? `https://api.request-sa.com/${user?.electronicStamp}`
-                    : `https://api.request-sa.com/${stamp}`
-                }
-                alt="Stamp Preview"
-                className="w-[50px] h-[50px] lg:w-[66px] lg:h-[62px] object-cover rounded-lg"
-              />
+              {(user?.electronicStamp || stamp) && !stampPreview && (
+                <img
+                  src={
+                    user?.electronicStamp
+                      ? `https://api.request-sa.com/${user?.electronicStamp}`
+                      : `https://api.request-sa.com/${stamp}`
+                  }
+                  alt="Stamp Preview"
+                  className="w-[50px] h-[50px] lg:w-[66px] lg:h-[62px] object-cover rounded-lg"
+                />
+              )}
+              {stampPreview && (
+                <img
+                  src={stampPreview}
+                  alt="Stamp Preview"
+                  className="w-[50px] h-[50px] lg:w-[66px] lg:h-[62px] object-cover rounded-lg"
+                />
+              )}
+              {!stampPreview && !user?.electronicStamp && !stamp && (
+                <img
+                  src={defaultimage}
+                  alt="Stamp Preview"
+                  className="w-[50px] h-[50px] lg:w-[66px] lg:h-[62px] object-cover rounded-lg"
+                />
+              )}
             </label>
             <input
               type="file"

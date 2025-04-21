@@ -478,13 +478,24 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                 value={Price}
                 label={t("Price")}
                 onChange={(e) => {
-                  const newPrice = e.target.value;
-                  setPrice(newPrice);
-                  calculateTotal(newPrice, Quantity);
+                  const value = e.target.value;
+                  if (value !== "" && !isNaN(Number(value))) {
+                    const newPrice = Number(value);
+                    setPrice(newPrice);
+                    calculateTotal(newPrice, Quantity);
+                  } else {
+                    setPrice("");
+                  }
+                }}
+                onKeyDown={(e) => {
+                  // Prevent typing +, - and e (which can appear in scientific notation)
+                  if (["-", "+", "e"].includes(e.key)) {
+                    e.preventDefault();
+                  }
                 }}
                 className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid
-                  ${fieldErrors.price && "border-red"}
-                    `}
+    ${fieldErrors.price ? "border-red" : ""}
+  `}
               />
               <Input
                 type="number"
@@ -492,14 +503,25 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                 label={t("Quantity")}
                 value={Quantity}
                 onChange={(e) => {
-                  const newQuantity = e.target.value;
-                  setQuantity(newQuantity);
-                  calculateTotal(Price, newQuantity);
+                  const value = e.target.value;
+                  if (value !== "" && !isNaN(Number(value))) {
+                    const newQuantity = Number(value);
+                    setQuantity(newQuantity);
+                    calculateTotal(Price, newQuantity);
+                  } else {
+                    setQuantity("");
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (["-", "+", "e"].includes(e.key)) {
+                    e.preventDefault();
+                  }
                 }}
                 className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid
-                      ${fieldErrors.quantity && "border-red "}
-                    `}
+    ${fieldErrors.quantity ? "border-red" : ""}
+  `}
               />
+
               <Input
                 className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid
                   

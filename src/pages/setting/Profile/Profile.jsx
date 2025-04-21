@@ -29,10 +29,13 @@ const Profile = forwardRef(({ onProfileUpdate }, ref) => {
   const [preview, setPreview] = useState(user.profilePic);
   const [isUpdating, setIsUpdating] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [currentImage, setCurrentImage] = useState(null);
   // Handle image upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0]; // Access the first file in the FileList
     if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setCurrentImage(imageUrl);
       "Selected file:", file; // Debugging: Check if file is selected correctly
       setProfilePic(file); // Set the selected file
       const reader = new FileReader();
@@ -113,7 +116,13 @@ const Profile = forwardRef(({ onProfileUpdate }, ref) => {
       <div className="wrapper bg-white rounded-xl p-4 m-2">
         <div className="flex flex-col">
           <div className="avatar  my-2 col-span-2 relative ">
-            {preview ? (
+            {currentImage ? (
+              <img
+                src={`${currentImage}`}
+                alt="avatar"
+                className="rounded-full  w-24 h-24 object-contain relative border border-solid  border-gray p-2"
+              />
+            ) : preview ? (
               <img
                 src={`https://api.request-sa.com/${user.profilePic}`}
                 alt="avatar"

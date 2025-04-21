@@ -69,7 +69,7 @@ const ViewAllModels = () => {
               <span>
                 <IoAddOutline className={`w-12 h-12  text-purple`} />
               </span>
-              <span className={`text-linear font-inter font-bold  text-3xl `}>
+              <span className={`text-linear font-inter font-bold  text-2xl `}>
                 {t("AddModel")}
               </span>
             </Link>

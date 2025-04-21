@@ -117,18 +117,19 @@ const CreateTag = ({ onTagsChange }) => {
   };
 
   async function handleDeleteTag(id) {
-    // const updatedTags = tags.filter((tag) => tag !== tagToDelete);
-    // const updatedNewTags = newTags.filter((tag) => tag !== tagToDelete);
+    const res = window.confirm(
+      `${t("Are you sure you want to delete this tag")} `
+    );
+    if (res) {
+      await axios
+        .delete(`https://api.request-sa.com/api/v1/tags/${id}`)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 
-    // setTags(updatedTags);
-    // setNewTags(updatedNewTags); // Update newTags
-    // onTagsChange(updatedTags);
-    await axios
-      .delete(`https://api.request-sa.com/api/v1/tags/${id}`)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-
-    setTags((prev) => prev.filter((ele) => ele._id != id));
+      setTags((prev) => prev.filter((ele) => ele._id != id));
+    } else {
+      return;
+    }
   }
 
   return (
@@ -158,7 +159,7 @@ const CreateTag = ({ onTagsChange }) => {
                     X
                   </button>
                   {tag.name}
-                    {/* {newTags.includes(tag) && (
+                  {/* {newTags.includes(tag) && (
                       <button
                         className="absolute rounded-full bg-white w-6 -top-3 right-2"
                         onClick={() => handleDeleteTag(tag)}

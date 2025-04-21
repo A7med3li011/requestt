@@ -280,6 +280,7 @@
   "onetime Task": "One-time Task",
   "location": "Location",
   "ownerTeam": "Owner Team",
+  "english name and arabic name are required": "english name and arabic name are required",
   "consultantTeam": "Consultant Team",
   "contractorTeam": "Contractor Team",
   "task started:": "Task started:",
@@ -289,6 +290,8 @@
   "Complete the following data to save time added each time": "Complete the following data to save time added each time",
   "Services": "Services",
   "language": "language",
+  "Are you sure you want to delete this tag": "Are you sure you want to delete this tag",
+  "vocation deleted successfully": "vocation deleted successfully",
   "landingMessage": {
     "message1": "Planning to build a new property or develop an existing project?",
     "message2": "Are you looking for new opportunities in the field of real estate construction?",

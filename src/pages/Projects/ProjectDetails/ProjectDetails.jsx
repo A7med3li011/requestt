@@ -111,8 +111,8 @@ const ProjectDetails = () => {
                 user?.plan?.name === "RequestPlus" ? "col-span-1" : "col-span-3"
               } `}
             >
-              <div className="desc_content bg-purple text-white py-9 px-6 rounded-3xl  h-[140px] text-center">
-                <p className="font-inter font-normal text-sm leading-6  ">
+              <div className="desc_content bg-linear_1 text-white py-3 px-6 rounded-3xl   capitalize text-center">
+                <p className="font-inter font-normal text-lg   leading-6  ">
                   {Project.description}
                 </p>
               </div>

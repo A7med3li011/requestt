@@ -156,7 +156,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
         tags: formData.tag,
         member: formData.member,
         price: formData.price,
-        quantity: formData.quantity,
+        requiredQuantity: formData.quantity,
         total: formData.price * formData.quantity,
         unit: task.unit,
       };
@@ -169,6 +169,8 @@ export const EditTask = ({ task, onUpdateTask }) => {
       err;
     } finally {
       setLoading(false);
+      setError("");
+      setFieldErrors({});
     }
   };
 
@@ -318,80 +320,6 @@ export const EditTask = ({ task, onUpdateTask }) => {
                 />
               </div>
             </div>
-            {/* <div className="grid grid-cols-4 gap-2">
-              <div className="price col-span-1">
-                <label
-                  htmlFor="requiredQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Required Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="requiredQuantity"
-                  name="requiredQuantity"
-                  placeholder="Required quantity"
-                  value={formData.requiredQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Approved quantity col-span-1">
-                <label
-                  htmlFor="approvedQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Approved Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="approvedQuantity"
-                  name="approvedQuantity"
-                  placeholder="Approved quantity"
-                  value={formData.approvedQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Executed quantity col-span-1">
-                <label
-                  htmlFor="executedQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Executed Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="executedQuantity"
-                  name="executedQuantity"
-                  placeholder="Executed quantity"
-                  value={formData.executedQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Filtered quantity col-span-1">
-                <label
-                  htmlFor="filteredQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Filtered Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="filteredQuantity"
-                  name="filteredQuantity"
-                  placeholder="Filtered quantity"
-                  value={formData.filteredQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-            </div> */}
 
             <div className="grid grid-cols-4 gap-2">
               <div className="price col-span-1">
@@ -409,7 +337,12 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   name="price"
                   placeholder={t("Price")}
                   value={formData.price}
-                  onChange={handleChange}
+                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => {
+                    if (["-", "+", "e"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="Quantity col-span-1">
@@ -427,8 +360,14 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   name="quantity"
                   placeholder={t("Quantity")}
                   a
-                  value={formData.quantity || formData.total / formData.price}
-                  onChange={handleChange}
+                  defaultValue={task?.total / formData.price}
+                  value={formData.requiredQuantity}
+                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => {
+                    if (["-", "+", "e"].includes(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="Total col-span-1">
@@ -445,7 +384,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   id="Total"
                   name="Total"
                   placeholder={t("Total")}
-                  value={task.price * task.requiredQuantity}
+                  value={formData.price * (task?.total / formData.price)}
                   disabled
                   onChange={handleChange}
                 />
@@ -487,80 +426,3 @@ export const EditTask = ({ task, onUpdateTask }) => {
     </div>
   );
 };
-
-// {
-/* <div className="grid grid-cols-4 gap-2">
-              <div className="price col-span-1">
-                <label
-                  htmlFor="requiredQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Required Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="requiredQuantity"
-                  name="requiredQuantity"
-                  placeholder="Required quantity"
-                  value={formData.requiredQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Approved quantity col-span-1">
-                <label
-                  htmlFor="approvedQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Approved Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="approvedQuantity"
-                  name="approvedQuantity"
-                  placeholder="Approved quantity"
-                  value={formData.approvedQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Executed quantity col-span-1">
-                <label
-                  htmlFor="executedQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Executed Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="executedQuantity"
-                  name="executedQuantity"
-                  placeholder="Executed quantity"
-                  value={formData.executedQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="Filtered quantity col-span-1">
-                <label
-                  htmlFor="filteredQuantity"
-                  className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
-                >
-                  Filtered Quantity
-                </label>
-                <input
-                  className="bg-white border border-purple border-solid focus:border focus:border-gray focus:border-solid Input font-jost font-normal text-base my-2 py-2 px-4"
-                  type="number"
-                  min="0"
-                  id="filteredQuantity"
-                  name="filteredQuantity"
-                  placeholder="Filtered quantity"
-                  value={formData.filteredQuantity}
-                  onChange={handleChange}
-                />
-              </div>
-            </div> */
-// }

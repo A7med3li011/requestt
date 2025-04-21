@@ -43,6 +43,10 @@ const CreateVocation = () => {
   }, [userId, isUpdated]);
 
   const handleAddVocation = async () => {
+    if (!voc.nameEN || !voc.nameAR) {
+      toast.error(t("english name and arabic name are required"));
+      return;
+    }
     try {
       const payload = {
         nameEN: voc.nameEN,
@@ -70,18 +74,25 @@ const CreateVocation = () => {
   };
 
   async function handleUpdateVocation(voc) {
-    console.log(vocations);
-    console.log(
-      setVocations((prev) => prev.filter((item) => item._id != voc._id))
+    // console.log(voc);
+    const res = window.confirm(
+      `{Are you sure you want to delete} ${voc.nameEN}`
     );
-    await axios.delete(
-      `https://api.request-sa.com/api/v1/vocation/${voc._id}`,
-      {
-        name: voc.name,
-      }
-    );
+    if (res) {
+      await axios
+        .delete(`https://api.request-sa.com/api/v1/vocation/${voc._id}`, {
+          name: voc.name,
+        })
+        .then((res) => {
+          setVocations((prev) => prev.filter((ele) => ele._id !== voc._id));
+          toast.success(t("vocation deleted successfully"));
+        })
+        .catch((err) => console.log(err));
+    } else {
+      return;
+    }
   }
-  console.log(vocations);
+
   return (
     <div className="CreateVocation">
       {loading ? (
@@ -105,7 +116,7 @@ const CreateVocation = () => {
                   >
                     <IoMdClose />
                   </span>
-                  {lang=="en"? voc.nameEN:voc.nameAR}
+                  {lang == "en" ? voc.nameEN : voc.nameAR}
                   {/* {newVocations.includes(voc) && (
                     <button
                       className="absolute rounded-full bg-white w-6 -top-3 right-2"

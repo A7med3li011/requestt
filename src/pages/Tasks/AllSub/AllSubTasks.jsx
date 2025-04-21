@@ -14,7 +14,8 @@ import Loader from "../../../Components/Loader/Loader";
 const AllSubTasks = () => {
   const location = useLocation();
   const { taskId, projectId, members } = location.state || {};
-  (location.state);
+  location.state;
+
   const [viewMode, setViewMode] = useState("board");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -29,6 +30,7 @@ const AllSubTasks = () => {
       try {
         const data = await getAllSubTasksByParentTask(taskId);
         setData(data.results);
+        console.log(data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -36,12 +38,12 @@ const AllSubTasks = () => {
       }
     };
     fetchData();
-  }, []);
-
- const formatDate = (date) => {
-   if (!date) return "";
-   return format(new Date(date), "dd MMM");
- };  
+  }, [location]);
+  console.log(data);
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "dd MMM");
+  };
   return (
     <div className="AllSubTasks">
       <h1 className="title font-inter font-bold text-3xl text-black m-2">
@@ -93,26 +95,27 @@ const AllSubTasks = () => {
           } mt-4`}
         >
           <Link
+            // to={`/AddTask/${projectId}`}
             className={`AddTask ${
               viewMode === "list"
                 ? "flex items-center justify-center text-2xl"
                 : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 h-[286px]"
             } box bg-white   rounded-md shadow-sm p-5 `}
-            // to={`/AddTask/${Task.project._id}`}
-            // state={{
-            //   projectId: Task.project._id,
-            //   taskType: Task.type,
-            //   members: Task.assignees,
-            //   ParentId: Task._id,
-            //   subTask: true,
-            // }}
+            to={`/AddTask/${data[0]?.project}`}
+            state={{
+              projectId: data[0]?.project,
+              taskType: data[0]?.type,
+              members: data[0]?.assignees,
+              ParentId: data[0]?.parentTask?._id,
+              subTask: true,
+            }}
           >
             <span>
               <IoAddOutline className="w-12 h-12 text-purple" />
             </span>
             <span
               className={`text-linear font-inter font-bold  ${
-                viewMode === "board" ? "text-3xl" : "text-2xl"
+                viewMode === "board" ? "text-2xl" : "text-2xl"
               } `}
             >
               {t("AddSubTask")}
@@ -120,7 +123,7 @@ const AllSubTasks = () => {
           </Link>
 
           {viewMode === "board" &&
-            data.map((task) => {
+            data?.map((task) => {
               const avatars = task.assignees.map(
                 (assignee) => assignee.profilePic || avatar
               );
@@ -150,7 +153,7 @@ const AllSubTasks = () => {
             })}
 
           {viewMode === "list" &&
-            data.map((task) => {
+            data?.map((task) => {
               const avatars = task.assignees.map(
                 (assignee) => assignee.profilePic || avatar
               );
