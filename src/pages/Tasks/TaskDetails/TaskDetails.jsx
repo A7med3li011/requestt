@@ -202,7 +202,7 @@ const TaskDetails = () => {
             id="status"
             options={allStatus.map(({ value, name }) => ({
               value,
-              label: name, // react-select expects label instead of name
+              label: t(name), // react-select expects label instead of name
             }))}
             value={status}
             onChange={(val) => setStatus(val)}

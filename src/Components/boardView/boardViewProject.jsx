@@ -65,7 +65,7 @@ const BoardViewProject = ({
         <span
           className={`${Status} w-full text-center capitalize py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
         >
-          {t(statusDisplay)}
+          {t(Status)}
         </span>
       </div>
       <div className="name flex justify-between items-center mx-2 my-3">
