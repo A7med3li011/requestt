@@ -52,9 +52,6 @@ const TaskDetails = () => {
     setIsToq(Task.type === "toq");
   }, [Task.type]);
 
-  console.log(Task.project);
-  console.log(user);
-  console.log(Task.taskStatus);
   useEffect(() => {
     const fetchTask = async () => {
       setLoading(true);
@@ -70,7 +67,6 @@ const TaskDetails = () => {
     };
     fetchTask();
   }, [taskId, status]);
-  // console.log(Task.project._id)
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
@@ -81,12 +77,11 @@ const TaskDetails = () => {
         taskId,
         status,
       })
-      .then((res) => console.log(res))
+      .then((res) => toast.success("status updated"))
       .catch((err) => console.log(err));
   }
 
   useEffect(() => {
-    console.log(status);
     updateTaskStatus();
   }, [status]);
   const getUpdatedFields = () => {

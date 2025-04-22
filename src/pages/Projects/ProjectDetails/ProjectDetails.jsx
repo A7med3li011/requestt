@@ -29,6 +29,7 @@ import { Image } from "../../../Components/UI/Image/image";
 import ProfileAvatar from "../../../Components/UI/profilePic/profilePic";
 import Select from "../../../Components/UI/Select/Select";
 import axios from "axios";
+import { toast } from "react-toastify";
 const allStatus = [
   {
     value: "working",
@@ -86,7 +87,6 @@ const ProjectDetails = () => {
     fetchProject();
   }, [projectId, status]);
 
-  console.log(Project);
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
@@ -98,7 +98,7 @@ const ProjectDetails = () => {
         projectId,
         status,
       })
-      .then((res) => console.log(res))
+      .then((res) => toast.success("status updated"))
       .catch((err) => console.log(err));
   }
 
