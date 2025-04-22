@@ -73,6 +73,7 @@ const Home = () => {
     (project) => project.tasks && project.tasks.length > 0
   );
 
+  console.log(filteredProjects, "sasasx");
   return (
     <div className="home">
       {/* Header */}
@@ -215,7 +216,7 @@ const Home = () => {
                                 state={{ taskId: task._id }}
                               >
                                 <BoardView
-                                  ProgressValue={0}
+                                  ProgressValue={task?.progress}
                                   NameOfTask={task.title}
                                   Tagname={"Project"}
                                   taskPriority={task.taskPriority}
@@ -251,7 +252,7 @@ const Home = () => {
                                 state={{ taskId: task._id }}
                               >
                                 <ListView
-                                  ProgressValue={0}
+                                  ProgressValue={task?.progress}
                                   NameOfTask={task.title}
                                   Tagname={"Project"}
                                   taskPriority={task.taskPriority}

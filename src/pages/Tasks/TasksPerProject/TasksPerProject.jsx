@@ -64,7 +64,7 @@ const TasksPerProject = () => {
         const data = await getAllTasksPerProject(id, Status);
         const tasksWithProgress = data.results.map((task) => ({
           ...task,
-          progress: calculateProgress(task),
+          // progress: calculateProgress(task),
         }));
         tasksWithProgress;
 

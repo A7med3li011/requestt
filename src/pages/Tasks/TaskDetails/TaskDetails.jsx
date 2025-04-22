@@ -64,28 +64,28 @@ const TaskDetails = () => {
         console.error("Error fetching Task:", error);
       } finally {
         setLoading(false);
-        // window.location.reload();
       }
     };
     fetchTask();
-  }, [taskId]);
+  }, [status, taskId]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
-  async function updateTaskStatus() {
+  async function updateTaskStatus(val) {
+    console.log("asdasd");
     await axios
-      .put(`http://localhost:8000/api/v1/task?lang=ar`, {
+      .put(`https://api.request-sa.com/api/v1/task?lang=ar`, {
         taskId,
-        status,
+        status: val,
       })
 
       .catch((err) => console.log(err));
   }
 
-  useEffect(() => {
-    updateTaskStatus();
-  }, [status]);
+  // useEffect(() => {
+  //   updateTaskStatus();
+  // }, [status]);
   const getUpdatedFields = () => {
     const updatedFields = {};
 
@@ -207,7 +207,10 @@ const TaskDetails = () => {
               label: t(name), // react-select expects label instead of name
             }))}
             value={status}
-            onChange={(val) => setStatus(val)}
+            onChange={(val) => {
+              setStatus(val);
+              updateTaskStatus(val);
+            }}
             placeholder={`${t(status) || t(Task.taskStatus)}`}
           />
         </div>
