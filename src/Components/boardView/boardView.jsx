@@ -30,6 +30,7 @@ const AvatarList = memo(({ avatars }) => {
     </div>
   );
 });
+
 const BoardView = ({
   Tagname,
   NameOfTask,
@@ -45,6 +46,7 @@ const BoardView = ({
   sDate,
   eDate,
 }) => {
+ 
   return (
     <div className="box bg-white rounded-lg shadow-sm p-2 flex flex-col  col-span-1">
       <div className="tagName flex justify-center">

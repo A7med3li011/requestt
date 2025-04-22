@@ -47,28 +47,28 @@ const TasksPerProject = () => {
     { label: t("Delayed"), value: "delayed" },
   ];
 
- const calculateProgress = (task) => {
-   if (task?.executedQuantity && task?.requiredQuantity) {
-     return Math.min(
-       100,
-       (task.executedQuantity / task.requiredQuantity) * 100
-     );
-   }
-   return 0;
- };
+  const calculateProgress = (task) => {
+    if (task?.executedQuantity && task?.requiredQuantity) {
+      return Math.min(
+        100,
+        (task.executedQuantity / task.requiredQuantity) * 100
+      );
+    }
+    return 0;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         const data = await getAllTasksPerProject(id, Status);
-       const tasksWithProgress = data.results.map((task) => ({
-         ...task,
-         progress: calculateProgress(task),
-       }));
-       (tasksWithProgress);
-       
-       setData(tasksWithProgress);
+        const tasksWithProgress = data.results.map((task) => ({
+          ...task,
+          progress: calculateProgress(task),
+        }));
+        tasksWithProgress;
+
+        setData(tasksWithProgress);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -90,12 +90,9 @@ const TasksPerProject = () => {
     setSelectedTaskType(value);
   };
 
-  const task = data.map((task) => (
-    task
-  ))
+  const task = data.map((task) => task);
 
-
-
+  console.log(data[0]);
 
   useEffect(() => {
     calculateProgress();
@@ -237,8 +234,8 @@ const TasksPerProject = () => {
                     state={{ taskId: task._id }}
                   >
                     <BoardView
-                     ProgressValue={task.progress} 
-                     NameOfTask={task.title}
+                      ProgressValue={task?.progress}
+                      NameOfTask={task.title}
                       Tagname={task?.tags?.name}
                       Tag={task.tags}
                       taskPriority={task.taskPriority}

@@ -44,9 +44,9 @@ const TaskDetails = () => {
   const [Task, setTask] = useState({});
   const [initialTask, setInitialTask] = useState({});
   const [IsToq, setIsToq] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(Task?.taskStatus);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     setIsToq(Task.type === "toq");
@@ -58,26 +58,28 @@ const TaskDetails = () => {
       try {
         const [taskData] = await Promise.all([getTaskDetails(taskId)]);
         setTask(taskData.results);
+
         setInitialTask(taskData.results);
       } catch (error) {
         console.error("Error fetching Task:", error);
       } finally {
         setLoading(false);
+        // window.location.reload();
       }
     };
     fetchTask();
-  }, [taskId, status]);
+  }, [taskId]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
   async function updateTaskStatus() {
     await axios
-      .put(`https://api.request-sa.com/api/v1/task?lang=ar`, {
+      .put(`http://localhost:8000/api/v1/task?lang=ar`, {
         taskId,
         status,
       })
-      .then((res) => toast.success("status updated"))
+
       .catch((err) => console.log(err));
   }
 
@@ -249,10 +251,10 @@ const TaskDetails = () => {
                     "--CircularProgress-progressShadowBlur": "10px",
                     "--CircularProgress-progressShadowOffset": "0px 2px",
                   }}
-                  value={progress}
+                  value={Task?.progress}
                   variant="solid"
                 >
-                  {`${Math.round(progress)}%`}
+                  {`${Math.round(Task?.progress)}%`}
                 </CircularProgress>
               </div>
             )}

@@ -98,7 +98,7 @@ const ProjectDetails = () => {
         projectId,
         status,
       })
-      .then((res) => toast.success("status updated"))
+
       .catch((err) => console.log(err));
   }
 
