@@ -15,6 +15,26 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Image } from "../../../Components/UI/Image/image";
 import ProfileAvatar from "../../../Components/UI/profilePic/profilePic";
+import Select from "../../../Components/UI/Select/Select";
+import axios from "axios";
+const allStatus = [
+  {
+    value: "working",
+    name: "working",
+  },
+  {
+    value: "completed",
+    name: "completed",
+  },
+  {
+    value: "delayed",
+    name: "delayed",
+  },
+  {
+    value: "waiting",
+    name: "waiting",
+  },
+];
 const TaskDetails = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
@@ -26,11 +46,14 @@ const TaskDetails = () => {
   const [IsToq, setIsToq] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
+  const [status, setStatus] = useState(Task?.taskStatus);
 
   useEffect(() => {
     setIsToq(Task.type === "toq");
   }, [Task.type]);
 
+  console.log(Task.project);
+  console.log(user);
   console.log(Task.taskStatus);
   useEffect(() => {
     const fetchTask = async () => {
@@ -46,13 +69,26 @@ const TaskDetails = () => {
       }
     };
     fetchTask();
-  }, [taskId]);
+  }, [taskId, status]);
   // console.log(Task.project._id)
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
+  async function updateTaskStatus() {
+    await axios
+      .put(`https://api.request-sa.com/api/v1/task?lang=ar`, {
+        taskId,
+        status,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
 
+  useEffect(() => {
+    console.log(status);
+    updateTaskStatus();
+  }, [status]);
   const getUpdatedFields = () => {
     const updatedFields = {};
 
@@ -163,7 +199,22 @@ const TaskDetails = () => {
           {t("view all history")}
         </Link>
       </div>
-
+      {(Task?.project?.consultant == user._id ||
+        Task?.project?.owner == user._id) && (
+        <div>
+          <Select
+            label="Status"
+            id="status"
+            options={allStatus.map(({ value, name }) => ({
+              value,
+              label: name, // react-select expects label instead of name
+            }))}
+            value={status}
+            onChange={(val) => setStatus(val)}
+            placeholder={`${t(status) || t(Task.taskStatus)}`}
+          />
+        </div>
+      )}
       <div className="wrapper bg-white grid grid-cols-2 rounded-3xl m-2 ">
         <div className="box relative col-span-2 lg:col-span-1 flex justify-center items-center">
           <div className="analytics_box rounded-md shadow-sm p-8 flex flex-col gap-3 items-center">
@@ -218,7 +269,7 @@ const TaskDetails = () => {
                   color: "#CA8A04",
                 }}
               >
-                {t(Task.taskStatus)}
+                {t(status || Task?.taskStatus)}
               </span>
               <span
                 className={`Tag ${Task.taskPriority} px-14 py-2 w-full  rounded-3xl font-inter font-semibold text-sm mt-2 text-center`}

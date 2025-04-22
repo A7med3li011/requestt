@@ -27,7 +27,26 @@ import { TagsChart } from "../../../Components/TagsChart/TagsChart";
 import i18next from "i18next";
 import { Image } from "../../../Components/UI/Image/image";
 import ProfileAvatar from "../../../Components/UI/profilePic/profilePic";
-
+import Select from "../../../Components/UI/Select/Select";
+import axios from "axios";
+const allStatus = [
+  {
+    value: "working",
+    name: "working",
+  },
+  {
+    value: "completed",
+    name: "completed",
+  },
+  {
+    value: "delayed",
+    name: "delayed",
+  },
+  {
+    value: "waiting",
+    name: "waiting",
+  },
+];
 const ProjectDetails = () => {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
@@ -35,6 +54,7 @@ const ProjectDetails = () => {
   const [Owner, setOwner] = useState({});
   const [Contractor, setContractor] = useState([]);
   const [tags, setTags] = useState({});
+  const [status, setStatus] = useState(Project?.status);
   const location = useLocation();
   const { projectId } = location.state || {};
   const lang = i18next.language;
@@ -64,14 +84,27 @@ const ProjectDetails = () => {
       }
     };
     fetchProject();
-  }, [projectId]);
+  }, [projectId, status]);
 
-  // console.log(Project)
+  console.log(Project);
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
   };
 
+  async function updateProjectStatus() {
+    await axios
+      .put(`https://api.request-sa.com/api/v1/project`, {
+        projectId,
+        status,
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    updateProjectStatus();
+  }, [status]);
   return (
     <div className="ProjectDetails mx-1">
       {loading ? (
@@ -116,6 +149,25 @@ const ProjectDetails = () => {
                   {Project.description}
                 </p>
               </div>
+            </div>
+
+            <div>
+              {(Project?.consultant?._id == user._id ||
+                Project?.owner?._id == user._id) && (
+                <div className="p-4">
+                  <Select
+                    label="Status"
+                    id="status"
+                    options={allStatus.map(({ value, name }) => ({
+                      value,
+                      label: name, // react-select expects label instead of name
+                    }))}
+                    value={status}
+                    onChange={(val) => setStatus(val)}
+                    placeholder={`${status || Project?.status}`}
+                  />
+                </div>
+              )}
             </div>
             {user?.plan?.name === "RequestPlus" && (
               <>
@@ -250,7 +302,7 @@ const ProjectDetails = () => {
                   <span
                     className={`${Project.status} w-full capitalize text-center py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
                   >
-                    {t(Project.status)}
+                    {t(status || Project.status)}
                   </span>
                   <span
                     className={`${Project.projectPriority} w-full capitalize text-center py-2 rounded-3xl font-inter font-semibold text-sm mt-2`}
