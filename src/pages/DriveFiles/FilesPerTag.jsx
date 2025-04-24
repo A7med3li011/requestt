@@ -66,7 +66,7 @@ const FilesPerTag = () => {
             ) : (
               files.tasks?.map((task) => (
                 <div
-                  className="Files grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 md:gap-6 gap-2 m-2"
+                  className="Files flex  md:gap-6 gap-2 m-2"
                   key={task._id}
                 >
                   {task.documents && task.documents.length > 0

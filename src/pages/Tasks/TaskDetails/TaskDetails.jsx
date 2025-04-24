@@ -46,8 +46,27 @@ const TaskDetails = () => {
   const [IsToq, setIsToq] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState(Task?.taskStatus);
+  const [doc, setDoc] = useState(null);
   const [progress, setProgress] = useState(0);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setDoc(file);
+      // you can do something with the file here (upload, preview, etc.)
+    }
 
+    const formData = new FormData();
+    formData.append("status", "pending");
+    formData.append("uploadedBy", user._id);
+    formData.append("comment", "file");
+    formData.append("task", Task._id);
+    formData.append("document", file);
+
+    await axios
+      .post(`http://localhost:8000/api/v1/docs`, formData)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     setIsToq(Task.type === "toq");
   }, [Task.type]);
@@ -375,6 +394,8 @@ const TaskDetails = () => {
               <span className="text-purple-dark font-inter font-extrabold text-sm leading-4">
                 {Task?.documents?.length}
               </span>
+
+              {/* <input type="file" onChange={handleFileChange} /> */}
               <FaFileLines className="text-purple-dark h-7 w-7" />
             </button>
 

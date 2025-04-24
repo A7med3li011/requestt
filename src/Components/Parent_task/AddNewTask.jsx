@@ -16,6 +16,7 @@ import Button from "../UI/Button/Button";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import i18n from "../../config/i18n";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const AddNewTask = ({ newTask, task, setReFetch }) => {
   const user = useSelector((state) => state.auth.user);
@@ -27,7 +28,6 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
   location.state;
   "projectId :", projectId;
 
-  console.log();
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
@@ -57,6 +57,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
   const [SelectedMember, setSelectedMember] = useState("");
   const [tagsLoading, setTagsLoading] = useState(true);
   const [TaskId, setTaskId] = useState(false);
+  const [userTags, setUserTags] = useState([]);
   const [project, setProject] = useState("");
   const [sDate, setSDate] = useState({
     startDate: "",
@@ -80,6 +81,12 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
     member: false,
   });
 
+  async function getTagsByuser() {
+    await axios
+      .get(`https://api.request-sa.com/api/v1/tags/user/${user._id}`)
+      .then((res) => setUserTags(res.data.results))
+      .catch((err) => console.log(err));
+  }
   async function getProjectById() {
     await axios
       .get(`https://api.request-sa.com/api/v1/project/${projectId}`)
@@ -88,13 +95,15 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
   }
 
   useEffect(() => {
+    getTagsByuser();
+  }, [user._id]);
+  useEffect(() => {
     getProjectById();
   }, [projectId]);
   useEffect(() => {
     setIsSubtask(TaskType === "sub");
   }, [TaskType]);
 
-  console.log(Tags);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -153,6 +162,10 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
     setPrice(0);
     setQuantity(0);
     setTotal(0);
+    setSelectedMember("");
+    setSelectedPriority("");
+    setSelectedUnit("");
+    setSelectedTag("");
   };
 
   const handleSubmit = async (e) => {
@@ -207,12 +220,13 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
       };
 
       "taskData", taskData;
-      console.log(taskData);
+
       await addTask(taskData);
 
       clearFormFields();
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
       err;
       setLoading(false);
     } finally {
@@ -391,10 +405,21 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                         </option>
                       ))
                     ) : (
-                      <option disabled>
-                        {t("No tags available from consultant")}
+                      <option value={null} className={`hover:bg-black `}>
+                        There is no tags
                       </option>
                     )}
+                    {/* {userTags?.length &&
+                      !Tags?.length &&
+                      userTags?.map((ele) => (
+                        <option
+                          style={{ color: ele.colorCode }}
+                          className={`hover:bg-black `}
+                          value={ele._id}
+                        >
+                          {ele?.name}
+                        </option>
+                      ))} */}
                   </select>
                 </div>
                 {/* <Select

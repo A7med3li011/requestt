@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import Input from "../UI/Input/Input";
 import Datepicker from "react-tailwindcss-datepicker";
 import Select from "../UI/Select/Select";
-import { getAllTagsByUser, getAllUnits } from "../../Services/api";
+import {
+  getAllTagsByProject,
+  getAllTagsByUser,
+  getAllUnits,
+} from "../../Services/api";
 import { useSelector } from "react-redux";
 import { t } from "i18next";
 import Button from "../UI/Button/Button";
@@ -16,6 +20,11 @@ export const EditTask = ({ task, onUpdateTask }) => {
 
   const user = useSelector((state) => state.auth.user);
   const userId = user._id;
+
+  const [selectedTag, setSelectedTag] = useState(task?.tags);
+  const [description, setDescription] = useState("");
+
+  // const [title, setTitle] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [Tags, setTags] = useState([]);
   const [units, setUnits] = useState([]);
@@ -30,12 +39,12 @@ export const EditTask = ({ task, onUpdateTask }) => {
     sDate: { startDate: task.sDate, endDate: task.sDate },
     eDate: { startDate: task.dueDate, endDate: task.dueDate },
     priority: task.taskPriority,
-    tag: task.tags,
-    assignees: task.member,
+    tag: task.tags?._id,
+    assignees: task.assignees[0]._id,
     price: task.price,
-    quantity: task.quantity,
+    quantity: task.requiredQuantity,
     total: task.price * task.quantity,
-    unit: task?.unit?.name,
+    unit: task?.unit?._id,
   });
   "form data :", formData;
 
@@ -50,6 +59,21 @@ export const EditTask = ({ task, onUpdateTask }) => {
     return `${year}-${month}-${day}`;
   };
 
+  async function getTags() {
+    await getAllTagsByProject(task.project, "ar").then((res) =>
+      setTags(
+        res?.tags?.map((tag) => ({
+          value: tag._id,
+          label: tag.name,
+          colorCode: tag.colorCode,
+        }))
+      )
+    );
+  }
+  useEffect(() => {
+    getTags();
+  }, [task]);
+
   const handleOpen = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -61,13 +85,13 @@ export const EditTask = ({ task, onUpdateTask }) => {
           getAllUnits(),
         ]);
 
-        setTags(
-          tagsData?.results?.map((tag) => ({
-            value: tag._id,
-            label: tag.name,
-            colorCode: tag.colorCode,
-          }))
-        );
+        // setTags(
+        //   tagsData?.results?.map((tag) => ({
+        //     value: tag._id,
+        //     label: tag.name,
+        //     colorCode: tag.colorCode,
+        //   }))
+        // );
         setTagLoading(false);
         setUnits(
           UnitsData?.results.map((unit) => ({
@@ -158,7 +182,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
         price: formData.price,
         requiredQuantity: formData.quantity,
         total: formData.price * formData.quantity,
-        unit: task.unit,
+        unit: formData.unit,
       };
       updatedTask;
 
@@ -173,7 +197,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
       setFieldErrors({});
     }
   };
-
+  console.log(task?.unit?._id);
   return (
     <div className="EditSub">
       <button
@@ -291,7 +315,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   label={t("tag")}
                   id="tag"
                   isMulti={false}
-                  value={task.tag}
+                  value={formData.tag}
                   loading={TagLoading}
                   InputClassName={`${
                     fieldErrors.tag ? "border  border-red rounded-2xl " : ""
@@ -308,7 +332,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   label={t("Responsible Person")}
                   id="assignees"
                   isMulti={false}
-                  value={task?.assignees[0]?.name}
+                  value={formData.assignees}
                   InputClassName={` `}
                   onChange={(value) => handleSelectChange("assignees", value)}
                   options={members?.map((member) => ({

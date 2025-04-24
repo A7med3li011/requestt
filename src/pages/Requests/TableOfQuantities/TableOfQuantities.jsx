@@ -67,7 +67,7 @@ const TaskRow = ({
         <Input
           type="number"
           min={0}
-          value={task.total /task.price}
+          value={task.total / task.price}
           onChange={(e) => {
             const value = e.target.value;
             handleChange("requiredQuantity", value);
@@ -84,7 +84,7 @@ const TaskRow = ({
           className="bg-white border w-full rounded-2xl p-2 border-gray "
           type="number"
           min={0}
-          value={task.total }
+          value={task.total}
           disabled
         />
       </div>
@@ -131,7 +131,9 @@ const TableOfQuantities = () => {
   const handleTaskRemove = async (index) => {
     setTasks((prevTasks) => prevTasks.filter((_, i) => i !== index));
     await axios
-      .delete(`https://api.request-sa.com/api/v1/task/${tasks[index]._id}`)
+      .delete(
+        `https://api.request-sa.com/api/v1/task/${tasks[index]._id}?id=${user._id}`
+      )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -201,7 +203,7 @@ const TableOfQuantities = () => {
   useEffect(() => {
     getTasksbyProject();
   }, [reFetch]);
- 
+
   return (
     <div className="TableOfQuantities w-[320px] sm:w-[600px] lg:w-[750px] mx-auto overflow-x-scroll lg:overflow-hidden ">
       <div className="header  bg-white w-[500px] sm:w-[600px] lg:w-[750px]   p-4 rounded-l-3xl flex items-center justify-between">
@@ -234,19 +236,22 @@ const TableOfQuantities = () => {
             </p>
           </div>
 
-          {tasks.map((task, index) => task.type=="toq" && (
-            <TaskRow
-              key={index}
-              task={task}
-              index={index}
-              onChange={handleTaskChange}
-              onRemove={handleTaskRemove}
-              onUpdateTask={handleUpdateTask}
-              units={units}
-              UnitsLoading={UnitsLoading}
-              errors={errors}
-            />
-          ))}
+          {tasks.map(
+            (task, index) =>
+              task.type == "toq" && (
+                <TaskRow
+                  key={index}
+                  task={task}
+                  index={index}
+                  onChange={handleTaskChange}
+                  onRemove={handleTaskRemove}
+                  onUpdateTask={handleUpdateTask}
+                  units={units}
+                  UnitsLoading={UnitsLoading}
+                  errors={errors}
+                />
+              )
+          )}
 
           <div className="btn flex items-center justify-end my-3">
             <Button onClick={handleSubmit}>{t("Save")}</Button>

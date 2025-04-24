@@ -1,28 +1,22 @@
 import { HiOutlineDownload } from "react-icons/hi";
 import { PiFilePdfFill } from "react-icons/pi";
 
-const File = ({
-  TaskName,
-  Pdf_Name,
-  style_bg,
-  style_color,
-  documentUrl, 
-}) => {
+const File = ({ TaskName, Pdf_Name, style_bg, style_color, documentUrl }) => {
   const downloadFile = async () => {
     try {
       const response = await fetch(documentUrl);
-      ("Document URL:", documentUrl);
+      "Document URL:", documentUrl;
 
-       ("Response:", response);
+      "Response:", response;
       const blob = await response.blob();
-      const link = document.createElement("a"); 
-      const url = window.URL.createObjectURL(blob); 
+      const link = document.createElement("a");
+      const url = window.URL.createObjectURL(blob);
       link.href = url;
-      link.setAttribute("download", Pdf_Name); 
+      link.setAttribute("download", Pdf_Name);
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link); 
-      window.URL.revokeObjectURL(url); 
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading the file:", error);
     }
@@ -33,6 +27,7 @@ const File = ({
       <div className="header flex justify-between items-center p-2">
         <div className="taskName">
           <span>{TaskName}</span>
+          <img src={documentUrl} alt="sa" />
         </div>
         <button className="download" onClick={downloadFile}>
           <HiOutlineDownload className="text-blue" />

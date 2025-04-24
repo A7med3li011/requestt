@@ -28,6 +28,7 @@ import {
 } from "@material-tailwind/react";
 import { useCountries } from "use-react-countries";
 import { useTranslation } from "react-i18next";
+import { PhoneInput } from "react-international-phone";
 
 const ContactUsLanding = () => {
   const [nameError, setNameError] = useState(false);
@@ -51,9 +52,9 @@ const ContactUsLanding = () => {
   });
 
   const { i18n } = useTranslation();
-  console.log(i18n.language);
   const handlePhoneChange = (e) => {
-    const value = e.target.value;
+    console.log(i18n.language);
+    const value = e?.target?.value;
     // Remove non-digit characters
     const numericValue = value.replace(/\D/g, "");
     const codeWithoutPlus = countryCallingCode.replace("+", "");
@@ -105,7 +106,7 @@ const ContactUsLanding = () => {
     if (!Name) {
       setNameError(true);
     }
-    if (!Phone) {
+    if (Phone.length < 11) {
       setPhoneError(true);
     }
     if (!Email) {
@@ -227,7 +228,7 @@ const ContactUsLanding = () => {
               {t("Phone number")}
             </label>
             <div className=" flex relative">
-              <Menu placement="bottom-start">
+              {/* <Menu placement="bottom-start">
                 <MenuHandler>
                   <Btn
                     ripple={false}
@@ -266,20 +267,50 @@ const ContactUsLanding = () => {
                   )}
                 </MenuList>
               </Menu>
-              {/* border-2 border-gray-500 border-t-4 border-t-black focus:border-[1px] focus:border-t-black */}
-              {/* <MaterialInput
-                type="tel"
+               */}
+
+              <PhoneInput
+                name="phoneNumber"
+                className={`flex flex-row border rounded-[10px]  w-full g ${
+                  phoneError ? "border-rose-500" : "border-black"
+                }`}
                 value={Phone}
-                onChange={handlePhoneChange}
-                placeholder={t("Phone number")}
-                className="   "
-                labelProps={{
-                  className: "before:content-none after:content-none",
+                onChange={(phone) => {
+                  setPhone(phone);
+                  setPhoneError(false);
                 }}
-                containerProps={{
-                  className: "min-w-0",
+                defaultCountry="sa"
+                inputStyle={{
+                  // border: "#258F424D solid 2px",
+                  borderTopLeftRadius: i18n.language == "en" ? "0" : "10px",
+                  borderBottomLeftRadius: i18n.language == "en" ? "0" : "10px",
+                  borderTopRightRadius: i18n.language == "en" ? "10px" : "0",
+                  borderBottomRightRadius: i18n.language == "en" ? "10px" : "0",
+                  height: "44px",
+                  width: "100%",
+                  // backgroundColor: "#DADFE4",
+                  fontSize: "15px",
                 }}
-              /> */}
+                countrySelectorStyleProps={{
+                  flagStyle: {
+                    borderRadius: "20px",
+                    height: "20px",
+                    objectFit: "fill",
+                  },
+                  buttonStyle: {
+                    width: "60px",
+                    height: "44px",
+                    borderTopLeftRadius: i18n.language == "ar" ? "0" : "10px",
+                    borderBottomLeftRadius:
+                      i18n.language == "ar" ? "0" : "10px",
+                    borderTopRightRadius: i18n.language == "ar" ? "10px" : "0",
+                    borderBottomRightRadius:
+                      i18n.language == "ar" ? "10px" : "0",
+                    // backgroundColor: "#DADFE4",
+                  },
+                }}
+                prefix="+"
+              />
               {!Phone && (
                 <p
                   className={`text-rose-600 absolute text-lg  ${
@@ -291,7 +322,7 @@ const ContactUsLanding = () => {
                   *
                 </p>
               )}
-              <input
+              {/* <input
                 dir={i18n.language == "en" ? "ltr" : "rtl"}
                 type="tel"
                 placeholder={t("Phone number")}
@@ -303,7 +334,7 @@ const ContactUsLanding = () => {
                     ? "rounded-l-none rounded-lg"
                     : "rounded-r-none rounded-lg"
                 }  ${phoneError ? "border-[1px] border-rose-500" : ""} `}
-              />
+              /> */}
             </div>
           </div>
           <div className="message relative">
