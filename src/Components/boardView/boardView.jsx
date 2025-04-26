@@ -46,7 +46,6 @@ const BoardView = ({
   sDate,
   eDate,
 }) => {
- 
   return (
     <div className="box bg-white rounded-lg shadow-sm p-2 flex flex-col  col-span-1">
       <div className="tagName flex justify-center">
@@ -78,18 +77,20 @@ const BoardView = ({
               {ProgressValue} %
             </span>
           </div>
-          <Progress
-            value={ProgressValue}
-            color="purple"
-            trackColor="gray"
-            barProps={{
-              style: {
-                height: "5px",
-                backgroundColor: "purple",
-              },
-            }}
-            size="sm"
-          />
+          <div className="pe-3">
+            <Progress
+              value={ProgressValue}
+              color="purple"
+              trackColor="gray"
+              barProps={{
+                style: {
+                  height: "5px",
+                  backgroundColor: "purple",
+                },
+              }}
+              size="sm"
+            />
+          </div>
         </div>
       )}
 

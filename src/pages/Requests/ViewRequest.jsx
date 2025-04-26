@@ -150,10 +150,10 @@ const ViewRequest = () => {
       .catch((err) => console.log(err));
   }
   const handleApprove = async (e) => {
-    if (!Comment) {
-      return;
-    }
-    console.log("ahmed");
+    // if (!Comment) {
+    //   return;
+    // }
+
     try {
       // Prepare payload dynamically based on roles
       const getApprovalPayload = () => {
@@ -296,6 +296,7 @@ const ViewRequest = () => {
       )}
     </div>
   );
+  console.log(model);
   return (
     <div className="ViewRequest">
       <div className="header bg-white p-4 rounded-l-3xl">
@@ -1318,17 +1319,39 @@ const ViewRequest = () => {
           </div>
         )}
         <div className="flex items-center  justify-between flex-row-reverse">
-          {((IsOwner && model?.ownerStatus === "pending") ||
+          {/* {((IsOwner && model?.ownerStatus === "pending") ||
             (IsConsultant && model?.consultantStatus === "pending") ||
             (IsContractor && model?.contractorStatus === "pending")) && (
             <div className="flex right-0 my-2 items-center gap-3 justify-end">
               <Button onClick={handleApprove}>{t("approve")}</Button>
             </div>
-          )}
+          )} */}
+
+          {user?._id == projectData?.owner?._id &&
+            model?.consultantStatus == "approved" &&
+            model?.ownerStatus != "approved" &&
+            model?.contractorStatus == "approved" && (
+              <div className="flex right-0 my-2 items-center gap-3 justify-end">
+                <Button onClick={handleApprove}>{t("approve")}</Button>
+              </div>
+            )}
+
+          {user?._id == projectData?.consultant?._id &&selectedActionCodes&&
+            model?.consultantStatus != "approved" && (
+              <div className="flex right-0 my-2 items-center gap-3 justify-end">
+                <Button onClick={handleApprove}>{t("approve")}</Button>
+              </div>
+            )}
+          {user?._id == projectData?.contractor?._id &&
+            model?.contractorStatus != "approved" && (
+              <div className="flex right-0 my-2 items-center gap-3 justify-end">
+                <Button onClick={handleApprove}>{t("approve")}</Button>
+              </div>
+            )}
           {user?._id == projectData?.contractor?._id &&
             model?.discipline &&
-            model.consultantStatus == "approved" &&
-            model.contractorStatus != "approved" && (
+            model?.consultantStatus == "approved" &&
+            model?.contractorStatus != "approved" && (
               <Button onClick={handleReject}>{t("reject")}</Button>
             )}
         </div>

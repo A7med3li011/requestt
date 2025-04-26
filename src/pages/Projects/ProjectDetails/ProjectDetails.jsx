@@ -85,7 +85,7 @@ const ProjectDetails = () => {
       }
     };
     fetchProject();
-  }, [projectId, status]);
+  }, [projectId]);
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -156,6 +156,7 @@ const ProjectDetails = () => {
                 Project?.owner?._id == user._id) && (
                 <div className="p-4">
                   <Select
+                    isClearable={false}
                     label="Status"
                     id="status"
                     options={allStatus.map(({ value, name }) => ({

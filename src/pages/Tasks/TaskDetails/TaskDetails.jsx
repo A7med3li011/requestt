@@ -86,13 +86,12 @@ const TaskDetails = () => {
       }
     };
     fetchTask();
-  }, [status, taskId]);
+  }, [taskId]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
   async function updateTaskStatus(val) {
-    console.log("asdasd");
     await axios
       .put(`https://api.request-sa.com/api/v1/task?lang=ar`, {
         taskId,
@@ -102,9 +101,6 @@ const TaskDetails = () => {
       .catch((err) => console.log(err));
   }
 
-  // useEffect(() => {
-  //   updateTaskStatus();
-  // }, [status]);
   const getUpdatedFields = () => {
     const updatedFields = {};
 
@@ -219,6 +215,7 @@ const TaskDetails = () => {
         Task?.project?.owner == user._id) && (
         <div>
           <Select
+            isClearable={false}
             label="Status"
             id="status"
             options={allStatus.map(({ value, name }) => ({
@@ -273,10 +270,12 @@ const TaskDetails = () => {
                     "--CircularProgress-progressShadowBlur": "10px",
                     "--CircularProgress-progressShadowOffset": "0px 2px",
                   }}
-                  value={Task?.progress}
+                  value={status == "completed" ? 100 : Task?.progress}
                   variant="solid"
                 >
-                  {`${Math.round(Task?.progress)}%`}
+                  {`${
+                    status == "completed" ? "100" : Math.round(Task?.progress)
+                  }%`}
                 </CircularProgress>
               </div>
             )}
