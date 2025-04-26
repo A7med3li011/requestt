@@ -118,22 +118,47 @@ export function SignatureBtn({ onSignatureChange, company }) {
   };
 
   const handleSaveSignature = () => {
+    // if (signaturePadRef.current) {
+    //   console.log(signaturePadRef.current);
+    //   const trimmedCanvas = signaturePadRef.current.getTrimmedCanvas();
+    //   trimmedCanvas;
+    //   const dataUrl = trimmedCanvas.toDataURL("image/png");
+    //   setPreview(dataUrl);
+    //   localStorage.setItem("Signature", dataUrl);
+
+    //   if (onSignatureChange) {
+    //     onSignatureChange(dataUrl); // Pass back to parent
+    //   }
+
+    //   handleOpen(); // Close the dialog after saving
+    // } else {
+    //   toast.error("Please draw your signature first.");
+    // }
+
     if (signaturePadRef.current) {
-      console.log(signaturePadRef.current);
       const trimmedCanvas = signaturePadRef.current.getTrimmedCanvas();
-      trimmedCanvas;
       const dataUrl = trimmedCanvas.toDataURL("image/png");
       setPreview(dataUrl);
       localStorage.setItem("Signature", dataUrl);
 
-      if (onSignatureChange) {
-        onSignatureChange(dataUrl); // Pass back to parent
-      }
+      // Create a download link
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "signature.png";
+      document.body.appendChild(link);
+      link.click();
+      console.log(link);
+      document.body.removeChild(link);
 
-      handleOpen(); // Close the dialog after saving
+      if (onSignatureChange) {
+        onSignatureChange(dataUrl);
+      }
+      // handleOpen();
     } else {
       toast.error("Please draw your signature first.");
     }
+
+    console.log("Ahmed");
   };
 
   const handleImageUpload = async (e) => {
