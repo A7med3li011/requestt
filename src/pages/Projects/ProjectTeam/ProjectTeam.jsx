@@ -4,6 +4,7 @@ import {
   addMemberForProject,
   deleteMemberFromProjectTeam,
   getAllMembersByProject,
+  getAllTagsByProject,
   getAllTagsByUser,
   getAllVocations,
   getMembersByProject,
@@ -219,7 +220,7 @@ const ProjectTeam = () => {
         ] = await Promise.all([
           getAllVocations(user._id, lang),
           // getAllProjectsForUser(user._id, token),
-          getAllTagsByUser(user._id),
+          getAllTagsByProject(projectId, lang),
           getAllMembersByProject(projectId, lang),
         ]);
 
@@ -228,7 +229,7 @@ const ProjectTeam = () => {
 
         // setProjects(projectsResponse.results);
         setTags(
-          TagsRes.results.map((tag) => ({
+          TagsRes.tags.map((tag) => ({
             value: tag._id,
             label: tag.name,
             colorCode: tag.colorCode,

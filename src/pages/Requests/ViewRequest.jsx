@@ -593,21 +593,23 @@ const ViewRequest = () => {
         </div> */}
 
         <div className="flex gap-x-10">
-          <div className="w-fit">
+          <div className="w-fit flex flex-col items-center justify-center">
             <p className="font-semibold">{t("Reviewed by")}:</p>
-            {model?.consultantStatus == "approved" && (
-              <Image
-                src={model?.consultant?.profilePic}
-                alt="Signature"
-                className="w-full h-20"
-              />
-            )}
+            <div>
+              {model?.consultantStatus == "approved" && (
+                <Image
+                  src={model?.consultant?.signature}
+                  alt="Signature"
+                  className="w-full h-20"
+                />
+              )}
+            </div>
           </div>
-          <div className="w-fit">
+          <div className="w-fit flex flex-col items-center justify-center">
             <p className="font-semibold"> {t("Noted by")}:</p>
             {model?.ownerStatus == "approved" && (
               <Image
-                src={model?.owner?.profilePic}
+                src={model?.owner?.signature}
                 alt="Signature"
                 className="w-full h-20"
               />
@@ -657,7 +659,7 @@ const ViewRequest = () => {
               <label className="text-sm"> {t("Discipline")}</label>
               <input
                 disabled
-                className="bg-white border  my-1 text-gray-500  text-gray border-solid border-gray rounded-2xl p-2"
+                className="bg-white border  my-1  text-gray border-solid border-gray rounded-2xl p-2"
                 value={model?.discipline?.name}
               />
             </div>
@@ -1312,7 +1314,7 @@ const ViewRequest = () => {
               {model?.contractor?.name}
             </span>
             <Image
-              src={model?.contractor?.profilePic}
+              src={model?.contractor?.signature}
               alt="Signature"
               className="w-20 h-20"
             />
@@ -1336,7 +1338,8 @@ const ViewRequest = () => {
               </div>
             )}
 
-          {user?._id == projectData?.consultant?._id &&selectedActionCodes&&
+          {user?._id == projectData?.consultant?._id &&
+            selectedActionCodes &&
             model?.consultantStatus != "approved" && (
               <div className="flex right-0 my-2 items-center gap-3 justify-end">
                 <Button onClick={handleApprove}>{t("approve")}</Button>

@@ -257,7 +257,7 @@ const RequestForm = ({
           qty: QTY,
           boqItemNo: BOQ,
           deliveryNoteNo: deliveryNote,
-         
+
           approvedMaterialSubmittalNo: approvedMaterial,
           supplier,
           type: "requestForMaterialAndEquipment",
@@ -344,7 +344,6 @@ const RequestForm = ({
     // setCommentInput("");
   };
 
-  
   return (
     <div className="RequestForm">
       {loading ? (
@@ -554,6 +553,7 @@ const RequestForm = ({
                           "Discipline Selected:", e;
                           setSelectedDisciplines(e);
                         }}
+                        labelclassName={"font-bold mx-0"}
                         className={`bg-white `}
                         InputClassName={`border border-gray  rounded-2xl `}
                       />

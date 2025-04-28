@@ -12,7 +12,7 @@ const customStyles = {
     padding: "2px 5px",
     minHeight: "40px",
     boxShadow: "none",
-    
+
     "&:hover": { borderColor: "black" },
   }),
   placeholder: (provided) => ({
@@ -46,6 +46,7 @@ const customStyles = {
 };
 
 const Select = ({
+  labelclassName,
   label,
   id,
   options = [],
@@ -135,7 +136,9 @@ const Select = ({
     <div className={`Input_container flex flex-col ${className}`}>
       {label && (
         <label
-          className="Input_label mb-1 flex items-center justify-start gap-2 font-jost text-base font-medium mx-2"
+          className={`Input_label mb-1 flex items-center justify-start gap-2 font-jost text-base ${
+            labelclassName ? labelclassName : "font-medium"
+          }  mx-2 `}
           htmlFor={id}
         >
           {label}
@@ -153,7 +156,7 @@ const Select = ({
         isMulti={isMulti}
         classNamePrefix="select"
         className={InputClassName}
-        styles={ customStyles}
+        styles={customStyles}
         isLoading={loading}
         {...rest}
       />

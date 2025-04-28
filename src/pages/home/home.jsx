@@ -216,7 +216,14 @@ const Home = () => {
                                 state={{ taskId: task._id }}
                               >
                                 <BoardView
-                                  ProgressValue={task?.progress}
+                                  ProgressValue={Math.floor(
+                                    Math.min(
+                                      100,
+                                      (task?.approvedQuantity /
+                                        task?.requiredQuantity) *
+                                        100
+                                    )
+                                  )}
                                   NameOfTask={task.title}
                                   Tagname={"Project"}
                                   taskPriority={task.taskPriority}

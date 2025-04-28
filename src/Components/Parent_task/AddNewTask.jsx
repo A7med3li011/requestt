@@ -17,6 +17,13 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import i18n from "../../config/i18n";
 import axios from "axios";
 import { toast } from "react-toastify";
+function formatBudget(amount) {
+  // Convert amount to string if it's not already a string
+  let numericValue = String(amount).replaceAll(/\D/g, "");
+
+  // Add commas as thousand separators
+  return numericValue.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 export const AddNewTask = ({ newTask, task, setReFetch }) => {
   const user = useSelector((state) => state.auth.user);
@@ -161,7 +168,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
 
     setPrice(0);
     setQuantity(0);
-    setTotal(0);
+    setTotal("");
     setSelectedMember("");
     setSelectedPriority("");
     setSelectedUnit("");
@@ -355,7 +362,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
               <div className="mt-[1px]">
                 <label className="text-base font-normal">{t("Priority")}</label>
                 <select
-                  className={`w-full rounded-lg  px-3  h-[45px] py-3  focus:outline-none border-[1px] border-black  ${
+                  className={`w-full rounded-lg  px-3  h-[45px] py-3 font-normal  focus:outline-none border-[1px] border-black  ${
                     fieldErrors.priority && "border-red"
                   }`}
                   value={selectedPriority}
@@ -387,7 +394,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                 <div className="mt-[1px]">
                   <label className="text-base font-normal">{t("tag")}</label>
                   <select
-                    className={`w-full rounded-lg   px-3 py-[10px]  focus:outline-none border-[1px] border-black  `}
+                    className={`w-full rounded-lg   px-3 py-[10px]  font-normal focus:outline-none border-[1px] border-black  `}
                     value={selectedTag}
                     onChange={(e) => setSelectedTag(e.target.value)}
                   >
@@ -465,7 +472,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                   {t("Responsible Person")}
                 </label>
                 <select
-                  className={`w-full rounded-lg  px-3 py-[10px]  focus:outline-none border-[1px] border-black  ${
+                  className={`w-full rounded-lg  px-3 py-[10px] font-normal  focus:outline-none border-[1px] border-black  ${
                     fieldErrors.member && "border-red"
                   }`}
                   value={SelectedMember}
@@ -498,19 +505,15 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
 
             <div className="grid grid-cols-2  ps-2 lg:grid-cols-4 gap-x-4 mt-3">
               <Input
-                type="number"
+                type="text"
                 min={0}
-                value={Price}
+                value={formatBudget(Price)}
                 label={t("Price")}
                 onChange={(e) => {
-                  const value = e.target.value;
-                  if (value !== "" && !isNaN(Number(value))) {
-                    const newPrice = Number(value);
-                    setPrice(newPrice);
-                    calculateTotal(newPrice, Quantity);
-                  } else {
-                    setPrice("");
-                  }
+                  // const value = e.target.value;
+                  // const newPrice = Number(value);
+                  setPrice(e.target.value);
+                  calculateTotal(+e.target.value.replaceAll(",", ""), Quantity);
                 }}
                 onKeyDown={(e) => {
                   // Prevent typing +, - and e (which can appear in scientific notation)
@@ -532,7 +535,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                   if (value !== "" && !isNaN(Number(value))) {
                     const newQuantity = Number(value);
                     setQuantity(newQuantity);
-                    calculateTotal(Price, newQuantity);
+                    calculateTotal(+Price.replaceAll(",", ""), newQuantity);
                   } else {
                     setQuantity("");
                   }
@@ -552,9 +555,9 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                   
                     `}
                 label={t("Total")}
-                type="number"
-                min={0}
-                value={Total}
+                type="text"
+                placeholder={"0"}
+                value={formatBudget(new String(Total))}
                 disabled
               />
               <div className="">
@@ -562,7 +565,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
                   {t("Unit")}
                 </label>
                 <select
-                  className={`w-full rounded-lg  px-3 py-[10px] focus:outline-none border-[1px] border-black ${
+                  className={`w-full rounded-lg  px-3 py-[10px] font-normal focus:outline-none border-[1px] border-black ${
                     fieldErrors.unit && "border-red"
                   }`}
                   value={selectedUnit}

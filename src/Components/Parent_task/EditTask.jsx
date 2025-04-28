@@ -14,6 +14,14 @@ import Button from "../UI/Button/Button";
 import { BiEdit } from "react-icons/bi";
 import { useLocation } from "react-router-dom";
 
+function formatBudget(amount) {
+  // Convert amount to string if it's not already a string
+  let numericValue = String(amount).replaceAll(/\D/g, "");
+
+  // Add commas as thousand separators
+  return numericValue.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 export const EditTask = ({ task, onUpdateTask }) => {
   const location = useLocation();
   const { members } = location.state || {};
@@ -197,7 +205,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
       setFieldErrors({});
     }
   };
-  console.log(task?.unit?._id);
+
   return (
     <div className="EditSub">
       <button
@@ -298,8 +306,8 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   value={formData.priority}
                   InputClassName={`${
                     fieldErrors.priority
-                      ? "border  border-red rounded-2xl "
-                      : ""
+                      ? "border  border-red rounded-2xl font-normal "
+                      : "font-normal"
                   }`}
                   onChange={(value) => handleSelectChange("priority", value)}
                   options={[
@@ -318,7 +326,9 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   value={formData.tag}
                   loading={TagLoading}
                   InputClassName={`${
-                    fieldErrors.tag ? "border  border-red rounded-2xl " : ""
+                    fieldErrors.tag
+                      ? "border  border-red rounded-2xl font-normal "
+                      : "font-normal"
                   }`}
                   onChange={(value) => handleSelectChange("tag", value)}
                   options={Tags}
@@ -333,7 +343,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   id="assignees"
                   isMulti={false}
                   value={formData.assignees}
-                  InputClassName={` `}
+                  InputClassName={` font-normal`}
                   onChange={(value) => handleSelectChange("assignees", value)}
                   options={members?.map((member) => ({
                     value: member._id,
@@ -430,7 +440,7 @@ export const EditTask = ({ task, onUpdateTask }) => {
                   loading={unitsLoading}
                   InputClassName={` ${
                     fieldErrors.unit && "border-red  border rounded-2xl"
-                  }`}
+                  } font-normal`}
                   onChange={(value) => handleSelectChange("unit", value)}
                   options={units}
                 />

@@ -150,15 +150,18 @@ const TaskDetails = () => {
   };
 
   const calculateProgress = (task) => {
-    if (Task.executedQuantity && Task.requiredQuantity) {
-      const progressValue = Math.min(
+    console.log("progressValue");
+    let progressValue = 0;
+    if (Task.approvedQuantity && Task.requiredQuantity) {
+      progressValue = Math.min(
         100,
-        (Task.executedQuantity / Task.requiredQuantity) * 100
+        (Task.approvedQuantity / Task.requiredQuantity) * 100
       );
-      setProgress(progressValue);
     } else {
       setProgress(0);
     }
+
+    return progressValue;
   };
 
   useEffect(() => {
@@ -270,11 +273,29 @@ const TaskDetails = () => {
                     "--CircularProgress-progressShadowBlur": "10px",
                     "--CircularProgress-progressShadowOffset": "0px 2px",
                   }}
-                  value={status == "completed" ? 100 : Task?.progress}
+                  value={
+                    status == "completed"
+                      ? 100
+                      : Math.floor(
+                          Math.min(
+                            100,
+                            (Task?.approvedQuantity / Task?.requiredQuantity) *
+                              100
+                          )
+                        )
+                  }
                   variant="solid"
                 >
                   {`${
-                    status == "completed" ? "100" : Math.round(Task?.progress)
+                    status == "completed"
+                      ? "100"
+                      : Math.floor(
+                          Math.min(
+                            100,
+                            (Task?.approvedQuantity / Task?.requiredQuantity) *
+                              100
+                          )
+                        )
                   }%`}
                 </CircularProgress>
               </div>
@@ -514,7 +535,13 @@ const TaskDetails = () => {
               label={t("Executed quantity")}
               value={Task.executedQuantity}
               disabled={!(isEditing && user.role.jobTitle === "contractor")}
-              onChange={(e) => handleInputChange(e, "executedQuantity")}
+              onChange={(e) => {
+                if (+e.target.value > Task?.requiredQuantity) {
+                  return;
+                } else {
+                  handleInputChange(e, "executedQuantity");
+                }
+              }}
               className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid`}
             />
             <Input
@@ -523,7 +550,13 @@ const TaskDetails = () => {
               max={Task.requiredQuantity}
               label={t("Approved quantity")}
               value={Task.approvedQuantity}
-              onChange={(e) => handleInputChange(e, "approvedQuantity")}
+              onChange={(e) => {
+                if (+e.target.value > Task?.requiredQuantity) {
+                  return;
+                } else {
+                  handleInputChange(e, "approvedQuantity");
+                }
+              }}
               disabled={!(isEditing && user.role.jobTitle === "consultant")}
               className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid`}
             />
@@ -535,7 +568,13 @@ const TaskDetails = () => {
               label={t("invoiced quantity")}
               value={Task.invoicedQuantity}
               disabled={!(isEditing && user.role.jobTitle === "owner")}
-              onChange={(e) => handleInputChange(e, "invoicedQuantity")}
+              onChange={(e) => {
+                if (+e.target.value > Task?.requiredQuantity) {
+                  return;
+                } else {
+                  handleInputChange(e, "invoicedQuantity");
+                }
+              }}
               className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid`}
             />
           </div>
