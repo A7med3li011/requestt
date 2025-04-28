@@ -362,7 +362,7 @@ export const AddNewTask = ({ newTask, task, setReFetch }) => {
               <div className="mt-[1px]">
                 <label className="text-base font-normal">{t("Priority")}</label>
                 <select
-                  className={`w-full rounded-lg  px-3  h-[45px] py-3 font-normal  focus:outline-none border-[1px] border-black  ${
+                  className={`w-full rounded-lg  px-3  py-[10px]   font-normal  focus:outline-none border-[1px] border-black  ${
                     fieldErrors.priority && "border-red"
                   }`}
                   value={selectedPriority}

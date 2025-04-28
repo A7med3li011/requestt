@@ -64,17 +64,19 @@ const ListView = ({
           <MdMessage className="text-yellow w-4 h-4" />
         </div>
       </div>
-      <div className="name flex justify-between items-center mx-1 md:mx-2 my-3">
-        <p className="font-inter font-medium text-xs leading-5">{NameOfTask}</p>
+      <div className="name flex justify-between items-center   w-1/5 text-center md:mx-2 my-3">
+        <p className="font-inter font-medium text-xs leading-5 w-full ">
+          {NameOfTask}
+        </p>
       </div>
-      <div className="chips flex items-center justify-start gap-2">
+      <div className="chips flex items-center justify-between gap-2   w-1/4 text-center">
         <span
-          className={`${taskPriority} font-inter font-semibold text-xs text-center py-1 px-1 md:px-2 rounded-3xl`}
+          className={`${taskPriority} font-inter md:w-1/3 font-semibold text-xs text-center py-1 px-1 md:px-2 rounded-3xl`}
         >
           {t(taskPriority)}
         </span>
         <span
-          className={`${status} font-inter font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
+          className={`${status} font-inter  md:-1/3 font-semibold text-xs text-center py-1 px-2 rounded-3xl`}
         >
           {t(status)}
         </span>

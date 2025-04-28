@@ -538,7 +538,13 @@ const TaskDetails = () => {
               max={Task.requiredQuantity}
               label={t("Executed quantity")}
               value={Task.executedQuantity}
-              disabled={!(isEditing && user.role.jobTitle === "contractor")}
+              disabled={
+                !(
+                  isEditing &&
+                  user.role.jobTitle === "contractor" &&
+                  user.access.edit == true
+                )
+              }
               onChange={(e) => {
                 if (+e.target.value > Task?.requiredQuantity) {
                   return;
@@ -555,13 +561,22 @@ const TaskDetails = () => {
               label={t("Approved quantity")}
               value={Task.approvedQuantity}
               onChange={(e) => {
-                if (+e.target.value > Task?.requiredQuantity || +e.target.value > Task?.executedQuantity ) {
+                if (
+                  +e.target.value > Task?.requiredQuantity ||
+                  +e.target.value > Task?.executedQuantity
+                ) {
                   return;
                 } else {
                   handleInputChange(e, "approvedQuantity");
                 }
               }}
-              disabled={!(isEditing && user.role.jobTitle === "consultant")}
+              disabled={
+                !(
+                  isEditing &&
+                  user.role.jobTitle === "consultant" &&
+                  user.access.edit == true
+                )
+              }
               className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid`}
             />
 
@@ -571,7 +586,13 @@ const TaskDetails = () => {
               max={Task.requiredQuantity}
               label={t("invoiced quantity")}
               value={Task.invoicedQuantity}
-              disabled={!(isEditing && user.role.jobTitle === "owner")}
+              disabled={
+                !(
+                  isEditing &&
+                  user.role.jobTitle === "owner" &&
+                  user.access.edit == true
+                )
+              }
               onChange={(e) => {
                 if (+e.target.value > Task?.requiredQuantity) {
                   return;
