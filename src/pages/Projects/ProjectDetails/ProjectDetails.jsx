@@ -151,7 +151,7 @@ const ProjectDetails = () => {
               </div>
             </div>
 
-            <div>
+           {user.access.edit == true && <div>
               {(Project?.consultant?._id == user._id ||
                 Project?.owner?._id == user._id) && (
                 <div className="p-4">
@@ -169,7 +169,7 @@ const ProjectDetails = () => {
                   />
                 </div>
               )}
-            </div>
+            </div>}
             {user?.plan?.name === "RequestPlus" && (
               <>
                 <div className="fullBudget  col-span-1  h-[140px]  relative w-full  bg-white  p-6 rounded-3xl">
@@ -387,7 +387,7 @@ const ProjectDetails = () => {
                 label={t("location")}
                 placeholder={Project.location || t("location")}
               />
-              <div className="flex right-0 my-2 items-center justify-end">
+             {user.access.edit == true && <div className="flex right-0 my-2 items-center justify-end">
                 <Link
                   to={"/AddProject/Invite"}
                   state={{
@@ -412,7 +412,7 @@ const ProjectDetails = () => {
                     <IoPrint className="h-7 w-7 text-yellow" />
                   </span>
                 </button>
-              </div>
+              </div>}
               <div className="flex right-0 my-2 items-center gap-3 justify-end">
                 {/* <Button
                   className="w-fit px-7 border border-solid !border-purple !text-purple"

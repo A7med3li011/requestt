@@ -11,6 +11,7 @@ import Loader from "../../../Components/Loader/Loader";
 const ViewAllModels = () => {
   const location = useLocation();
   const token = useSelector((state) => state.auth.token);
+  const user = useSelector((state) => state.auth.user);
   const { projectId, projectName, members, taskId, TaskName } =
     location.state || {};
   location.state;
@@ -18,7 +19,6 @@ const ViewAllModels = () => {
   const [loading, setLoading] = useState(false);
   const [Models, setModels] = useState([]);
 
-  
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -55,7 +55,7 @@ const ViewAllModels = () => {
           <div
             className={`content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-4`}
           >
-            <Link
+          {user.access.create == true &&  <Link
               to={`/Models`}
               state={{
                 projectId,
@@ -72,7 +72,7 @@ const ViewAllModels = () => {
               <span className={`text-linear font-inter font-bold  text-2xl `}>
                 {t("AddModel")}
               </span>
-            </Link>
+            </Link>}
             {Models?.length > 0 && (
               <>
                 {Models?.map((model, index) => (

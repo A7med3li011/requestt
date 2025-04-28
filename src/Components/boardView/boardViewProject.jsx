@@ -58,7 +58,7 @@ const BoardViewProject = ({
   // const memoizedOnApprove = useCallback(onApprove, [onApprove]);
   // const memoizedOnCancel = useCallback(onCancel, [onCancel]);
   const statusDisplay = useMemo(() => getStatusDisplay(Status), [Status]);
-  console.log(statusDisplay);
+  
   return (
     <div className="box h-full bg-white rounded-md shadow-sm p-2 flex flex-col col-span-1">
       <div className="tagName flex justify-center">

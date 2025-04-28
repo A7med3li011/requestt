@@ -217,21 +217,23 @@ const TaskDetails = () => {
       {(Task?.project?.consultant == user._id ||
         Task?.project?.owner == user._id) && (
         <div>
-          <Select
-            isClearable={false}
-            label="Status"
-            id="status"
-            options={allStatus.map(({ value, name }) => ({
-              value,
-              label: t(name), // react-select expects label instead of name
-            }))}
-            value={status}
-            onChange={(val) => {
-              setStatus(val);
-              updateTaskStatus(val);
-            }}
-            placeholder={`${t(status) || t(Task.taskStatus)}`}
-          />
+          {user.access.edit == true && (
+            <Select
+              isClearable={false}
+              label="Status"
+              id="status"
+              options={allStatus.map(({ value, name }) => ({
+                value,
+                label: t(name), // react-select expects label instead of name
+              }))}
+              value={status}
+              onChange={(val) => {
+                setStatus(val);
+                updateTaskStatus(val);
+              }}
+              placeholder={`${t(status) || t(Task.taskStatus)}`}
+            />
+          )}
         </div>
       )}
       <div className="wrapper bg-white grid grid-cols-2 rounded-3xl m-2 ">
@@ -433,18 +435,20 @@ const TaskDetails = () => {
           ) : (
             Task.parentTask === null && (
               <div className="flex right-0 my-2 items-center gap-3 justify-end">
-                <Link
-                  to={`/AddTask/${Task.project._id}`}
-                  state={{
-                    projectId: Task.project._id,
-                    taskType: Task.type,
-                    members: Task.assignees,
-                    ParentId: Task._id,
-                    subTask: true,
-                  }}
-                >
-                  <Button className="w-fit px-7">{t("AddSubTask")}</Button>
-                </Link>
+                {user.access.create == true && (
+                  <Link
+                    to={`/AddTask/${Task.project._id}`}
+                    state={{
+                      projectId: Task.project._id,
+                      taskType: Task.type,
+                      members: Task.assignees,
+                      ParentId: Task._id,
+                      subTask: true,
+                    }}
+                  >
+                    <Button className="w-fit px-7">{t("AddSubTask")}</Button>
+                  </Link>
+                )}
 
                 <Link
                   to={`/SubTasks/${Task._id}`}
@@ -551,7 +555,7 @@ const TaskDetails = () => {
               label={t("Approved quantity")}
               value={Task.approvedQuantity}
               onChange={(e) => {
-                if (+e.target.value > Task?.requiredQuantity) {
+                if (+e.target.value > Task?.requiredQuantity || +e.target.value > Task?.executedQuantity ) {
                   return;
                 } else {
                   handleInputChange(e, "approvedQuantity");

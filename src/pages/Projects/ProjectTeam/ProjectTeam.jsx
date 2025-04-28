@@ -555,15 +555,17 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    <button
-                      className="text-red"
-                      onClick={() => {
-                        setSelectedUserId(member._id);
-                        handleOpen();
-                      }}
-                    >
-                      <MdDelete className="w-5 h-5" />
-                    </button>
+                    {user.access.delete == true && (
+                      <button
+                        className="text-red"
+                        onClick={() => {
+                          setSelectedUserId(member._id);
+                          handleOpen();
+                        }}
+                      >
+                        <MdDelete className="w-5 h-5" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               </>
@@ -598,15 +600,17 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    <button
-                      className="text-red"
-                      onClick={() => {
-                        setSelectedUserId(member._id);
-                        handleOpen();
-                      }}
-                    >
-                      <MdDelete className="w-5 h-5" />
-                    </button>
+                    {user.access.delete == true && (
+                      <button
+                        className="text-red"
+                        onClick={() => {
+                          setSelectedUserId(member._id);
+                          handleOpen();
+                        }}
+                      >
+                        <MdDelete className="w-5 h-5" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               </>
@@ -641,15 +645,17 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    <button
-                      className="text-red"
-                      onClick={() => {
-                        setSelectedUserId(member._id);
-                        handleOpen();
-                      }}
-                    >
-                      <MdDelete className="w-5 h-5" />
-                    </button>
+                    {user.access.delete == true && (
+                      <button
+                        className="text-red"
+                        onClick={() => {
+                          setSelectedUserId(member._id);
+                          handleOpen();
+                        }}
+                      >
+                        <MdDelete className="w-5 h-5" />
+                      </button>
+                    )}
                   </td>
                 </tr>
               </>
@@ -761,90 +767,93 @@ const ProjectTeam = () => {
         </Accordion>
       </div> */}
 
-      <div className="AddNewAccess bg-white rounded-3xl m-2 p-4">
-        <form
-          onSubmit={handleSubmit}
-          className="form grid grid-cols-4 gap-2 max-w-5xl"
-        >
-          <div className="col-span-4 lg:col-span-2">
-            <Input
-              type={"email"}
-              name="email"
-              label={t("Email")}
-              placeholder={t("Email")}
-              autoComplete={"email"}
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-              onChange={(e) => setEmail(e.target.value)}
-              value={Email}
-              hasError={fieldErrors.Email}
-              icon={<CiMail />}
-            />
-          </div>
-          <div className="col-span-4 lg:col-span-2">
-            <Input
-              type={isPasswordVisible ? "text" : "password"}
-              name="password"
-              label={t("Password")}
-              placeholder={t("Password")}
-              autoComplete={"new-password"}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              value={Password}
-              isPassword
-              togglePasswordVisibility={togglePasswordVisibility}
-            />
-          </div>
-          <div className="col-span-4 lg:col-span-2 ">
-            <Input
-              type="text"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              label={t("Name")}
-              value={Name}
-              placeholder={t("Name")}
-              required
-              icon={<MdOutlinePerson />}
-            />
-          </div>
-          <div className="col-span-4 lg:col-span-2 relative flex mt-5  w-full">
-            <Menu placement="bottom-start">
-              <MenuHandler>
-                <Btn
-                  ripple={false}
-                  variant="text"
-                  color="blue-gray"
-                  className="flex h-10 items-center gap-2  ltr:rounded-r-none rtl:rounded-l-none border ltr:border-r-0 rtl:border-l-0 border-[#EeEE] border-solid pl-3"
-                >
-                  <img
-                    src={flags.svg}
-                    alt={name}
-                    className="h-4 w-4 rounded-full object-cover"
-                  />
-                  {countryCallingCode}
-                </Btn>
-              </MenuHandler>
-              <MenuList className="max-h-[20rem] max-w-[18rem]">
-                {countries.map(({ name, flags, countryCallingCode }, index) => {
-                  return (
-                    <MenuItem
-                      key={name}
-                      value={name}
-                      className="flex items-center gap-2"
-                      onClick={() => setCountryIndex(index)}
-                    >
-                      <img
-                        src={flags.svg}
-                        alt={name}
-                        className="h-5 w-5 rounded-full object-cover"
-                      />
-                      {name}{" "}
-                      <span className="ml-auto">{countryCallingCode}</span>
-                    </MenuItem>
-                  );
-                })}
-              </MenuList>
-            </Menu>
-            {/* <MaterialInput
+      {user.access.create == true && (
+        <div className="AddNewAccess bg-white rounded-3xl m-2 p-4">
+          <form
+            onSubmit={handleSubmit}
+            className="form grid grid-cols-4 gap-2 max-w-5xl"
+          >
+            <div className="col-span-4 lg:col-span-2">
+              <Input
+                type={"email"}
+                name="email"
+                label={t("Email")}
+                placeholder={t("Email")}
+                autoComplete={"email"}
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                onChange={(e) => setEmail(e.target.value)}
+                value={Email}
+                hasError={fieldErrors.Email}
+                icon={<CiMail />}
+              />
+            </div>
+            <div className="col-span-4 lg:col-span-2">
+              <Input
+                type={isPasswordVisible ? "text" : "password"}
+                name="password"
+                label={t("Password")}
+                placeholder={t("Password")}
+                autoComplete={"new-password"}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                value={Password}
+                isPassword
+                togglePasswordVisibility={togglePasswordVisibility}
+              />
+            </div>
+            <div className="col-span-4 lg:col-span-2 ">
+              <Input
+                type="text"
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+                label={t("Name")}
+                value={Name}
+                placeholder={t("Name")}
+                required
+                icon={<MdOutlinePerson />}
+              />
+            </div>
+            <div className="col-span-4 lg:col-span-2 relative flex mt-5  w-full">
+              <Menu placement="bottom-start">
+                <MenuHandler>
+                  <Btn
+                    ripple={false}
+                    variant="text"
+                    color="blue-gray"
+                    className="flex h-10 items-center gap-2  ltr:rounded-r-none rtl:rounded-l-none border ltr:border-r-0 rtl:border-l-0 border-[#EeEE] border-solid pl-3"
+                  >
+                    <img
+                      src={flags.svg}
+                      alt={name}
+                      className="h-4 w-4 rounded-full object-cover"
+                    />
+                    {countryCallingCode}
+                  </Btn>
+                </MenuHandler>
+                <MenuList className="max-h-[20rem] max-w-[18rem]">
+                  {countries.map(
+                    ({ name, flags, countryCallingCode }, index) => {
+                      return (
+                        <MenuItem
+                          key={name}
+                          value={name}
+                          className="flex items-center gap-2"
+                          onClick={() => setCountryIndex(index)}
+                        >
+                          <img
+                            src={flags.svg}
+                            alt={name}
+                            className="h-5 w-5 rounded-full object-cover"
+                          />
+                          {name}{" "}
+                          <span className="ml-auto">{countryCallingCode}</span>
+                        </MenuItem>
+                      );
+                    }
+                  )}
+                </MenuList>
+              </Menu>
+              {/* <MaterialInput
               type="tel"
               value={Phone}
               onChange={handlePhoneChange}
@@ -857,144 +866,145 @@ const ProjectTeam = () => {
                 className: "min-w-0",
               }}
             /> */}
-            <input
-              dir={lang == "en" ? "ltr" : "rtl"}
-              type="tel"
-              min={11}
-              minLength={11}
-              maxLength={15}
-              // country={country.value}
-              placeholder={t("Phone number")}
-              value={Phone}
-              onChange={handlePhoneChange}
-              className={` mb-[1.5px] border-[1px]  w-full focus:outline-none  px-2 ${
-                lang == "en"
-                  ? "rounded-l-none rounded-lg"
-                  : "rounded-r-none rounded-lg"
-              }  `}
-            />
-          </div>
-          <div className="col-span-4">
-            <label
-              className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
-              htmlFor="vocation"
-            >
-              {t("Vocation")}
-            </label>
-            <Select
-              placeholder={t("Select Vocation")}
-              id="vocation"
-              isClearable
-              isLoading={loading}
-              options={vocations?.map((v) => ({
-                value: v._id,
-                label: lang == "en" ? v.nameEN : v.nameAR,
-              }))}
-              onChange={setSelectedVocation}
-              value={selectedVocation}
-              styles={customStyles}
-              components={{ MultiValue: AnimatedMultiValue }}
-            />
-          </div>
+              <input
+                dir={lang == "en" ? "ltr" : "rtl"}
+                type="tel"
+                min={11}
+                minLength={11}
+                maxLength={15}
+                // country={country.value}
+                placeholder={t("Phone number")}
+                value={Phone}
+                onChange={handlePhoneChange}
+                className={` mb-[1.5px] border-[1px]  w-full focus:outline-none  px-2 ${
+                  lang == "en"
+                    ? "rounded-l-none rounded-lg"
+                    : "rounded-r-none rounded-lg"
+                }  `}
+              />
+            </div>
+            <div className="col-span-4">
+              <label
+                className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
+                htmlFor="vocation"
+              >
+                {t("Vocation")}
+              </label>
+              <Select
+                placeholder={t("Select Vocation")}
+                id="vocation"
+                isClearable
+                isLoading={loading}
+                options={vocations?.map((v) => ({
+                  value: v._id,
+                  label: lang == "en" ? v.nameEN : v.nameAR,
+                }))}
+                onChange={setSelectedVocation}
+                value={selectedVocation}
+                styles={customStyles}
+                components={{ MultiValue: AnimatedMultiValue }}
+              />
+            </div>
 
-          <div className="col-span-4">
-            <label
-              className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
-              htmlFor="access"
-            >
-              {t("Tags")}
-            </label>
-            <Select
-              placeholder={t("Select Tag")}
-              id="Tags"
-              isClearable
-              isLoading={TagsLoading}
-              value={SelectedTags}
-              options={Tags}
-              onChange={setSelectedTags}
-              styles={customStyles}
-              isMulti
-            />
-          </div>
+            <div className="col-span-4">
+              <label
+                className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
+                htmlFor="access"
+              >
+                {t("Tags")}
+              </label>
+              <Select
+                placeholder={t("Select Tag")}
+                id="Tags"
+                isClearable
+                isLoading={TagsLoading}
+                value={SelectedTags}
+                options={Tags}
+                onChange={setSelectedTags}
+                styles={customStyles}
+                isMulti
+              />
+            </div>
 
-          <div className="col-span-4 flex items-center gap-5">
-            <label
-              className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
-              htmlFor="access"
-            >
-              {t("Access")}
-            </label>
+            <div className="col-span-4 flex items-center gap-5">
+              <label
+                className="Input_label flex items-center justify-start gap-2 font-jost text-base font-medium mx-2 cursor-pointer"
+                htmlFor="access"
+              >
+                {t("Access")}
+              </label>
 
-            <div className="read flex items-center gap-1 ">
-              <input
-                type="checkbox"
-                id="read"
-                checked={accessList.read}
-                onChange={(e) => changeReadValue(e.target.checked)}
-                className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
-              />
-              <label htmlFor="read" className="font-medium text-base">
-                {t("Read")}
-              </label>
+              <div className="read flex items-center gap-1 ">
+                <input
+                  type="checkbox"
+                  id="read"
+                  checked={accessList.read}
+                  onChange={(e) => changeReadValue(e.target.checked)}
+                  className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
+                />
+                <label htmlFor="read" className="font-medium text-base">
+                  {t("Read")}
+                </label>
+              </div>
+              <div className="Edit flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  id="Edit"
+                  checked={accessList.edit}
+                  onChange={(e) => changeEditValue(e.target.checked)}
+                  className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
+                />
+                <label htmlFor="write" className="font-medium text-base">
+                  {t("Edit")}
+                </label>
+              </div>
+              <div className="create flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  id="create"
+                  checked={accessList.create}
+                  onChange={(e) => changeCreateValue(e.target.checked)}
+                  className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
+                />
+                <label htmlFor="create" className="font-medium text-base">
+                  {t("Create")}
+                </label>
+              </div>
+              <div className="delete flex items-center gap-1">
+                <input
+                  type="checkbox"
+                  id="delete"
+                  checked={accessList.delete}
+                  onChange={(e) => changeDeleteValue(e.target.checked)}
+                  className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
+                />
+                <label htmlFor="delete" className="font-medium text-base">
+                  {t("Delete")}
+                </label>
+              </div>
             </div>
-            <div className="Edit flex items-center gap-1">
-              <input
-                type="checkbox"
-                id="Edit"
-                checked={accessList.edit}
-                onChange={(e) => changeEditValue(e.target.checked)}
-                className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
-              />
-              <label htmlFor="write" className="font-medium text-base">
-                {t("Edit")}
-              </label>
-            </div>
-            <div className="create flex items-center gap-1">
-              <input
-                type="checkbox"
-                id="create"
-                checked={accessList.create}
-                onChange={(e) => changeCreateValue(e.target.checked)}
-                className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
-              />
-              <label htmlFor="create" className="font-medium text-base">
-                {t("Create")}
-              </label>
-            </div>
-            <div className="delete flex items-center gap-1">
-              <input
-                type="checkbox"
-                id="delete"
-                checked={accessList.delete}
-                onChange={(e) => changeDeleteValue(e.target.checked)}
-                className="appearance-none w-3 h-3  lg:w-4 lg:h-4 border border-gray rounded-sm cursor-pointer checked:bg-purple checked:border-purple duration-500"
-              />
-              <label htmlFor="delete" className="font-medium text-base">
-                {t("Delete")}
-              </label>
-            </div>
-          </div>
-          {/* <Link className="underline underline-offset-1 text-base text-cyan-500 mx-2">
+            {/* <Link className="underline underline-offset-1 text-base text-cyan-500 mx-2">
             Advanced setting
           </Link> */}
 
-          {fieldErrors && (
-            <div className="flex justify-center  items-center">
-              <span className="text-red font-bold text-center p-2">
-                {t(fieldErrors.message)}
-              </span>
+            {fieldErrors && (
+              <div className="flex justify-center  items-center">
+                <span className="text-red font-bold text-center p-2">
+                  {t(fieldErrors.message)}
+                </span>
+              </div>
+            )}
+            <div className="btn flex items-center justify-center md:justify-end col-span-4 mt-5">
+              <Button
+                onClick={handleSubmit}
+                className={"px-0  text-sm lg:text-base"}
+              >
+                {t("add")}
+              </Button>
             </div>
-          )}
-          <div className="btn flex items-center justify-center md:justify-end col-span-4 mt-5">
-            <Button
-              onClick={handleSubmit}
-              className={"px-0  text-sm lg:text-base"}
-            >
-              {t("add")}
-            </Button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

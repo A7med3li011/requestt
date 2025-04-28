@@ -20,7 +20,7 @@ import i18next from "i18next";
 import axios from "axios";
 
 const AddTask = () => {
-  const { ProjectId } = useParams();
+  // const { ProjectId } = useParams();
   const lang = i18next.language;
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -190,7 +190,7 @@ const AddTask = () => {
         title: Name,
         description: Description,
         sDate: formattedSDate,
-        project: ProjectId,
+        project: projectId,
         dueDate: formattedEDate,
         taskPriority: selectedPriority,
         assignees: SelectedMember,
@@ -265,7 +265,6 @@ const AddTask = () => {
     setRecurringDates(updatedDates);
   };
 
-  console.log(Member);
   return (
     <div className="AddTask mx-1 relative">
       {Loading ? (

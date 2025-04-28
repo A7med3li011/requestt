@@ -4,21 +4,27 @@ import { FaBars } from "react-icons/fa";
 import { IoAddOutline } from "react-icons/io5";
 import { RiGalleryView2 } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
-import { getAllSubTasksByParentTask } from "../../../Services/api";
+import {
+  getAllSubTasksByParentTask,
+  getTaskDetails,
+} from "../../../Services/api";
 import BoardView from "../../../Components/boardView/boardView";
 import { format } from "date-fns";
 import avatar from "../../../assets/images/Avatar.jpg";
 import ListView from "../../../Components/ListView/listView";
 import Loader from "../../../Components/Loader/Loader";
+import { useSelector } from "react-redux";
 
 const AllSubTasks = () => {
   const location = useLocation();
   const { taskId, projectId, members } = location.state || {};
+  console.log(projectId);
   location.state;
-
+  const user = useSelector((state) => state.auth.user);
   const [viewMode, setViewMode] = useState("board");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [taskData, setTaskData] = useState("");
 
   const handleViewChange = (mode) => {
     setViewMode(mode);
@@ -30,6 +36,20 @@ const AllSubTasks = () => {
       try {
         const data = await getAllSubTasksByParentTask(taskId);
         setData(data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [location]);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const data = await getTaskDetails(taskId);
+        setTaskData(data.results);
         console.log(data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -39,7 +59,7 @@ const AllSubTasks = () => {
     };
     fetchData();
   }, [location]);
-  console.log(data);
+
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");
@@ -94,33 +114,35 @@ const AllSubTasks = () => {
               : "flex flex-col gap-3"
           } mt-4`}
         >
-          <Link
-            // to={`/AddTask/${projectId}`}
-            className={`AddTask ${
-              viewMode === "list"
-                ? "flex items-center justify-center text-2xl"
-                : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 h-[286px]"
-            } box bg-white   rounded-md shadow-sm p-5 `}
-            to={`/AddTask/${data[0]?.project}`}
-            state={{
-              projectId: data[0]?.project,
-              taskType: data[0]?.type,
-              members: data[0]?.assignees,
-              ParentId: data[0]?.parentTask?._id,
-              subTask: true,
-            }}
-          >
-            <span>
-              <IoAddOutline className="w-12 h-12 text-purple" />
-            </span>
-            <span
-              className={`text-linear font-inter font-bold  ${
-                viewMode === "board" ? "text-2xl" : "text-2xl"
-              } `}
+          {user.access.create == true && (
+            <Link
+              // to={`/AddTask/${projectId}`}
+              className={`AddTask ${
+                viewMode === "list"
+                  ? "flex items-center justify-center text-2xl"
+                  : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 h-[286px]"
+              } box bg-white   rounded-md shadow-sm p-5 `}
+              to={`/AddTask/${data[0]?.project}`}
+              state={{
+                projectId: projectId,
+                taskType: taskData?.type,
+                members: taskData?.assignees,
+                ParentId: taskData._id,
+                subTask: true,
+              }}
             >
-              {t("AddSubTask")}
-            </span>
-          </Link>
+              <span>
+                <IoAddOutline className="w-12 h-12 text-purple" />
+              </span>
+              <span
+                className={`text-linear font-inter font-bold  ${
+                  viewMode === "board" ? "text-2xl" : "text-2xl"
+                } `}
+              >
+                {t("AddSubTask")}
+              </span>
+            </Link>
+          )}
 
           {viewMode === "board" &&
             data?.map((task) => {

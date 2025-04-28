@@ -31,6 +31,7 @@ const TaskRow = ({
   UnitsLoading,
   errors,
 }) => {
+  const user = useSelector((state) => state.auth.user);
   const handleChange = (field, value) => {
     onChange(index, field, value);
   };
@@ -90,13 +91,15 @@ const TaskRow = ({
       </div>
 
       <div className="flex  justify-center items-center gap-3  mt-4  w-[70px]  lg:w-1/6">
-        <EditTask
-          task={task}
-          onUpdateTask={(updatedTask) => onUpdateTask(updatedTask, index)}
-        />
-        <button onClick={() => onRemove(index)}>
+        {user.access.edit == false && (
+          <EditTask
+            task={task}
+            onUpdateTask={(updatedTask) => onUpdateTask(updatedTask, index)}
+          />
+        )}
+        {user.access.delete == true && <button onClick={() => onRemove(index)}>
           <BiTrash className="text-red" size={20} />
-        </button>
+        </button>}
       </div>
     </div>
   );

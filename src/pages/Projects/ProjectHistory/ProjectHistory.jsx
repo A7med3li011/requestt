@@ -18,7 +18,7 @@ const ProjectHistory = () => {
   const [loading, setLoading] = useState(false);
   const [Status, setStatus] = useState("all");
   const [viewMode, setViewMode] = useState("board");
-
+  console.log(user.access.create);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date
@@ -60,7 +60,7 @@ const ProjectHistory = () => {
   const handleViewChange = (mode) => {
     setViewMode(mode);
   };
-  console.log(avatar);
+
   return (
     <div className="ProjectHistory">
       <h1 className="title font-inter font-bold text-xl lg:text-3xl text-black m-2">
@@ -115,30 +115,32 @@ const ProjectHistory = () => {
           } mt-4`}
         >
           {" "}
-          <Link
-            to={`/AddProject`}
-            className={` box bg-white  ${
-              viewMode === "list"
-                ? "flex items-center justify-center text-xl "
-                : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 min-h-[286px] h-full"
-            } rounded-md shadow-sm  `}
-          >
-            <span>
-              <IoAddOutline
-                className={`${
-                  viewMode === "board" ? "w-12 h-12 " : "w-8 h-8"
-                } text-purple`}
-              />
-            </span>
-            <span
-              className={`text-linear font-inter font-bold  ${
-                viewMode === "board" ? "text-3xl" : "text-xl"
-              } `}
+          {user.access.create == true && (
+            <Link
+              to={`/AddProject`}
+              className={` box bg-white  ${
+                viewMode === "list"
+                  ? "flex items-center justify-center text-xl "
+                  : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 min-h-[286px] h-full"
+              } rounded-md shadow-sm  `}
             >
-              {" "}
-              {t("AddProject")}
-            </span>
-          </Link>
+              <span>
+                <IoAddOutline
+                  className={`${
+                    viewMode === "board" ? "w-12 h-12 " : "w-8 h-8"
+                  } text-purple`}
+                />
+              </span>
+              <span
+                className={`text-linear font-inter font-bold  ${
+                  viewMode === "board" ? "text-3xl" : "text-xl"
+                } `}
+              >
+                {" "}
+                {t("AddProject")}
+              </span>
+            </Link>
+          )}
           {viewMode === "board" &&
             data.map((Project) => {
               const avatars = Project.members.map(

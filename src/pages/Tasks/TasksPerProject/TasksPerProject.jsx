@@ -22,8 +22,10 @@ import { TbTargetArrow } from "react-icons/tb";
 import Select from "../../../Components/UI/Select/Select";
 import Button from "../../../Components/UI/Button/Button";
 import { Trans } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const TasksPerProject = () => {
+  const user = useSelector((state) => state.auth.user);
   const { id } = useParams();
   const location = useLocation();
   const { members } = location.state || {};
@@ -155,25 +157,27 @@ const TasksPerProject = () => {
               : "flex flex-col gap-3"
           } mt-4`}
         >
-          <button
-            onClick={handleOpen}
-            className={`AddTask box bg-white  ${
-              viewMode === "list"
-                ? "flex items-center justify-center text-2xl"
-                : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 "
-            } rounded-md shadow-sm p-5 `}
-          >
-            <span>
-              <IoAddOutline className="w-12 h-12 text-purple" />
-            </span>
-            <span
-              className={`text-linear font-inter font-bold  ${
-                viewMode === "board" ? "text-3xl" : "text-2xl"
-              } `}
+          {user.access.create == true && (
+            <button
+              onClick={handleOpen}
+              className={`AddTask box bg-white  ${
+                viewMode === "list"
+                  ? "flex items-center justify-center text-2xl"
+                  : "flex flex-col p-5 justify-center gap-4 items-center col-span-1 "
+              } rounded-md shadow-sm p-5 `}
             >
-              {t("AddTask")}
-            </span>
-          </button>
+              <span>
+                <IoAddOutline className="w-12 h-12 text-purple" />
+              </span>
+              <span
+                className={`text-linear font-inter font-bold  ${
+                  viewMode === "board" ? "text-3xl" : "text-2xl"
+                } `}
+              >
+                {t("AddTask")}
+              </span>
+            </button>
+          )}
           <Dialog open={open} handler={handleOpen} className="h-[60vh]">
             <DialogHeader className="relative flex justify-center  ">
               <TbTargetArrow className="text-white absolute bg-linear_1 rounded-full  p-1 -top-7 w-16 h-16 " />
