@@ -81,7 +81,7 @@ const ListView = ({
           {t(status)}
         </span>
       </div>
-      <div className="members flex -space-x-2 mx-1">
+      <div className="members flex -space-x-2 w-1/4 flex-row-reverse">
         {avatars && <AvatarList avatars={avatars} />}
       </div>
       {taskType === "toq" && (
