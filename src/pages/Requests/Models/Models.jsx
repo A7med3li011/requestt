@@ -77,11 +77,11 @@ const Models = () => {
               to: "/Requests/RequestForDocumentSubmittal",
               approved: project?.requestForDocumentSubmittalApproval,
             },
-            {
-              label: t("Models.approvalOfSchemes"),
-              to: "/request/",
-              approved: project?.approvalOfSchemes,
-            },
+            // {
+            //   label: t("Models.approvalOfSchemes"),
+            //   to: "/request/",
+            //   approved: project?.approvalOfSchemes,
+            // },
             {
               label: t("Models.tableOfQuantities"),
               to: "/Requests/TableOfQuantities",

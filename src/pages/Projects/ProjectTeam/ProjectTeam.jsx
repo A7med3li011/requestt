@@ -424,7 +424,7 @@ const ProjectTeam = () => {
   } = membersData || {};
   const { owner, consultant, contractor } = admins;
 
-  console.log(vocations);
+  console.log(ownerTeam);
   return (
     <div className="ProjectTeam">
       <div className="header bg-white rounded-3xl p-2">
@@ -516,7 +516,7 @@ const ProjectTeam = () => {
           <thead className="text-xs font-bold text-gray-dark uppercase border-b-2 border-gray">
             <tr>
               <th className="px-4 py-2">{t("Name")}</th>
-              <th className="px-4 py-2">{t("Vocation")}</th>
+              <th className="px-4 py-2">{t("Role")}</th>
               <th className="px-4 py-2">{t("Email")}</th>
               <th className="px-4 py-2">{t("Phone number")}</th>
               <th className="px-4 py-2">{t("Access")}</th>
@@ -531,12 +531,10 @@ const ProjectTeam = () => {
             {ownerTeam.map((member) => (
               <>
                 <tr key={member._id} className="shadow-md p-2 rounded-lg">
-                  <td className="text-left py-2 px-4 font-medium text-gray-dark">
+                  <td className=" py-2 px-4 font-medium text-gray-dark text-center">
                     {member.name}
                   </td>
-                  <td className="px-4 py-2">
-                    {member.vocation ? member.vocation.name : "N/A"}
-                  </td>
+                  <td className="px-4 py-2">{t(`${member?.role}`)}</td>
                   <td
                     className="px-4 py-2 "
                     style={{
@@ -555,7 +553,7 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    {user.access.delete == true && (
+                    {user?.access?.delete == true && (
                       <button
                         className="text-red"
                         onClick={() => {
@@ -580,7 +578,9 @@ const ProjectTeam = () => {
                     {member.name}
                   </td>
                   <td className="px-4 py-2">
-                    {member.vocation ? member.vocation.name : "N/A"}
+                    {lang == "en"
+                      ? member?.vocation?.nameEN
+                      : member?.vocation?.nameAR}
                   </td>
                   <td
                     className="px-4 py-2 "
@@ -600,7 +600,7 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    {user.access.delete == true && (
+                    {user?.access?.delete == true && (
                       <button
                         className="text-red"
                         onClick={() => {
@@ -625,7 +625,9 @@ const ProjectTeam = () => {
                     {member.name}
                   </td>
                   <td className="px-4 py-2">
-                    {member.vocation ? member.vocation.name : "N/A"}
+                    {lang == "en"
+                      ? member?.vocation?.nameEN
+                      : member?.vocation?.nameAR}
                   </td>
                   <td
                     className="px-4 py-2 "
@@ -645,7 +647,7 @@ const ProjectTeam = () => {
                   </td>
                   <td className="px-4 py-2">{member.access}</td>
                   <td className="px-4 py-2 flex justify-center gap-3">
-                    {user.access.delete == true && (
+                    {user?.access?.delete == true && (
                       <button
                         className="text-red"
                         onClick={() => {
@@ -767,7 +769,7 @@ const ProjectTeam = () => {
         </Accordion>
       </div> */}
 
-      {user.access.create == true && (
+      {user?.access?.create == true && (
         <div className="AddNewAccess bg-white rounded-3xl m-2 p-4">
           <form
             onSubmit={handleSubmit}

@@ -56,13 +56,13 @@ const Profile = forwardRef(({ onProfileUpdate }, ref) => {
     return `${year}-${month}-${day}`;
   };
 
-  console.log(formatDate(dob.endDate));
+  // console.log(formatDate(dob?.endDate));
   const handleUpdate = () => {
     if (isUpdating || loading) return;
     setLoading(true);
 
     setIsUpdating(true);
-    const formattedDate = dob.endDate ? formatDate(dob.endDate) : "";
+    const formattedDate = dob?.endDate ? formatDate(dob?.endDate) : "";
 
     const updatedUser = {
       name: Name,
@@ -207,8 +207,8 @@ const Profile = forwardRef(({ onProfileUpdate }, ref) => {
                 asSingle={true}
                 value={
                   dob
-                    ? formatDate(dob.startDate)
-                    : formatDate(user.dateOfBirth.startDate)
+                    ? formatDate(dob?.startDate)
+                    : formatDate(user?.dateOfBirth?.startDate)
                 }
                 maxDate={
                   new Date(
@@ -217,8 +217,8 @@ const Profile = forwardRef(({ onProfileUpdate }, ref) => {
                 } // Minimum date is 18 years ago
                 placeholder={
                   dob
-                    ? formatDate(dob.startDate)
-                    : formatDate(user.dateOfBirth.startDate)
+                    ? formatDate(dob?.startDate)
+                    : formatDate(user?.dateOfBirth?.startDate)
                 }
                 primaryColor={"purple"}
                 popoverDirection="up"

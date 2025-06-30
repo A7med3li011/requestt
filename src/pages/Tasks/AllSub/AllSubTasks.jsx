@@ -114,7 +114,7 @@ const AllSubTasks = () => {
               : "flex flex-col gap-3"
           } mt-4`}
         >
-          {user.access.create == true && (
+          {user?.access?.create == true && (
             <Link
               // to={`/AddTask/${projectId}`}
               className={`AddTask ${

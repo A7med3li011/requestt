@@ -852,10 +852,10 @@ const Inbox = () => {
                         isRecording ? "hidden" : ""
                       }`}
                     />
-                    <RecordAudio
+                    {/* <RecordAudio
                       setIsRecording={setIsRecording}
                       onAddAudioMessage={addAudioMessage}
-                    />
+                    /> */}
                     {/* <Record
                       isRecording={isRecording}
                       isPaused={isPaused}

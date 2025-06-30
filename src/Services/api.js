@@ -84,10 +84,10 @@ export const uploadCompanyFiles = async (userId, updatedData) => {
   const formData = new FormData();
   formData.append("name", updatedData.name);
   formData.append("companyLogo", updatedData.companyLogo);
-  formData.append("electronicStamp",updatedData.electronicStamp);
+  formData.append("electronicStamp", updatedData.electronicStamp);
   formData.append("signature", updatedData.signature);
   formData.append("companyName", updatedData.companyName);
-    console.log(userId,updatedData)
+  console.log(userId, updatedData);
 
   try {
     const response = await axiosInstance.put(
@@ -300,6 +300,19 @@ export const getAllTasksPerProject = async (projectId, Status) => {
     );
 
     "Response from tasks => ", response;
+    return response.data;
+  } catch (error) {
+    console.error("Get tasks error: ", error.response?.data || error.message);
+    throw error;
+  }
+};
+export const getAllModelsDriveFile = async (id) => {
+  try {
+    // Construct the query parameters
+
+    // Append query parameters to the request URL
+    const response = await axiosInstance.get(`/project/requests/${id}`);
+
     return response.data;
   } catch (error) {
     console.error("Get tasks error: ", error.response?.data || error.message);
@@ -655,9 +668,7 @@ export const getUserGroup = async (token) => {
 //  get all vocations
 export const getAllVocations = async (userId, lang) => {
   try {
-    const response = await axiosInstance.get(
-      `vocation/`
-    );
+    const response = await axiosInstance.get(`vocation/`);
 
     "Response from vocations => ", response;
     return response.data;
@@ -938,7 +949,7 @@ export const sendInvite = async (token, invitationData) => {
     });
 
     "Response from send invite => ", response;
-   
+
     return response.data;
   } catch (error) {
     console.error("Send invite error: ", error.response?.data || error.message);

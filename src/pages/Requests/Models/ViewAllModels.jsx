@@ -55,24 +55,26 @@ const ViewAllModels = () => {
           <div
             className={`content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 mt-4`}
           >
-          {user.access.create == true &&  <Link
-              to={`/Models`}
-              state={{
-                projectId,
-                projectName,
-                members,
-                taskId,
-                TaskName,
-              }}
-              className={` box flex flex-col p-5 justify-center gap-4 items-center col-span-1  h-full bg-white  rounded-md shadow-sm  `}
-            >
-              <span>
-                <IoAddOutline className={`w-12 h-12  text-purple`} />
-              </span>
-              <span className={`text-linear font-inter font-bold  text-2xl `}>
-                {t("AddModel")}
-              </span>
-            </Link>}
+            {user?.access?.create == true && (
+              <Link
+                to={`/Models`}
+                state={{
+                  projectId,
+                  projectName,
+                  members,
+                  taskId,
+                  TaskName,
+                }}
+                className={` box flex flex-col p-5 justify-center gap-4 items-center col-span-1  h-full bg-white  rounded-md shadow-sm  `}
+              >
+                <span>
+                  <IoAddOutline className={`w-12 h-12  text-purple`} />
+                </span>
+                <span className={`text-linear font-inter font-bold  text-2xl `}>
+                  {t("AddModel")}
+                </span>
+              </Link>
+            )}
             {Models?.length > 0 && (
               <>
                 {Models?.map((model, index) => (

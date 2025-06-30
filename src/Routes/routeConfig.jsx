@@ -42,6 +42,7 @@ import Invitation from "../pages/Projects/AddProject/Invitaion.jsx";
 import ViewAllModels from "../pages/Requests/Models/ViewAllModels.jsx";
 import Page404 from "../pages/404Page/page404.jsx";
 import { Navigate } from "react-router-dom";
+import PreventAction from "../Services/PreventAction.jsx";
 
 // Define public routes
 export const publicRoutes = [
@@ -53,7 +54,7 @@ export const publicRoutes = [
   { path: "/SignUp", component: <SignUp /> },
   { path: "/SignUp/ChooseRole", component: <Role /> },
   { path: "/SignUp/createCompany", component: <CreateCompany /> },
-  
+
   {
     path: "*",
     component: <Navigate to="/404" replace />,
@@ -67,23 +68,92 @@ export const protectedRoutes = [
   { path: "/ContactUs", component: <ContactUs /> },
   { path: "/Settings/Profile", component: <Profile /> },
   { path: "/Settings", component: <Setting /> },
-  { path: "/ProjectDetails/:id", component: <ProjectDetails /> },
+  {
+    path: "/ProjectDetails/:id",
+    component: (
+      <PreventAction>
+        {" "}
+        <ProjectDetails />{" "}
+      </PreventAction>
+    ),
+  },
   { path: "/Projects", component: <ProjectHistory /> },
-  { path: "/TaskDetails/:id", component: <TaskDetails /> },
+  { path: "/TaskDetails/:id", component: <PreventAction> <TaskDetails /> </PreventAction> },
   { path: "/TaskHistory/:id", component: <TaskHistory /> },
-  { path: "/AddProject", component: <AddProject /> },
+  {
+    path: "/AddProject",
+    component: (
+      <PreventAction>
+        <AddProject />
+      </PreventAction>
+    ),
+  },
   { path: "/AddProject/Invite", component: <Invite /> },
   { path: "/Invitation", component: <Invitation /> },
-  { path: "/AddTask/:ProjectId", component: <AddTask /> },
-  { path: "/Project/Tasks/:id", component: <TasksPerProject /> },
+  {
+    path: "/AddTask/:ProjectId",
+    component: (
+      <PreventAction>
+        {" "}
+        <AddTask />{" "}
+      </PreventAction>
+    ),
+  },
+  {
+    path: "/Project/Tasks/:id",
+    component: (
+      <PreventAction>
+        {" "}
+        <TasksPerProject />{" "}
+      </PreventAction>
+    ),
+  },
   { path: "/SubTasks/:id", component: <AllSubTasks /> },
   { path: "/createTag", component: <CreateTag /> },
-  { path: "/Models", component: <Models /> },
-  { path: "/ViewAllModels", component: <ViewAllModels /> },
-  { path: "/viewModel/:id", component: <ViewRequest /> },
-  { path: "/DriveFiles", component: <DriveFiles /> },
+  {
+    path: "/Models",
+    component: (
+      <PreventAction>
+        <Models />{" "}
+      </PreventAction>
+    ),
+  },
+  {
+    path: "/ViewAllModels",
+    component: (
+      <PreventAction>
+        {" "}
+        <ViewAllModels />{" "}
+      </PreventAction>
+    ),
+  },
+  {
+    path: "/viewModel/:id",
+    component: (
+      <PreventAction>
+        {" "}
+        <ViewRequest />{" "}
+      </PreventAction>
+    ),
+  },
+  {
+    path: "/DriveFiles",
+    component: (
+      <PreventAction>
+        <DriveFiles />
+      </PreventAction>
+    ),
+  },
   { path: "/DriveFiles/Tag/:TagName", component: <FilesPerTag /> },
-  { path: "/Inbox", component: <Inbox /> },
+  {
+    path: "/Inbox",
+    component: (
+      <PreventAction>
+        {" "}
+        <Inbox />{" "}
+      </PreventAction>
+    ),
+  },
   { path: "/Requests/RequestForMaterial", component: <RequestForMaterial /> },
   {
     path: "/Requests/RequestForDocumentSubmittal",
@@ -96,7 +166,15 @@ export const protectedRoutes = [
   },
   { path: "/Requests/TableOfQuantities", component: <TableOfQuantities /> },
 
-  { path: "/Team", component: <Team /> },
+  {
+    path: "/Team",
+    component: (
+      <PreventAction>
+        {" "}
+        <Team />{" "}
+      </PreventAction>
+    ),
+  },
   { path: "/SeePlans", component: <SeePlans /> },
   { path: "/PlansInfo", component: <PlansInfo /> },
   { path: "/PlanDetails/:type", component: <PlanDetails /> },
@@ -105,6 +183,3 @@ export const protectedRoutes = [
   { path: "/ProjectTeam", component: <ProjectTeam /> },
   { path: "/Notifications", component: <Notifications /> },
 ];
-
-
-

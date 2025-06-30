@@ -151,7 +151,7 @@ const ProjectDetails = () => {
               </div>
             </div>
 
-           {user.access.edit == true && <div>
+           {user?.access?.edit == true && <div>
               {(Project?.consultant?._id == user._id ||
                 Project?.owner?._id == user._id) && (
                 <div className="p-4">
@@ -387,7 +387,7 @@ const ProjectDetails = () => {
                 label={t("location")}
                 placeholder={Project.location || t("location")}
               />
-             {user.access.edit == true && <div className="flex right-0 my-2 items-center justify-end">
+             {user?.access?.edit == true && <div className="flex right-0 my-2 items-center justify-end">
                 <Link
                   to={"/AddProject/Invite"}
                   state={{
@@ -400,12 +400,12 @@ const ProjectDetails = () => {
                     <IoMdPersonAdd className="text-red h-8 w-8 " />
                   </span>
                 </Link>
-                <button className="files flex items-center gap-1 mx-1">
+                {/* <button className="files flex items-center gap-1 mx-1">
                   <span className="text-purple-dark font-inter font-extrabold text-sm leading-4">
                     {Project?.documentsLength || 0}
                   </span>
                   <FaFileLines className="text-purple-dark h-7 w-7 " />
-                </button>
+                </button> */}
                 <AddNote projectId={Project._id} Notes={Project.notes} />
                 <button className="print mx-1">
                   <span>

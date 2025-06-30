@@ -57,7 +57,7 @@ const LandingHeader = () => {
             isRTL ? "right-4" : "left-4"
           } top-2 z-10  backdrop-blur-md rounded-lg bg-transparent`}
         />
-
+        <p>{t("Trial version")}</p>
         <div className="flex lg:mx-auto md:py-6 md:px-10 px-2 py-2 shadow-lg ring-1 me-auto z-20 rounded-full border my-4 transition-all duration-300 hover:shadow-xl">
           {/* mobile view items */}
           {/* <img 

@@ -132,7 +132,7 @@ const TasksPerProject = () => {
           </span>
           {t("listView")}
         </button>
-        <button
+        {/* <button
           className={`ListView flex items-center gap-2 p-2 border border-gray border-solid rounded-e-md font-inter font-bold text-xs text-gray-md ${
             viewMode === "timeline" ? "bg-gray-200" : ""
           }`}
@@ -142,7 +142,7 @@ const TasksPerProject = () => {
             <FaBars className="w-4 h-4 text-gray" />
           </span>
           {t("timeLineView")}
-        </button>
+        </button> */}
       </div>
 
       <StatusHeader buttons={buttonData} onFilterChange={handleFilterChange} />
@@ -157,7 +157,7 @@ const TasksPerProject = () => {
               : "flex flex-col gap-3"
           } mt-4`}
         >
-          {user.access.create == true && (
+          {user?.access?.create == true && (
             <button
               onClick={handleOpen}
               className={`AddTask box bg-white  ${

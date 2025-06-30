@@ -91,13 +91,13 @@ const TaskRow = ({
       </div>
 
       <div className="flex  justify-center items-center gap-3  mt-4  w-[70px]  lg:w-1/6">
-        {user.access.edit == true && (
+        {user?.access?.edit == true && (
           <EditTask
             task={task}
             onUpdateTask={(updatedTask) => onUpdateTask(updatedTask, index)}
           />
         )}
-        {user.access.delete == true && (
+        {user?.access?.delete == true && (
           <button onClick={() => onRemove(index)}>
             <BiTrash className="text-red" size={20} />
           </button>

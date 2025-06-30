@@ -1,10 +1,14 @@
 import { IoFilter } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { getAllDocs, downloadAllFiles } from "../../Services/api"; // Import downloadAllFiles
+import {
+  getAllDocs,
+  downloadAllFiles,
+  getAllModelsDriveFile,
+} from "../../Services/api"; // Import downloadAllFiles
 import Loader from "../../Components/Loader/Loader";
 import { FaFolderOpen } from "react-icons/fa6";
 import { HiOutlineDownload } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
@@ -14,10 +18,22 @@ import { useSelector } from "react-redux";
 const DriveFiles = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [models, setModels] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  const userId = user._id
-  
-  
+  const userId = user._id;
+
+  async function getModels() {
+    await getAllModelsDriveFile(userId)
+      .then((res) => {
+        setModels(res?.data);
+        console.log(res?.data);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getModels();
+  }, []);
 
   const extractFileName = (url) => {
     if (typeof url === "string") {
@@ -29,59 +45,75 @@ const DriveFiles = () => {
     return "Unknown File";
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await getAllDocs(userId);
-        setData(data.results);
-        (data);
-        
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const data = await getAllDocs(userId);
+  //       setData(data.results);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
-  const handleDownload = async (tagId) => {
-    setLoading(true); // Set loading to true when starting download
-    try {
-      const res = await downloadAllFiles(tagId);
-      (tagId);
-      
-      ("res from downloadAllFiles => ", res);
-      
-      const fileUrls = res.results.tasks;
+  // const handleDownload = async (tagId) => {
+  //   setLoading(true); // Set loading to true when starting download
+  //   try {
+  //     const res = await downloadAllFiles(tagId);
 
-      // Check if the array is empty
-      if (fileUrls.length === 0) {
-        toast.info("No files to download.");
-        return;
-      }
+  //     console.log("res from downloadAllFiles => ", res);
 
-      const zip = new JSZip(); // Create a new JSZip instance
-      const downloadPromises = fileUrls.map(async (fileUrl) => {
-        const response = await fetch(fileUrl);
-        const blob = await response.blob(); // Get the file as a Blob
-        const fileName = extractFileName(fileUrl); // Extract the file name
-        zip.file(fileName, blob); // Add the file Blob to the ZIP
-      });
+  //     const fileUrls = res.results.tasks;
 
-      // Wait for all downloads to finish
-      await Promise.all(downloadPromises);
+  //     // Check if the array is empty
+  //     if (fileUrls.length === 0) {
+  //       toast.info("No files to download.");
+  //       return;
+  //     }
 
-      // Generate the ZIP file
-      const zipBlob = await zip.generateAsync({ type: "blob" });
+  //     const zip = new JSZip(); // Create a new JSZip instance
+  //     const downloadPromises = fileUrls.map(async (fileUrl) => {
+  //       const response = await fetch(fileUrl);
+  //       const blob = await response.blob(); // Get the file as a Blob
+  //       const fileName = extractFileName(fileUrl); // Extract the file name
+  //       zip.file(fileName, blob); // Add the file Blob to the ZIP
+  //     });
 
-      // Create a link element for downloading
-      saveAs(zipBlob, "files.zip"); // Use FileSaver.js to save the ZIP file
-    } catch (error) {
-      console.error("Download failed: ", error);
-    } finally {
-      setLoading(false); // Set loading to false after completion
+  //     // Wait for all downloads to finish
+  //     await Promise.all(downloadPromises);
+
+  //     // Generate the ZIP file
+  //     const zipBlob = await zip.generateAsync({ type: "blob" });
+
+  //     // Create a link element for downloading
+  //     saveAs(zipBlob, "files.zip"); // Use FileSaver.js to save the ZIP file
+  //   } catch (error) {
+  //     console.error("Download failed: ", error);
+  //   } finally {
+  //     setLoading(false); // Set loading to false after completion
+  //   }
+  // };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+  };
+
+  const navigate = useNavigate();
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "approved":
+        return "text-green-600 bg-green-100";
+      case "pending":
+        return "text-yellow-600 bg-yellow-100";
+      case "rejected":
+        return "text-red-600 bg-red-100";
+      default:
+        return "text-gray-600 bg-gray-100";
     }
   };
 
@@ -101,53 +133,126 @@ const DriveFiles = () => {
               </span>
             </button>
           </div>
-          <div className="divider h-px w-full bg-purple my-2"></div>
+          <div className="divider h-px w-full "></div>
           <div className="content">
-            {data.map((Project) => (
-              <div key={Project._id}>
-                <h6 className="Project_name font-normal md:font-medium text-lg md:text-xl bg-white rounded-xl p-1 my-3 px-2">
-                  {Project.projectName}
-                </h6>
-                <div className="Folders grid xl:grid-cols-6 md:grid-cols-4 grid-cols-2 md:gap-6 gap-2 m-2 ">
-                  {Project.tags.map((tag) => (
-                    <div
-                      key={tag._id}
-                      className="folder col-span-1 bg-white rounded-xl px-2 py-6 cursor-pointer flex items-center flex-col relative"
-                    >
-                      <button
-                        className="download absolute top-3 right-3"
-                        onClick={() => handleDownload(tag._id)} 
+            {models?.length > 0 ? (
+              <div className="flex flex-wrap gap-3 mt-6">
+                {models.map((model, index) => (
+                  <div
+                    onClick={() =>
+                      navigate(`/viewModel/${model?._id}`, {
+                        state: {
+                          projectId: model?.project,
+                          ModelId: model?._id,
+                        },
+                      })
+                    }
+                    key={model._id}
+                    className="bg-white px-4 py-3 rounded-lg shadow-sm border hover:shadow-md transition-shadow cursor-pointer group relative"
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* <FaFolderOpen className="text-blue-500 text-lg flex-shrink-0" /> */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="text-sm font-medium text-gray-800 truncate">
+                            {model?.title}
+                          </h3>
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-xs font-medium flex-shrink-0 ${getStatusColor(
+                              model?.status
+                            )}`}
+                          >
+                            {model?.status}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 truncate">
+                          {model?.owner?.companyName}
+                        </p>
+                      </div>
+                      {/* <button
+                        onClick={() => handleDownload(model._id)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-100 rounded"
+                        disabled={loading}
+                        title="Download"
                       >
-                        <HiOutlineDownload className="text-blue" />
-                      </button>
-                      <Link
-                        to={`/DriveFiles/Tag/${tag.name}`}
-                        state={{ TagId: tag._id, projectId: Project._id }}
-                        className="flex flex-col items-center w-full"
-                      >
-                        <span>
-                          <FaFolderOpen
-                            className="w-16 h-16"
-                            style={{
-                              color: tag.colorCode,
-                            }}
-                          />
-                        </span>
-                        <span
-                          className="w-full py-2 rounded-3xl font-inter font-semibold text-sm mt-2 text-center"
-                          style={{
-                            color: tag.colorCode,
-                            backgroundColor: `${tag.colorCode}40`,
-                          }}
-                        >
-                          {tag.name}
-                        </span>
-                      </Link>
+                        <HiOutlineDownload className="text-gray-600 text-sm" />
+                      </button> */}
                     </div>
-                  ))}
-                </div>
+
+                    {/* Tooltip with full details */}
+                    <div className="absolute top-full left-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                      <div className="space-y-3">
+                        <div>
+                          <h4 className="font-semibold text-gray-800 mb-1">
+                            {model.title}
+                          </h4>
+                          {model.description && (
+                            <p className="text-sm text-gray-600">
+                              {model.description}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-3">
+                          <div className="space-y-1">
+                            <p className="text-xs font-medium text-gray-500">
+                              Owner
+                            </p>
+                            <p className="text-sm text-gray-800">
+                              {model.owner?.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.owner?.email}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.owner?.companyName}
+                            </p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-xs font-medium text-gray-500">
+                              Contractor
+                            </p>
+                            <p className="text-sm text-gray-800">
+                              {model.contractor?.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.contractor?.email}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.contractor?.companyName}
+                            </p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-xs font-medium text-gray-500">
+                              Consultant
+                            </p>
+                            <p className="text-sm text-gray-800">
+                              {model.consultant?.name}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.consultant?.email}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {model.consultant?.companyName}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t">
+                          <span>Created: {formatDate(model.createdAt)}</span>
+                          <span>Updated: {formatDate(model.updatedAt)}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="flex flex-col items-center justify-center py-12">
+                <FaFolderOpen className="text-gray-400 text-6xl mb-4" />
+                <p className="text-gray-500 text-lg">No models found</p>
+              </div>
+            )}
           </div>
         </>
       )}

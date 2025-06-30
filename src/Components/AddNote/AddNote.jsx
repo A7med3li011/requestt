@@ -99,34 +99,40 @@ export const AddNote = ({ projectId, taskId, Notes }) => {
         </DialogHeader>
         <DialogBody className="h-[300px] overflow-y-scroll">
           {notes && notes.length > 0 ? (
-            notes.map((note) => (
-              <div key={note.id} className="note flex items-start gap-2 p-2">
-                {note?.postedBy?.profilePic ? (
-                  <Image
-                    src={note.postedBy.profilePic}
-                    alt={"Avatar"}
-                    className={"w-10 h-10 rounded-full"}
-                  />
-                ) : (
-                  <ProfileAvatar
-                    name={note.postedBy?.name}
-                    profilePic={note.postedBy?.profilePic}
-                  />
-                )}
-                <div className="flex flex-col w-full">
-                  <div className="font-semibold">{note.postedBy?.name}</div>
+            notes.map(
+              (note) =>
+                note.content && (
                   <div
-                    className="p-3 rounded-xl w-full border border-solid border-purple"
-                    style={{ backgroundColor: "#fcfcfd" }}
+                    key={note.id}
+                    className="note flex items-start gap-2 p-2"
                   >
-                    <p className="text-gray-dark">{note.content}</p>
-                    <div className="ltr:text-right rtl:text-left text-xs text-gray-500">
-                      {formatDate(note.createdAt)}
+                    {note?.postedBy?.profilePic ? (
+                      <Image
+                        src={note.postedBy.profilePic}
+                        alt={"Avatar"}
+                        className={"w-10 h-10 rounded-full"}
+                      />
+                    ) : (
+                      <ProfileAvatar
+                        name={note.postedBy?.name}
+                        profilePic={note.postedBy?.profilePic}
+                      />
+                    )}
+                    <div className="flex flex-col w-full">
+                      <div className="font-semibold">{note.postedBy?.name}</div>
+                      <div
+                        className="p-3 rounded-xl w-full border border-solid border-purple"
+                        style={{ backgroundColor: "#fcfcfd" }}
+                      >
+                        <p className="text-gray-dark">{note.content}</p>
+                        <div className="ltr:text-right rtl:text-left text-xs text-gray-500">
+                          {formatDate(note.createdAt)}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))
+                )
+            )
           ) : (
             <Empty paragraph={t("Add Your Note")} />
           )}

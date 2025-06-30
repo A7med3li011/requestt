@@ -2,7 +2,7 @@ import { t } from "i18next";
 import React, { useEffect, useState } from "react";
 import Input from "../../../Components/UI/Input/Input";
 import { MdCalendarToday, MdEditSquare } from "react-icons/md";
-import { FaFileLines } from "react-icons/fa6";
+// import { FaFileLines } from "react-icons/fa6";
 import { CircularProgress } from "@mui/joy";
 import { Link, useLocation } from "react-router-dom";
 import { format } from "date-fns";
@@ -217,7 +217,7 @@ const TaskDetails = () => {
       {(Task?.project?.consultant == user._id ||
         Task?.project?.owner == user._id) && (
         <div>
-          {user.access.edit == true && (
+          {user?.access?.edit == true && (
             <Select
               isClearable={false}
               label="Status"
@@ -414,11 +414,11 @@ const TaskDetails = () => {
             )}
             <button className="files flex items-center gap-1 mx-1">
               <span className="text-purple-dark font-inter font-extrabold text-sm leading-4">
-                {Task?.documents?.length}
+                {/* {Task?.documents?.length} */}
               </span>
 
               {/* <input type="file" onChange={handleFileChange} /> */}
-              <FaFileLines className="text-purple-dark h-7 w-7" />
+              {/* <FaFileLines className="text-purple-dark h-7 w-7" /> */}
             </button>
 
             <AddNote
@@ -435,7 +435,7 @@ const TaskDetails = () => {
           ) : (
             Task.parentTask === null && (
               <div className="flex right-0 my-2 items-center gap-3 justify-end">
-                {user.access.create == true && (
+                {user?.access?.create == true && (
                   <Link
                     to={`/AddTask/${Task.project._id}`}
                     state={{
@@ -541,8 +541,8 @@ const TaskDetails = () => {
               disabled={
                 !(
                   isEditing &&
-                  user.role.jobTitle === "contractor" &&
-                  user.access.edit == true
+                  user?.role?.jobTitle === "contractor" &&
+                  user?.access?.edit == true
                 )
               }
               onChange={(e) => {
@@ -573,8 +573,8 @@ const TaskDetails = () => {
               disabled={
                 !(
                   isEditing &&
-                  user.role.jobTitle === "consultant" &&
-                  user.access.edit == true
+                  user?.role?.jobTitle === "consultant" &&
+                  user?.access?.edit == true
                 )
               }
               className={`bg-white border border-purple border-solid focus:border focus:border-purple focus:border-solid`}
@@ -590,7 +590,7 @@ const TaskDetails = () => {
                 !(
                   isEditing &&
                   user.role.jobTitle === "owner" &&
-                  user.access.edit == true
+                  user?.access?.edit == true
                 )
               }
               onChange={(e) => {

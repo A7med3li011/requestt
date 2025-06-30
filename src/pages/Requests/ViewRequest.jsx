@@ -296,7 +296,7 @@ const ViewRequest = () => {
       )}
     </div>
   );
-  console.log(model);
+  
   return (
     <div className="ViewRequest">
       <div className="header bg-white p-4 rounded-l-3xl">

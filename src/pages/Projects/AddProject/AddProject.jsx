@@ -9,46 +9,52 @@ import Select from "../../../Components/UI/Select/Select";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 function formatBudget(amount) {
   // Remove non-numeric characters
-  let numericValue = amount.replaceAll(/\D/g, "");
-
-  // Add dots as thousand separators
+  let numericValue = amount.replace(/\D/g, "");
+  
+  // Add commas as thousand separators
   return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 const AddProject = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
-  const lang = i18next.language;
   const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
+  
+  // State variables
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [Name, setName] = useState("");
-  const [Description, setDescription] = useState("");
-  const [budget, setBudget] = useState("");
-  const [priority, setPriority] = useState("");
-  const [sDate, setSDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    budget: "",
+    priority: "",
+    role: "",
+    location: "",
+    sDate: {
+      startDate: new Date(),
+      endDate: new Date(),
+    },
+    eDate: {
+      startDate: new Date(),
+      endDate: new Date(),
+    }
   });
-  const [location, setLocation] = useState("");
-  const [eDate, setEDate] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
+  
   const [fieldErrors, setFieldErrors] = useState({
-    Name: false,
-    Description: false,
+    name: false,
+    description: false,
     sDate: false,
     eDate: false,
     budget: false,
     priority: false,
+    location: false,
+    role: false,
   });
-  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(!open);
-
+  // Helper functions
   const formatDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
@@ -59,65 +65,131 @@ const AddProject = () => {
   };
 
   const clearFormFields = () => {
-    setName("");
-    setDescription("");
-    setSDate(null);
-    setEDate(null);
-    setBudget("");
-    setPriority("");
+    setFormData({
+      name: "",
+      description: "",
+      budget: "",
+      priority: "",
+      role: "",
+      location: "",
+      sDate: {
+        startDate: new Date(),
+        endDate: new Date(),
+      },
+      eDate: {
+        startDate: new Date(),
+        endDate: new Date(),
+      }
+    });
+    setFieldErrors({
+      name: false,
+      description: false,
+      sDate: false,
+      eDate: false,
+      budget: false,
+      priority: false,
+      location: false,
+      role: false,
+    });
+    setError(null);
+  };
+
+  const validateForm = () => {
+    const budgetNumeric = formData.budget.replace(/\D/g, "");
+    
+    const newFieldErrors = {
+      name: !formData.name.trim(),
+      description: !formData.description.trim(),
+      sDate: !formData.sDate.startDate,
+      eDate: !formData.eDate.endDate,
+      budget: !budgetNumeric.trim() || +budgetNumeric < 10,
+      priority: !formData.priority,
+      location: !formData.location.trim(),
+      role: !formData.role,
+    };
+
+    setFieldErrors(newFieldErrors);
+
+    if (Object.values(newFieldErrors).some((hasError) => hasError)) {
+      setError({ message: "All fields are required and budget must be at least 10." });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    
+    // Clear field error when user starts typing
+    if (fieldErrors[field]) {
+      setFieldErrors(prev => ({
+        ...prev,
+        [field]: false
+      }));
+    }
+    
+    // Clear general error
+    if (error) {
+      setError(null);
+    }
+  };
+
+  const handleDateChange = (field, date) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: date
+    }));
+    
+    // Auto-adjust end date if start date is after it
+    if (field === 'sDate' && date.startDate > formData.eDate.startDate) {
+      setFormData(prev => ({
+        ...prev,
+        eDate: date
+      }));
+    }
+    
+    // Clear field error
+    if (fieldErrors[field]) {
+      setFieldErrors(prev => ({
+        ...prev,
+        [field]: false
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const bdg = budget
-      .split("")
-      .filter((ele) => isNaN(ele) !== true)
-      .join("");
-
-    const newFieldErrors = {
-      Name: !Name.trim(),
-      Description: !Description.trim(),
-      sDate: !sDate.startDate,
-      eDate: !eDate.endDate,
-      budget: !bdg.trim() || +bdg < 10,
-      priority: !priority,
-      location: !location,
-    };
-
-    // if (+bdg < 10) {
-    //   setError({ message: "budget must be greater than or equal to 10" });
-    //   // console.log(budget)
-    //   return null; // Return null if validation fails
-    // }
-    setFieldErrors(newFieldErrors);
-
-    if (Object.values(newFieldErrors).some((hasError) => hasError)) {
-      setError({ message: "All fields are required." });
-      return null; // Return null if validation fails
+    if (!validateForm()) {
+      return null;
     }
 
-    const formattedSDate = formatDate(sDate.startDate);
-    const formattedEDate = formatDate(eDate.endDate);
+    const budgetNumeric = formData.budget.replace(/\D/g, "");
+    const formattedSDate = formatDate(formData.sDate.startDate);
+    const formattedEDate = formatDate(formData.eDate.endDate);
 
     try {
       const projectData = {
-        name: Name,
-        description: Description,
+        name: formData.name,
+        description: formData.description,
         sDate: formattedSDate,
         dueDate: formattedEDate,
-        budget: bdg,
-        projectPriority: priority,
+        budget: budgetNumeric,
+        projectPriority: formData.priority,
         createdBy: user._id,
-        location,
+        location: formData.location,
+        role: formData.role,
       };
 
       setLoading(true);
-      "Project data =>  ", projectData;
       const res = await addProject(token, projectData);
       toast.success(t("toast.ProjectSuccess"));
       clearFormFields();
-      setLoading(false);
+      
       return {
         projectId: res.addedProject._id,
         projectName: res.addedProject.name,
@@ -127,8 +199,7 @@ const AddProject = () => {
       setError({
         message: err.response ? err.response.data.message : err.message,
       });
-      err;
-      setLoading(false);
+      console.error("Project creation error:", err);
       return null;
     } finally {
       setLoading(false);
@@ -137,7 +208,6 @@ const AddProject = () => {
 
   const handlePublic = async (e) => {
     e.preventDefault();
-
     const result = await handleSubmit(e);
     if (result) {
       navigate("/Requests/TableOfQuantities", {
@@ -152,7 +222,6 @@ const AddProject = () => {
 
   const handleInvite = async (e) => {
     e.preventDefault();
-
     const result = await handleSubmit(e);
     if (result) {
       navigate("/AddProject/Invite", {
@@ -164,58 +233,52 @@ const AddProject = () => {
     }
   };
 
+  // Keyboard event handler
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" && e.ctrlKey) {
         handleSubmit(e);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
-
-  async function getProjectById() {
-    await axios
-      .get(`https://api.request-sa.com/api/v1/project/${projectId}`)
-      .then((res) => setProject(res.data.results))
-      .catch((err) => console.log(err));
-  }
+  }, [formData]); // Add formData as dependency
 
   return (
     <div className="AddProject mx-1">
-      {Loading ? (
-        <div className="flex">
+      {loading ? (
+        <div className="flex justify-center">
           <Loader />
         </div>
       ) : (
         <>
-          <h1 className="title ps-1 font-inter font-bold text-3xl text-black m-2 rtl:hidden ">
+          <h1 className="title ps-1 font-inter font-bold text-3xl text-black m-2 rtl:hidden">
             {t("AddProject")}
           </h1>
-          <div className="wrapper bg-white rounded-3xl p-3  ">
-            <form action="submit">
+          <div className="wrapper bg-white rounded-3xl p-3">
+            <form onSubmit={handleSubmit}>
               <Input
                 label={t("PName")}
                 placeholder={t("PName")}
-                className={`bg-white border border-purple text-black w-full   sm:w-full border-solid focus:border   focus:border-purple  focus:border-solid ${
-                  fieldErrors.Name && "border-red"
+                className={`bg-white border border-purple text-black w-full sm:w-full border-solid focus:border focus:border-purple focus:border-solid ${
+                  fieldErrors.name && "border-red"
                 }`}
-                type={"name"}
-                required={true}
-                id={"name"}
-                value={Name}
-                onChange={(e) => setName(e.target.value)}
+                type="text"
+                required
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
                 autoComplete="name"
                 autoFocus
               />
+              
               <div className="desc">
                 <label
                   htmlFor="description"
-                  className="flex items-center gap-2 capitalize  font-jost text-base font-medium "
+                  className="flex items-center gap-2 capitalize font-jost text-base font-medium"
                 >
                   {t("desc")}
                 </label>
@@ -223,33 +286,35 @@ const AddProject = () => {
                   name="description"
                   id="description"
                   placeholder={t("desc")}
-                  required={true}
-                  value={Description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                  value={formData.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
                   className={`${
-                    fieldErrors.Description && "border-red"
-                  } bg-white w-full   sm:w-full  rounded-xl border border-purple focus:outline-none font-jost font-normal text-base  my-2 py-2 px-4  border-solid  focus:border   focus:border-purple  focus:border-solid`}
+                    fieldErrors.description && "border-red"
+                  } bg-white w-full sm:w-full rounded-xl border border-purple focus:outline-none font-jost font-normal text-base my-2 py-2 px-4 border-solid focus:border focus:border-purple focus:border-solid`}
                 />
               </div>
+              
               <div>
                 <label className="font-jost text-base font-medium block">
                   {t("location")}
                 </label>
                 <input
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={formData.location}
+                  onChange={(e) => handleInputChange('location', e.target.value)}
                   type="text"
-                  placeholder="Location"
+                  placeholder={t("location")}
                   className={`${
                     fieldErrors.location && "border-red"
-                  } bg-white w-full   sm:w-full  rounded-xl border border-purple focus:outline-none font-jost font-normal text-base  my-2 py-2 px-4  border-solid  focus:border   focus:border-purple  focus:border-solid`}
+                  } bg-white w-full sm:w-full rounded-xl border border-purple focus:outline-none font-jost font-normal text-base my-2 py-2 px-4 border-solid focus:border focus:border-purple focus:border-solid`}
                 />
               </div>
-              <div className="flex flex-wrap gap-x-2 ">
-                <div className="flex flex-col my-2 sm:w-[49%] w-full ">
+              
+              <div className="flex flex-wrap gap-x-2 justify-between">
+                <div className="flex flex-col my-2 sm:w-[49%] w-full">
                   <label
                     htmlFor="sDate"
-                    className="flex ps-1  capitalize  items-center gap-2 font-jost text-base font-medium "
+                    className="flex ps-1 capitalize items-center gap-2 font-jost text-base font-medium"
                   >
                     {t("sDate")}
                   </label>
@@ -257,14 +322,9 @@ const AddProject = () => {
                     useRange={false}
                     asSingle={true}
                     inputId="sDate"
-                    value={sDate}
-                    onChange={(date) => {
-                      setSDate(date);
-                      if (date.startDate > eDate.startDate) {
-                        setEDate(date); // Reset eDate to sDate if it becomes invalid
-                      }
-                    }}
-                    primaryColor={"purple"}
+                    value={formData.sDate}
+                    onChange={(date) => handleDateChange('sDate', date)}
+                    primaryColor="purple"
                     popoverClassName="!bg-purple-100"
                     popoverDirection="down"
                     toggleClassName="text-black absolute top-4 ltr:right-4 rtl:left-4"
@@ -273,20 +333,20 @@ const AddProject = () => {
                     }`}
                   />
                 </div>
-                <div className="flex flex-col my-2 sm:w-[49%]  w-full ">
+                <div className="flex flex-col my-2 sm:w-[49%] w-full">
                   <label
                     htmlFor="dDate"
-                    className="flex  items-center gap-2 font-jost text-base  font-medium "
+                    className="flex items-center gap-2 font-jost text-base font-medium"
                   >
                     {t("dDate")}
                   </label>
                   <Datepicker
                     useRange={false}
                     asSingle={true}
-                    primaryColor={"purple"}
-                    value={eDate}
-                    minDate={sDate.startDate} // Prevent selection of dates before sDate
-                    onChange={(date) => setEDate(date)}
+                    primaryColor="purple"
+                    value={formData.eDate}
+                    minDate={formData.sDate.startDate}
+                    onChange={(date) => handleDateChange('eDate', date)}
                     inputId="dDate"
                     popoverClassName="!bg-purple-100"
                     popoverDirection="down"
@@ -297,8 +357,26 @@ const AddProject = () => {
                   />
                 </div>
               </div>
-              <div className="flex flex-wrap">
-                <div className="flex flex-col mt-1   w-full  sm:w-[49%]">
+              
+              <div className="flex flex-wrap items-center justify-between">
+                <div className="flex flex-col mt-1 w-full mb-2 ms-0 sm:w-[49%]">
+                  <Select
+                    label={t("Your Role")}
+                    isClearable
+                    options={[
+                      { value: "owner", label: t("owner") },
+                      { value: "contractor", label: t("contractor") },
+                      { value: "consultant", label: t("consultant") },
+                    ]}
+                    className={`bg-white ${
+                      fieldErrors.role && "border-b border-red rounded-2xl"
+                    }`}
+                    value={formData.role}
+                    placeholder={t("role")}
+                    onChange={(value) => handleInputChange('role', value)}
+                  />
+                </div>
+                <div className="flex flex-col mt-1 ms-0 w-full sm:w-[49%]">
                   <Select
                     label={t("Priority")}
                     isClearable
@@ -307,28 +385,26 @@ const AddProject = () => {
                       { value: "medium", label: t("Medium") },
                       { value: "high", label: t("High") },
                     ]}
-                    className={`bg-white   ${
-                      fieldErrors.priority && "border-b border-red  rounded-2xl"
+                    className={`bg-white ${
+                      fieldErrors.priority && "border-b border-red rounded-2xl"
                     }`}
-                    value={priority}
+                    value={formData.priority}
                     placeholder={t("Priority")}
-                    onChange={(value) => setPriority(value)}
+                    onChange={(value) => handleInputChange('priority', value)}
                   />
                 </div>
-                <div className="flex flex-col  w-full ms-2   sm:w-[49%]">
+                <div className="flex flex-col w-full">
                   <Input
                     label={t("budget")}
                     placeholder={t("budget")}
-                    className={`bg-white text-black border !py-2 border-purple !rounded-lg border-solid focus:border   focus:border-purple  focus:border-solid ${
+                    className={`bg-white text-black border ms-0 !py-2 border-purple !rounded-lg border-solid focus:border focus:border-purple focus:border-solid ${
                       fieldErrors.budget && "border-red"
                     }`}
-                    type={"text"}
-                    required={true}
-                    id={"budget"}
-                    min="10"
-                    value={formatBudget(budget)}
-                    onChange={(e) => setBudget(e.target.value)}
-                    autoFocus={true}
+                    type="text"
+                    required
+                    id="budget"
+                    value={formatBudget(formData.budget)}
+                    onChange={(e) => handleInputChange('budget', e.target.value)}
                   />
                 </div>
               </div>
@@ -338,23 +414,24 @@ const AddProject = () => {
                   <p className="error text-red">{error.message}</p>
                 </div>
               )}
+              
               <div className="btn flex flex-wrap items-center justify-center md:justify-end my-3 gap-2">
                 <button
-                  className={
-                    "bg-white w-1/3 text-purple border border-purple border-solid font-jost py-3  rounded-xl capitalize   opacity-100  disabled:opacity-50 text-base font-medium "
-                  }
+                  type="button"
+                  className="bg-white w-1/3 text-purple border border-purple border-solid font-jost py-3 rounded-xl capitalize opacity-100 disabled:opacity-50 text-base font-medium"
                   onClick={handleInvite}
+                  disabled={loading}
                 >
-                  {t("invite")}
+                  {loading ? t("loading") : t("invite")}
                 </button>
 
                 <button
-                  className={
-                    "bg-[#C7B0DA] text-white border-0 border border-purple border-solid font-jost py-3 w-1/3  rounded-xl capitalize   opacity-100  disabled:opacity-50 text-base font-medium "
-                  }
+                  type="button"
+                  className="bg-[#C7B0DA] text-white border border-purple border-solid font-jost py-3 w-1/3 rounded-xl capitalize opacity-100 disabled:opacity-50 text-base font-medium"
                   onClick={handlePublic}
+                  disabled={loading}
                 >
-                  {t("Public")}
+                  {loading ? t("loading") : t("Public")}
                 </button>
               </div>
             </form>

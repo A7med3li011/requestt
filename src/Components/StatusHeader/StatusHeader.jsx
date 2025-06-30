@@ -21,7 +21,7 @@ const StatusHeader = ({
     onFilterChange(buttons[index].value);
   };
 
-  console.log(activePosition)
+  console.log(activePosition);
   return (
     <div className={`StatusHeader my-2 bg-light ${className}`}>
       <div className="flex">
@@ -29,7 +29,7 @@ const StatusHeader = ({
           {buttons.map((button, index) => (
             <button
               key={button.value}
-              className={`btn px-4 py-5 font-inter font-bold text-xs text-gray-500  md:w-20  ${
+              className={`btn px-1 py-5 font-inter font-bold text-xs text-gray-500  md:w-20  ${
                 selectedIndex === index ? `active_${button.value}` : ""
               }`}
               onClick={() => handleButtonClick(index)}
@@ -46,7 +46,13 @@ const StatusHeader = ({
           style={{
             ...(isRTL
               ? { right: `${activePosition}px` }
-              : { left: `${activePosition == 240 ? activePosition+10 :activePosition+2}px` }),
+              : {
+                  left: `${
+                    activePosition == 240
+                      ? activePosition + 10
+                      : activePosition + 2
+                  }px`,
+                }),
           }}
         ></span>
       </div>
