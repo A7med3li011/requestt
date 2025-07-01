@@ -589,7 +589,7 @@ const TaskDetails = () => {
               disabled={
                 !(
                   isEditing &&
-                  user.role.jobTitle === "owner" &&
+                  user?.role?.jobTitle === "owner" &&
                   user?.access?.edit == true
                 )
               }

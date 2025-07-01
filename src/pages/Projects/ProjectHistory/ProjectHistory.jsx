@@ -78,7 +78,7 @@ const ProjectHistory = () => {
           </span>
           {t("boardView")}
         </button>
-        {/* <button
+        <button
           className={`ListView flex items-center gap-2 p-2 border border-gray border-solid font-inter font-bold text-xs  ${
             viewMode === "list" ? "bg-gray-200" : ""
           }`}
@@ -88,8 +88,8 @@ const ProjectHistory = () => {
             <FaBars className="w-4 h-4" />
           </span>
           {t("listView")}
-        </button> */}
-        <button
+        </button>
+        {/* <button
           className={`ListView flex items-center gap-2 p-2 border border-gray border-solid rounded-e-md font-inter font-bold text-xs  ${
             viewMode === "timeline" ? "bg-gray-200" : ""
           }`}
@@ -99,7 +99,7 @@ const ProjectHistory = () => {
             <FaBars className="w-4 h-4" />
           </span>
           {t("timeLineView")}
-        </button>
+        </button> */}
       </div>
       <StatusHeader buttons={buttonData} onFilterChange={handleFilterChange} />
       {loading ? (

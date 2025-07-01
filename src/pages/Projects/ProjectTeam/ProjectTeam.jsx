@@ -156,6 +156,7 @@ const AnimatedMultiValue = (props) => (
 const ProjectTeam = () => {
   const lang = i18next.language;
   const user = useSelector((state) => state.auth.user);
+  console.log(user, "bbbbbbbbb");
   const [membersData, setMembersData] = useState(null);
   const token = useSelector((state) => state.auth.token);
   const location = useLocation();
@@ -317,6 +318,7 @@ const ProjectTeam = () => {
       return;
     }
     const fullPhoneNum = `${countryCallingCode}${Phone}`;
+    console.log(user.role);
     try {
       const payload = {
         name: Name,
@@ -329,7 +331,8 @@ const ProjectTeam = () => {
         role: user.role._id,
         tags: SelectedTags.map((t) => t.value),
       };
-      payload;
+      console.log("here");
+      console.log(payload, "sssxxxxxx");
 
       await addMemberForProject(projectId, payload, token);
       clearFields();
@@ -516,7 +519,7 @@ const ProjectTeam = () => {
           <thead className="text-xs font-bold text-gray-dark uppercase border-b-2 border-gray">
             <tr>
               <th className="px-4 py-2">{t("Name")}</th>
-              <th className="px-4 py-2">{t("Role")}</th>
+              {/* <th className="px-4 py-2">{t("Role")}</th> */}
               <th className="px-4 py-2">{t("Email")}</th>
               <th className="px-4 py-2">{t("Phone number")}</th>
               <th className="px-4 py-2">{t("Access")}</th>
@@ -534,7 +537,7 @@ const ProjectTeam = () => {
                   <td className=" py-2 px-4 font-medium text-gray-dark text-center">
                     {member.name}
                   </td>
-                  <td className="px-4 py-2">{t(`${member?.role}`)}</td>
+                   {/* <td className="px-4 py-2">{t(`${member?.role}`)}</td> */}
                   <td
                     className="px-4 py-2 "
                     style={{
