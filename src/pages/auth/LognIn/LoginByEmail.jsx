@@ -30,7 +30,7 @@ const LoginByMail = () => {
   "Error object:", error;
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      return navigate("/");
+      return navigate("/home");
     }
   }, []);
   const handleSubmit = async (e) => {
@@ -79,9 +79,9 @@ const LoginByMail = () => {
       ) : (
         <>
           <LandingHeader />
-          <div className="Wrapper flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="Wrapper flex flex-col md:flex-row md:items-center md:justify-between ">
             <div className="w-full  md:w-1/2 lg:w-2/5 flex  flex-col items-center  mt-14  md:my-40">
-              <div className="image_phone md:hidden">
+              <div className="image_phone lg:hidden">
                 <img
                   src={image}
                   alt="LogIn By Phone"
@@ -91,17 +91,17 @@ const LoginByMail = () => {
                   whileHover={{ scale: 1.05 }}
                 />
               </div>
-              <h3 className="font-workSans font-semibold text-purple text-center md:text-left md:text-gray-dark md:font-bold text-xl md:text-3xl lg:text-5xl">
+              <h3 className="font-workSans font-semibold text-purple text-center md:text-left md:text-gray-dark md:font-bold text-xl md:text-2xl lg:text-3xl">
                 {t("sign in To activate your business easily")}
               </h3>
-              <p className="font-jost font-medium  hidden md:block md:text-xl lg:text-2xl">
+              <p className="font-jost font-medium   me-20 hidden md:block md:text-xl lg:text-2xl">
                 {t("if you don't have an account you can")}
                 <Link to="/SignUp/ChooseRole" className="text-blue block">
                   {t("Register here!")}
                 </Link>
               </p>
             </div>
-            <div className="LogIn_Image md:flex justify-center hidden">
+            <div className="LogIn_Image lg:flex justify-center hidden">
               <motion.img
                 src={image}
                 alt="LogIn By Phone"

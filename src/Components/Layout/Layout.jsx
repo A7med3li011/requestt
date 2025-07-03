@@ -27,7 +27,7 @@ const Layout = () => {
     "/SignUp/ChooseRole",
     "/SignUp/createCompany",
     "/forgotPassword",
-    "/landing",
+    "/",
     "/landing/services",
     "/landing/ContactUs",
     "/landing/seePlans",
@@ -39,11 +39,8 @@ const Layout = () => {
     "/404",
   ];
 
-  const isLandingPage =
-    location.pathname === "/landing" ||
-    location.pathname.startsWith("/landing/");
-
-  
+  const isLandingPage = location.pathname === "/";
+  // location.pathname.startsWith("/landing/");
 
   const showSidebar = !noSidebarRoutes.includes(location.pathname);
 
@@ -52,7 +49,9 @@ const Layout = () => {
       {showSidebar && <Header className="w-full" />}
       <div className="flex flex-1 ">
         {showSidebar && localStorage.getItem("token") && <Sidebar />}
-        <main className={`flex-1 my-4 ${isLandingPage ? "p-0" : "p-2 md:p-4"}   `}>
+        <main
+          className={`flex-1 my-4 ${isLandingPage ? "p-0" : "p-2 md:p-4"}   `}
+        >
           <AppRoutes />
         </main>
       </div>
@@ -60,9 +59,7 @@ const Layout = () => {
       {/* <div className="fixed bottom-0 w-full">
         <Footer />
       </div> */}
-
     </div>
-    
   );
 };
 

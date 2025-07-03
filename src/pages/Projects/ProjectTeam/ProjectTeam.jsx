@@ -155,6 +155,7 @@ const AnimatedMultiValue = (props) => (
 
 const ProjectTeam = () => {
   const lang = i18next.language;
+  const [members, setMembers] = useState("");
   const user = useSelector((state) => state.auth.user);
   console.log(user, "bbbbbbbbb");
   const [membersData, setMembersData] = useState(null);
@@ -224,7 +225,8 @@ const ProjectTeam = () => {
           getAllTagsByProject(projectId, lang),
           getAllMembersByProject(projectId, lang),
         ]);
-
+        setMembers(MembersRes?.admins);
+        // console.log(MembersRes, "ssss");
         setVocations(vocationResponse.allVocations);
         setVocationLoading(false);
 
@@ -417,6 +419,7 @@ const ProjectTeam = () => {
 
   if (loading) return <p>Loading...</p>;
 
+  // console.log(members, "wwwwwwwww");
   const {
     admins = {},
     groupedMembers = [],
@@ -427,7 +430,8 @@ const ProjectTeam = () => {
   } = membersData || {};
   const { owner, consultant, contractor } = admins;
 
-  console.log(ownerTeam);
+  console.log(members?.owner?.name, "kkkkkkkk");
+
   return (
     <div className="ProjectTeam">
       <div className="header bg-white rounded-3xl p-2">
@@ -450,19 +454,19 @@ const ProjectTeam = () => {
           </div>
         </div>
       </div>
-
+      {/* {MembersRes?.admin?.owner?.name} */}
       <div className="admins grid grid-cols-1 lg:grid-cols-3 gap-3 my-3">
-        {(owner || owner !== null) && (
+        {(owner || owner !== null || members?.owner) && (
           <div className="admin">
             <h4 className="m-1 font-medium text-sm">{t("owner")}</h4>
             <div className=" bg-white  flex items-center  gap-2 p-3 rounded-3xl">
               <ProfileAvatar
-                name={owner?.name}
-                profilePic={owner?.profilePic}
+                name={owner?.name || members?.owner?.name}
+                profilePic={owner?.profilePic || members?.owner?.profilePic}
               />
               <div className="flex flex-col">
                 <p className=" text-sm font-medium">
-                  {owner?.name}{" "}
+                  {owner?.name || members?.owner?.name}{" "}
                   <span className="text-gray">(project manager)</span>
                 </p>
                 <span className="text-blue text-sm font-medium">
@@ -472,17 +476,19 @@ const ProjectTeam = () => {
             </div>
           </div>
         )}
-        {(consultant || consultant !== null) && (
+        {(consultant || consultant !== null || members?.consultant) && (
           <div className="consultant">
             <h4 className="m-1 font-medium text-sm">{t("consultant")} </h4>
             <div className=" bg-white  flex items-center  gap-2 p-3 rounded-3xl">
               <ProfileAvatar
-                name={consultant?.name}
-                profilePic={consultant?.profilePic}
+                name={consultant?.name || members?.consultant?.name}
+                profilePic={
+                  consultant?.profilePic || members?.consultant?.profilePic
+                }
               />
               <div className="flex flex-col">
                 <p className=" text-sm font-medium">
-                  {consultant?.name}{" "}
+                  {consultant?.name || members?.consultant?.name}{" "}
                   <span className="text-gray">(Consulting Manager)</span>
                 </p>
                 <span className="text-blue text-sm font-medium">
@@ -492,17 +498,19 @@ const ProjectTeam = () => {
             </div>
           </div>
         )}
-        {(contractor || contractor !== null) && (
+        {(contractor || contractor !== null || members?.contractor) && (
           <div className="contractor">
             <h4 className="m-1 font-medium text-sm">{t("contractor")}</h4>
             <div className=" bg-white  flex items-center  gap-2 p-3 rounded-3xl">
               <ProfileAvatar
-                name={contractor?.name}
-                profilePic={contractor?.profilePic}
+                name={contractor?.name || members?.contractor?.name}
+                profilePic={
+                  contractor?.profilePic || members?.contractor?.profilePic
+                }
               />
               <div className="flex flex-col">
                 <p className=" text-sm font-medium">
-                  {contractor?.name}{" "}
+                  {contractor?.name || members?.contractor?.name}{" "}
                   <span className="text-gray">(Contracting Manager)</span>
                 </p>
                 <span className="text-blue text-sm font-medium">
@@ -537,7 +545,7 @@ const ProjectTeam = () => {
                   <td className=" py-2 px-4 font-medium text-gray-dark text-center">
                     {member.name}
                   </td>
-                   {/* <td className="px-4 py-2">{t(`${member?.role}`)}</td> */}
+                  {/* <td className="px-4 py-2">{t(`${member?.role}`)}</td> */}
                   <td
                     className="px-4 py-2 "
                     style={{

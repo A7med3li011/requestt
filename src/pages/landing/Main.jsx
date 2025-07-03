@@ -40,7 +40,6 @@ const Main = () => {
     //   setMode("Mode3");
     // }
   }, [activeIndex, Mode]);
-  
 
   const handleSlideChange = (index) => {
     // Update activeIndex when slide changes
@@ -58,7 +57,7 @@ const Main = () => {
     intervalRef.current = setInterval(() => {
       currentIndex = (currentIndex + 1) % modes.length;
       setMode(modes[currentIndex]);
-    }, 4000);
+    }, 10000);
   };
   return (
     <>
@@ -90,7 +89,7 @@ const Main = () => {
                 : ""}
             </p>
 
-            <Link to={"/landing/seePlans"}>
+            <Link to={"/seePlans"}>
               <button className="py-2 px-4 bg-white text-purple rounded-lg my-2 transition-transform duration-500 ease-in-out hover:scale-105 scale-up">
                 {t("landingMessage.Btn")}
               </button>
@@ -266,7 +265,7 @@ const Main = () => {
                 : ""}
             </p>
 
-            <Link to={"/landing/seePlans"}>
+            <Link to={"/seePlans"}>
               <button className="py-2 px-4 bg-white text-purple rounded-lg my-2 transition-transform duration-500 ease-in-out hover:scale-105 scale-up">
                 {t("landingMessage.Btn")}
               </button>

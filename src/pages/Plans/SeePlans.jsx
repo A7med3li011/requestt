@@ -5,8 +5,10 @@ import { FaXmark } from "react-icons/fa6";
 import { FaCheck } from "react-icons/fa";
 import "./style.scss";
 import { Chip } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { t } from "i18next";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 const tiers = [
   {
     name: "Request",
@@ -129,6 +131,8 @@ function classNames(...classes) {
 }
 
 const SeePlans = () => {
+  const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   return (
     <div className="SeePlans flex flex-col items-center">
       <h1 className="text-xl  md:text-2xl ltr:lg:text-3xl rtl:lg:text-4xl font-extrabold">
@@ -221,20 +225,32 @@ const SeePlans = () => {
                 </li>
               ))}
             </ul>
-            <Link to={`/PlanDetails/${tier.name}`}>
-              <Button className={"mt-4 font-normal text-xs px-0  lg:px-8"}>
-                {t("Get Started")}
-              </Button>
-            </Link>
+            {/* <Link to={`/PlanDetails/${tier.name}`}> */}
+            <Button
+              onClick={() => {
+                if (!auth.isAuthenticated) {
+                  toast.warning("please login first!");
+                  navigate(`/LogIn/Mail`);
+                } else {
+                  navigate(`/PlanDetails/${tier.name}`);
+                }
+              }}
+              className={"mt-4 font-normal text-xs px-0  lg:px-8"}
+            >
+              {t("Get Started")}
+            </Button>
+            {/* </Link> */}
           </div>
         ))}
       </div>
-      <Link
-        to={"/PlansInfo"}
-        className="text-gold underline underline-offset-1 relative my-4 z-50"
-      >
-        {t("More Details")}
-      </Link>
+      {auth?.isAuthenticated && (
+        <Link
+          to={"/PlansInfo"}
+          className="text-gold underline underline-offset-1 relative my-4 z-50"
+        >
+          {t("More Details")}
+        </Link>
+      )}
     </div>
   );
 };

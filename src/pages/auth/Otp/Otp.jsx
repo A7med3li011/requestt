@@ -50,7 +50,7 @@ const Otp = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      return navigate("/");
+      return navigate("/home");
     }
   }, []);
 
@@ -89,7 +89,7 @@ const Otp = () => {
           if (otp === userData.verificationCode) {
             localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("token", token);
-            navigate("/");
+            navigate("/home");
           } else {
             setError(t("OTP is incorrect"));
           }
@@ -104,7 +104,7 @@ const Otp = () => {
               userData_login.verificationCode;
             localStorage.setItem("user", JSON.stringify(userData_login));
             localStorage.setItem("token", token);
-            navigate("/");
+            navigate("/home");
           } else {
             setError(t("OTP is incorrect"));
           }

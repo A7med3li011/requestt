@@ -1,5 +1,6 @@
 import LandingHeader from "../../Components/landingHeader/landingHeader";
 import ModifHeader from "../../Components/landingHeader/ModifiedHeader";
+import Page404 from "../404Page/page404";
 import ContactUsLanding from "./ContactUsLanding";
 import Main from "./Main";
 import PlansDetailsLanding from "./PlansDetailsLanding";

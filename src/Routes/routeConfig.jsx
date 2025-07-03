@@ -46,7 +46,7 @@ import PreventAction from "../Services/PreventAction.jsx";
 
 // Define public routes
 export const publicRoutes = [
-  { path: "/landing/*", component: <Landing /> },
+  { path: "/*", component: <Landing /> },
   { path: "/LogIn", component: <LoginByPhone /> },
   { path: "/LogIn/Mail", component: <LoginByMail /> },
   { path: "/forgotPassword", component: <ForgotPassword /> },
@@ -54,7 +54,7 @@ export const publicRoutes = [
   { path: "/SignUp", component: <SignUp /> },
   { path: "/SignUp/ChooseRole", component: <Role /> },
   { path: "/SignUp/createCompany", component: <CreateCompany /> },
-
+  { path: "/SeePlans", component: <SeePlans /> },
   {
     path: "*",
     component: <Navigate to="/404" replace />,
@@ -64,8 +64,8 @@ export const publicRoutes = [
 
 // Define protected routes
 export const protectedRoutes = [
-  { path: "/", component: <Home /> },
-  { path: "/ContactUs", component: <ContactUs /> },
+  { path: "/home", component: <Home /> },
+  // { path: "/ContactUs", component: <ContactUs /> },
   { path: "/Settings/Profile", component: <Profile /> },
   { path: "/Settings", component: <Setting /> },
   {
@@ -78,7 +78,15 @@ export const protectedRoutes = [
     ),
   },
   { path: "/Projects", component: <ProjectHistory /> },
-  { path: "/TaskDetails/:id", component: <PreventAction> <TaskDetails /> </PreventAction> },
+  {
+    path: "/TaskDetails/:id",
+    component: (
+      <PreventAction>
+        {" "}
+        <TaskDetails />{" "}
+      </PreventAction>
+    ),
+  },
   { path: "/TaskHistory/:id", component: <TaskHistory /> },
   {
     path: "/AddProject",
@@ -175,11 +183,16 @@ export const protectedRoutes = [
       </PreventAction>
     ),
   },
-  { path: "/SeePlans", component: <SeePlans /> },
+
   { path: "/PlansInfo", component: <PlansInfo /> },
   { path: "/PlanDetails/:type", component: <PlanDetails /> },
   { path: "/Payments", component: <Payments /> },
   { path: "/PerformanceEvaluation", component: <PerformanceEvaluation /> },
   { path: "/ProjectTeam", component: <ProjectTeam /> },
   { path: "/Notifications", component: <Notifications /> },
+  { path: "/404", component: <Page404 /> },
+  {
+    path: "*",
+    component: <Navigate to="/404" replace />,
+  },
 ];

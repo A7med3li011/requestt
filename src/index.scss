@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -93,6 +94,7 @@ body {
 
 body[dir="rtl"] {
   direction: rtl;
+  font-family: "El Messiri", sans-serif;
 }
 ::selection {
   background-color: var(--purple);
@@ -207,4 +209,3 @@ option {
 .Notification_3 {
   color: var(--purple2);
 }
-

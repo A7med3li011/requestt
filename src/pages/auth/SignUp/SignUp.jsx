@@ -18,7 +18,7 @@ import {
 } from "../../../redux/slices/authSlice";
 import { useEffect, useState } from "react";
 import Loader from "../../../Components/Loader/Loader";
-import {PhoneInput} from "react-international-phone";
+import { PhoneInput } from "react-international-phone";
 import "react-phone-number-input/style.css";
 import Select from "react-select";
 import countries from "react-select-country-list";
@@ -450,7 +450,6 @@ const SignUp = () => {
                     />
                   </div> */}
                   <div className="flex flex-col gap-1">
-                    
                     <PhoneInput
                       name="phoneNumber"
                       className={`flex flex-row w-full g`}
@@ -461,10 +460,9 @@ const SignUp = () => {
                         // border: "#258F424D solid 2px",
                         borderRadius: "",
                         height: "44px",
-                        width:"100%",
-                        backgroundColor:"#DADFE4",
-                        fontSize:"15px"
-                        
+                        width: "100%",
+                        backgroundColor: "#DADFE4",
+                        fontSize: "15px",
                       }}
                       countrySelectorStyleProps={{
                         flagStyle: {
@@ -473,10 +471,9 @@ const SignUp = () => {
                           objectFit: "fill",
                         },
                         buttonStyle: {
-                          
                           width: "60px",
                           height: "44px",
-                          backgroundColor:"#DADFE4"
+                          backgroundColor: "#DADFE4",
                         },
                       }}
                       prefix="+"
