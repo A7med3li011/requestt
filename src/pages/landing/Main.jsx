@@ -4,7 +4,10 @@ import landing2 from "../../assets/images/landing2.jpg";
 import landing3 from "../../assets/images/landing3.jpg";
 import landing4 from "../../assets/images/1PlaceholderImages-2.svg";
 import landing5 from "../../assets/images/1PlaceholderImages-1.svg";
-import landing6 from "../../assets/images/1PlaceholderImages.svg";
+// import immg1 from "../../assets/images/1PlaceholderImages.svg";
+import immg1 from "../../assets/images/cons1.webp";
+import immg2 from "../../assets/images/cons2.jpg";
+import immg3 from "../../assets/images/cons3.jpg";
 import box1 from "../../assets/images/box1.png";
 import box2 from "../../assets/images/box2.png";
 import box3 from "../../assets/images/box3.png";
@@ -96,32 +99,32 @@ const Main = () => {
             </Link>
           </div>
         </div>
-        <div className="landingImage1 absolute right-52 top-36 transition-transform duration-500 ease-in-out fade-in">
+        <div className="landingImage1 absolute right-[15rem] top-36 transition-transform duration-500 ease-in-out fade-in">
           <img
             src={
               Mode === "Mode1"
-                ? landing6
+                ? immg1
                 : Mode === "Mode2"
-                ? landing5
+                ? immg2
                 : Mode === "Mode3"
-                ? landing4
+                ? immg3
                 : ""
             }
             alt="Landing Main Image"
-            width={450}
-            height={450}
-            className="transition-transform duration-500 ease-in-out hover:scale-105"
+            width={350}
+            height={350}
+            className="transition-transform duration-500 ease-in-out hover:scale-105 rounded-lg rotate-[23deg]"
           />
         </div>
         <div className="landingImage2 absolute -right-24 bottom-12 rotate-45 p-2 transition-transform duration-500 ease-in-out fade-in">
           <img
             src={
               Mode === "Mode1"
-                ? landing3
+                ? immg3
                 : Mode === "Mode2"
-                ? landing1
+                ? immg1
                 : Mode === "Mode3"
-                ? landing2
+                ? immg2
                 : ""
             }
             alt="Landing Main Image"
@@ -134,11 +137,11 @@ const Main = () => {
           <img
             src={
               Mode === "Mode1"
-                ? landing2
+                ? immg2
                 : Mode === "Mode2"
-                ? landing3
+                ? immg3
                 : Mode === "Mode3"
-                ? landing1
+                ? immg1
                 : ""
             }
             alt="Landing Main Image"
@@ -210,15 +213,9 @@ const Main = () => {
           >
             <FaArrowLeft />
           </p>
-          {Mode == "Mode1" && (
-            <img className="h-[300px] w-full" src={landing6} />
-          )}
-          {Mode == "Mode2" && (
-            <img className="h-[300px] w-full" src={landing2} />
-          )}
-          {Mode == "Mode3" && (
-            <img className="h-[300px] w-full" src={landing3} />
-          )}
+          {Mode == "Mode1" && <img className="h-[300px] w-full" src={immg1} />}
+          {Mode == "Mode2" && <img className="h-[300px] w-full" src={immg2} />}
+          {Mode == "Mode3" && <img className="h-[300px] w-full" src={immg3} />}
 
           <div className="flex justify-center gap-x-3 my-2">
             <span
@@ -240,8 +237,8 @@ const Main = () => {
               onClick={() => setMode("Mode3")}
             ></span>
           </div>
-          {/* <img src={landing2} />
-         <img src={landing3} /> */}
+          {/* <img src={immg2} />
+         <img src={immg3} /> */}
         </div>
 
         <div className="flex items-center ltr:justify-start rtl:justify-end mt-10">
