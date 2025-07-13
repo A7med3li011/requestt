@@ -5,6 +5,7 @@ import landing3 from "../../assets/images/landing3.jpg";
 import landing4 from "../../assets/images/1PlaceholderImages-2.svg";
 import landing5 from "../../assets/images/1PlaceholderImages-1.svg";
 // import immg1 from "../../assets/images/1PlaceholderImages.svg";
+import image2 from "../../assets/images/sign-no-tagline-transparent-1500x1500 (1).png";
 import immg1 from "../../assets/images/cons1.webp";
 import immg2 from "../../assets/images/cons2.jpg";
 import immg3 from "../../assets/images/cons3.jpg";
@@ -268,6 +269,15 @@ const Main = () => {
               </button>
             </Link>
           </div>
+        </div>
+        {/* Bottom Section */}
+      </div>
+      <div className=" py-4 px-4 bg-white">
+        <div className="  w-fit flex me-auto flex-row items-center">
+          <img src={image2} alt="" className="w-24" />
+          <p className="text-gray-600 max-w-2xl leading-relaxed">
+            {t("Code Skills Information Technology Company")}
+          </p>
         </div>
       </div>
     </>

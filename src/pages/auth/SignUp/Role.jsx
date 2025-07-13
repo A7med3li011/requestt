@@ -7,6 +7,7 @@ import "./style.scss";
 import { useSelector } from "react-redux";
 import Loader from "../../../Components/Loader/Loader";
 import LandingHeader from "../../../Components/landingHeader/landingHeader";
+import image2 from "../../../assets/images/sign-no-tagline-transparent-1500x1500 (1).png";
 
 const Role = () => {
   const [selectedRoleId, setSelectedRoleId] = useState("");
@@ -101,6 +102,14 @@ const Role = () => {
           </div>
         </>
       )}
+      <div className=" py-4 px-4 mt-10 ">
+        <div className="  w-fit flex me-auto flex-row items-center">
+          <img src={image2} alt="" className="w-24" />
+          <p className="text-gray-600 max-w-2xl leading-relaxed">
+            {t("Code Skills Information Technology Company")}
+          </p>
+        </div>
+        </div>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import Apple from "../../../assets/images/Apple.png";
 import Facebook from "../../../assets/images/Facebook.png";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import "./style.scss";
+import image2 from "../../../assets/images/sign-no-tagline-transparent-1500x1500 (1).png";
 import i18next, { t } from "i18next";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -616,6 +617,14 @@ const SignUp = () => {
           </div>
         </>
       )}
+      <div className=" py-4 px-4 mt-10">
+        <div className="  w-fit flex me-auto flex-row items-center">
+          <img src={image2} alt="" className="w-24" />
+          <p className="text-gray-600 max-w-2xl leading-relaxed">
+            {t("Code Skills Information Technology Company")}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

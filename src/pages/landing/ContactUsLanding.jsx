@@ -29,7 +29,7 @@ import {
 import { useCountries } from "use-react-countries";
 import { useTranslation } from "react-i18next";
 import { PhoneInput } from "react-international-phone";
-
+import image2 from "../../assets/images/sign-no-tagline-transparent-1500x1500 (1).png";
 const ContactUsLanding = () => {
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -405,7 +405,7 @@ const ContactUsLanding = () => {
           </p>
         </div>
       </div>
-      <div className="social flex flex-col gap-3 bg-purple p-2 ltr:rounded-l-xl rtl:rounded-r-xl absolute ltr:right-0 rtl:left-0 bottom-20">
+      {/* <div className="social flex flex-col gap-3 bg-purple p-2 ltr:rounded-l-xl rtl:rounded-r-xl absolute ltr:right-0 rtl:left-0 bottom-20">
         <a href="#" target="_blank">
           <span className="">
             <FaFacebookF className="text-white " />
@@ -426,6 +426,14 @@ const ContactUsLanding = () => {
             <FaTwitter className="text-white " />
           </span>
         </a>
+      </div> */}
+      <div className=" py-4 px-4 bg-">
+        <div className="  w-fit flex me-auto flex-row items-center">
+          <img src={image2} alt="" className="w-24" />
+          <p className="text-gray-600 max-w-2xl leading-relaxed">
+            {t("Code Skills Information Technology Company")}
+          </p>
+        </div>
       </div>
     </div>
   );

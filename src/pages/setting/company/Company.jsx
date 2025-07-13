@@ -145,7 +145,7 @@ const Company = () => {
               type="text"
               id="companyName"
               name="companyName"
-              placeholder={"Company Name"}
+              placeholder={t("Company Name")}
               value={name}
               required
               onChange={(e) => setName(e.target.value)}
