@@ -318,6 +318,9 @@
     "subHead": "We provide the best technical solutions for efficient project management",
     "HeadServices": "Why Subscribe?"
   },
+  "DELETEPROJECT":"Delete Project",
+  "messageDelete":"project deleted successfully",
+  "ProjectName": "Project Name",
   "happyClient": "Happy Client",
   "amazingProjects": "Amazing Projects",
   "successPartner": "Success Partner",

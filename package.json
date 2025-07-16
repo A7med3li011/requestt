@@ -29,6 +29,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "jszip": "^3.10.1",
     "lottie-react": "^2.4.0",
+    "lucide-react": "^0.525.0",
     "payment": "^2.4.7",
     "react": "^18.3.1",
     "react-apexcharts": "^1.5.0",

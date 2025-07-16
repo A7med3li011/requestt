@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import Input from "../../../Components/UI/Input/Input";
-import { MdCalendarToday } from "react-icons/md";
+import { MdCalendarToday, MdEdit } from "react-icons/md";
 import { FaFileLines } from "react-icons/fa6";
 import { IoAddOutline, IoPrint } from "react-icons/io5";
 import { FaCommentMedical } from "react-icons/fa6";
@@ -13,7 +13,7 @@ import {
   getProjectDetails,
   getProjectTagProgress,
 } from "../../../Services/api";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { BiTask } from "react-icons/bi";
 import { Box } from "@mui/material";
@@ -30,6 +30,7 @@ import ProfileAvatar from "../../../Components/UI/profilePic/profilePic";
 import Select from "../../../Components/UI/Select/Select";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const allStatus = [
   {
     value: "working",
@@ -48,17 +49,94 @@ const allStatus = [
     name: "waiting",
   },
 ];
+
+// Delete Confirmation Modal Component
+const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, projectName }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-lg">
+        <div className="text-center">
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+            <svg
+              className="h-6 w-6 text-red-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+              />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            {t("Delete Project")}
+          </h3>
+          <p className="text-sm text-black mb-6">
+            {t("Are you sure you want to delete")} "{projectName}"? {t("This action cannot be undone")}.
+          </p>
+          <div className="flex space-x-3">
+            <button
+              onClick={onClose}
+              className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
+            >
+              {t("Cancel")}
+            </button>
+            <button
+              onClick={onConfirm}
+              className="flex-1 px-4 py-2 text-sm font-medium text-rose-600 bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+            >
+              {t("Delete")}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProjectDetails = () => {
   const user = useSelector((state) => state.auth.user);
   const [loading, setLoading] = useState(false);
   const [Project, setProject] = useState({});
   const [Owner, setOwner] = useState({});
+  const [name, setName] = useState("");
   const [Contractor, setContractor] = useState([]);
   const [tags, setTags] = useState({});
   const [status, setStatus] = useState(Project?.status);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const location = useLocation();
   const { projectId } = location.state || {};
   const lang = i18next.language;
+  const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
+
+  async function deleteProject() {
+    await axios
+      .delete(`${import.meta.env.VITE_API_URL}project/${projectId}`)
+      .then((res) => {
+        toast.success(t("messageDelete"))
+        navigate("/Projects")
+      })
+      .catch((err) => console.log(err));
+  }
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    setShowDeleteModal(false);
+    deleteProject();
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
+  };
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -92,19 +170,22 @@ const ProjectDetails = () => {
     return format(new Date(date), "dd MMM");
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
   async function updateProjectStatus() {
     await axios
-      .put(`https://api.request-sa.com/api/v1/project`, {
+      .put(`${apiUrl}project`, {
         projectId,
         status,
+        name,
       })
-
+      .then((res) => setToggle(false))
       .catch((err) => console.log(err));
   }
 
   useEffect(() => {
     updateProjectStatus();
   }, [status]);
+
   return (
     <div className="ProjectDetails mx-1">
       {loading ? (
@@ -151,25 +232,42 @@ const ProjectDetails = () => {
               </div>
             </div>
 
-           {user?.access?.edit == true && <div>
-              {(Project?.consultant?._id == user._id ||
-                Project?.owner?._id == user._id) && (
-                <div className="p-4">
-                  <Select
-                    isClearable={false}
-                    label="Status"
-                    id="status"
-                    options={allStatus.map(({ value, name }) => ({
-                      value,
-                      label: t(name), // react-select expects label instead of name
-                    }))}
-                    value={status}
-                    onChange={(val) => setStatus(val)}
-                    placeholder={`${t(status) || t(Project?.status)}`}
-                  />
-                </div>
-              )}
-            </div>}
+            {user?.access?.edit == true && (
+              <div>
+                {(Project?.consultant?._id == user._id ||
+                  Project?.owner?._id == user._id) && (
+                  <div className="p-4">
+                    <Select
+                      isClearable={false}
+                      label="Status"
+                      id="status"
+                      options={allStatus.map(({ value, name }) => ({
+                        value,
+                        label: t(name), // react-select expects label instead of name
+                      }))}
+                      value={status}
+                      onChange={(val) => setStatus(val)}
+                      placeholder={`${t(status) || t(Project?.status)}`}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            {user?.access?.edit == true && (
+              <div className="col-start-3 row-start-2">
+                {(Project?.consultant?._id == user._id ||
+                  Project?.owner?._id == user._id) && (
+                  <div className="p-4 pt-10 ">
+                    <button
+                      onClick={handleDeleteClick}
+                      className="py-[10px] px-4 text-center text-white rounded-xl  bg-linear_1 w-full"
+                    >
+                      {t("DELETEPROJECT")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
             {user?.plan?.name === "RequestPlus" && (
               <>
                 <div className="fullBudget  col-span-1  h-[140px]  relative w-full  bg-white  p-6 rounded-3xl">
@@ -245,10 +343,38 @@ const ProjectDetails = () => {
           <div className="wrapper bg-white grid grid-cols-2 rounded-3xl m-2 ">
             <div className="box col-span-2 lg:col-span-1 relative flex flex-col ">
               <div className="head flex items-center  justify-between  my-3 mx-4">
-                <h5 className="font-bold  text-2xl ">{Project.name}</h5>
+                <div className="flex items-center flex-wrap  gap-x-5">
+                  <h5 className="font-bold  text-2xl ">
+                    {name || Project.name}
+                  </h5>
+                  <button
+                    onClick={() => {
+                      setToggle((prev) => !prev);
+                    }}
+                    className="text-lg"
+                  >
+                    <MdEdit />
+                  </button>
+                </div>
                 <p className="font-semibold  text-sm">{t("Architecture")}</p>
               </div>
-
+              {toggle && (
+                <div className="w-full px-3  flex justify-between items-center">
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="py-2 px-4  rounded-lg border-[1px] border-black  me-2 focus:outline-none"
+                    placeholder={`${t("ProjectName")}`}
+                  />
+                  <button
+                    onClick={updateProjectStatus}
+                    className="bg-linear_1 text-white py-2  px-3 rounded-lg block ms-auto"
+                  >
+                    {t("Confirm")}
+                  </button>
+                </div>
+              )}
               <div className="analytics_box rounded-md shadow-md p-8 flex flex-col gap-3  mt-4 mb-4 mx-4 ">
                 <div
                   className={`progress_wrapper flex flex-col lg:flex-row items-center gap-2 rounded-2xl shadow-md p-8 relative ${
@@ -282,10 +408,10 @@ const ProjectDetails = () => {
                           "--CircularProgress-progressShadowBlur": "10px",
                           "--CircularProgress-progressShadowOffset": "0px 2px",
                         }}
-                        value={Project.progress}
+                        value={Project?.progress}
                         variant="solid"
                       >
-                        {Math.round(Project.progress)}%
+                        {Math.round(Project?.progress)}%
                       </CircularProgress>
                     </div>
                   )}
@@ -387,33 +513,35 @@ const ProjectDetails = () => {
                 label={t("location")}
                 placeholder={Project.location || t("location")}
               />
-             {user?.access?.edit == true && <div className="flex right-0 my-2 items-center justify-end">
-                <Link
-                  to={"/AddProject/Invite"}
-                  state={{
-                    projectId: Project._id,
-                    projectName: Project.name,
-                    fromProject: true,
-                  }}
-                >
-                  <span>
-                    <IoMdPersonAdd className="text-red h-8 w-8 " />
-                  </span>
-                </Link>
-                {/* <button className="files flex items-center gap-1 mx-1">
+              {user?.access?.edit == true && (
+                <div className="flex right-0 my-2 items-center justify-end">
+                  <Link
+                    to={"/AddProject/Invite"}
+                    state={{
+                      projectId: Project._id,
+                      projectName: Project.name,
+                      fromProject: true,
+                    }}
+                  >
+                    <span>
+                      <IoMdPersonAdd className="text-red h-8 w-8 " />
+                    </span>
+                  </Link>
+                  {/* <button className="files flex items-center gap-1 mx-1">
                   <span className="text-purple-dark font-inter font-extrabold text-sm leading-4">
                     {Project?.documentsLength || 0}
                   </span>
                   <FaFileLines className="text-purple-dark h-7 w-7 " />
                 </button> */}
-                <AddNote projectId={Project._id} Notes={Project.notes} />
-                <button className="print mx-1">
-                  <span>
-                    <IoPrint className="h-7 w-7 text-yellow" />
-                  </span>
-                </button>
-              </div>}
-              <div className="flex right-0 my-2 items-center gap-3 justify-end">
+                  <AddNote projectId={Project._id} Notes={Project.notes} />
+                  <button className="print mx-1">
+                    <span>
+                      <IoPrint className="h-7 w-7 text-yellow" />
+                    </span>
+                  </button>
+                </div>
+              )}
+              <div className="flex flex-wrap right-0 my-2 items-center gap-3 justify-end">
                 {/* <Button
                   className="w-fit px-7 border border-solid !border-purple !text-purple"
                   style={{ background: "white" }}
@@ -432,6 +560,14 @@ const ProjectDetails = () => {
               </div>
             </div>
           </div>
+
+          {/* Delete Confirmation Modal */}
+          <DeleteConfirmationModal
+            isOpen={showDeleteModal}
+            onClose={handleDeleteCancel}
+            onConfirm={handleDeleteConfirm}
+            projectName={Project.name}
+          />
         </>
       )}
     </div>

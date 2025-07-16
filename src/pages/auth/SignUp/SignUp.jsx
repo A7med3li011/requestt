@@ -86,7 +86,7 @@ const SignUp = () => {
   const [countryIndex, setCountryIndex] = useState(230);
   const { name, flags, countryCallingCode } = countries[countryIndex];
   const { roleId } = location.state || {};
-  "role id from state =>", roleId;
+  console.log("role id from state =>", roleId);
 
   const { isLoading, error } = useSelector((state) => state.auth);
   const { i18n } = useTranslation();
@@ -192,12 +192,12 @@ const SignUp = () => {
       phone: trimmedPhone,
       role: roleId,
     };
-    "userData :::: =>  ", userData;
+    console.log("userData :::: =>  ", userData);
     try {
       const result = await dispatch(handleSignUp(userData)).unwrap();
-      "result -----> ", result;
-      result.results;
-      result.token;
+      console.log("result -----> ", result);
+      console.log(result.results);
+      console.log(result.token);
 
       const userData_signUp = result.results;
       const token_signUp = result.token;
@@ -279,42 +279,42 @@ const SignUp = () => {
       ) : (
         <>
           <LandingHeader />
-          <div className="Wrapper flex flex-col md:flex-row md:items-center md:justify-between">
-            <div className="w-full  md:w-1/2 lg:w-2/5 flex  flex-col items-center  mt-14  md:my-40">
-              <div className="image_phone md:hidden">
+          <div className="Wrapper flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+            <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col items-center mt-8 sm:mt-12 md:mt-14 lg:my-20 xl:my-40">
+              <div className="image_phone lg:hidden mb-4 sm:mb-6">
                 <img
                   src={SignUpImg}
                   alt="LogIn By Phone"
-                  width={300}
-                  height={300}
+                  className="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 object-contain"
                   loading="lazy"
                 />
               </div>
-              <h3 className="font-workSans font-semibold text-purple text-center md:text-left md:text-gray-dark md:font-bold text-xl md:text-3xl lg:text-5xl">
-                {t("sign up To activate your business easily")}
-              </h3>
-              <p className="font-jost font-medium hidden md:block md:text-xl lg:text-2xl">
-                {t("if you have an account you can")}
-                <Link className="text-blue block" to={"/LogIn/Mail"}>
-                  {t("sign in here!")}
-                </Link>
-              </p>
+              <div className="  relative lg:right-16">
+                <h3 className="font-workSans font-semibold text-purple text-center lg:text-left lg:text-gray-dark lg:font-bold text-md sm:text-xl md:text-xl lg:text-xl xl:text-2xl 2xl:text-3xl px-4 sm:px-0">
+                  {t("sign up To activate your business easily")}
+                </h3>
+                <p className="font-jost font-medium hidden lg:block text-base sm:text-lg md:text-xl lg:text-xl xl:text-2xl mt-4 text-center lg:text-left">
+                  {t("if you have an account you can")}
+                  <Link className="text-blue block" to={"/LogIn/Mail"}>
+                    {t("sign in here!")}
+                  </Link>
+                </p>
+              </div>
             </div>
-            <div className="LogIn_Image md:flex justify-center hidden -z-10">
+            <div className="LogIn_Image lg:flex justify-center hidden -z-10">
               <img
                 src={SignUpImg}
                 alt="SignUpImg"
-                width={500}
-                height={500}
+                className="w-96 h-96 xl:w-[500px] xl:h-[500px] object-contain"
                 loading="lazy"
               />
             </div>
-            <div className="form flex flex-col mt-14">
-              <form onSubmit={handleSubmit}>
-                <div className="Name relative w-4/5 mx-auto md:w-full  ">
+            <div className="form flex flex-col mt-8 sm:mt-12 md:mt-14 w-full lg:w-auto lg:max-w-md xl:max-w-lg  relative lg:left-14">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="Name relative w-full sm:w-4/5 lg:w-full mx-auto">
                   {!Name && (
                     <p
-                      className={`text-rose-600 absolute text-lg  ${
+                      className={`text-rose-600 absolute text-lg z-10 ${
                         i18n.language == "en" ? "left-[-1%]" : "right-[-2%]"
                       }`}
                     >
@@ -334,10 +334,10 @@ const SignUp = () => {
                     required
                   />
                 </div>
-                <div className="email w-4/5 mx-auto md:w-full relative">
+                <div className="email w-full sm:w-4/5 lg:w-full mx-auto relative">
                   {!email && (
                     <p
-                      className={`text-rose-600 absolute text-lg  ${
+                      className={`text-rose-600 absolute text-lg z-10 ${
                         i18n.language == "en" ? "left-[-2%]" : "right-[-2%]"
                       }`}
                     >
@@ -357,143 +357,67 @@ const SignUp = () => {
                   />
                 </div>
 
-                <div className="phone my-3 w-4/5 mx-auto md:w-full ">
+                <div className="phone w-full sm:w-4/5 lg:w-full mx-auto">
                   <label
                     htmlFor="phone"
-                    className="flex items-center gap-2 font-jost text-base font-medium"
+                    className="flex items-center gap-2 font-jost text-sm sm:text-base font-medium mb-2"
                   >
                     {t("Phone number")}
                   </label>
-                  {/* <div className="flex relative bg-[#E8F0FE] ">
-                    <Menu placement="bottom-start">
-                      <MenuHandler>
-                        <Btn
-                          ripple={false}
-                          variant="text"
-                          color="blue-gray"
-                          className="flex h-10 items-center gap-2 pl-3"
-                        >
-                          <img
-                            src={flags.svg}
-                            alt={name}
-                            className="h-4 w-4 rounded-full object-cover"
-                          />
-                          {countryCallingCode}
-                        </Btn>
-                      </MenuHandler>
-                      <MenuList className="max-h-[20rem] max-w-[18rem]">
-                        {countries.map(
-                          (
-                            { name, flags, countryCallingCode, iso2 },
-                            index
-                          ) => (
-                            <MenuItem
-                              key={name}
-                              value={name}
-                              className="flex items-center gap-2"
-                              onClick={() => setCountryIndex(index)}
-                            >
-                              <img
-                                src={flags.svg}
-                                alt={name}
-                                className="h-5 w-5 rounded-full object-cover"
-                              />
-                              {name}
-                              <span className="ml-auto">
-                                {countryCallingCode}
-                              </span>
-                            </MenuItem>
-                          )
-                        )}
-                      </MenuList>
-                    </Menu>
-
-                    {!phone && (
-                      <p
-                        className={`text-rose-600 absolute text-lg ${
-                          i18n.language === "en"
-                            ? "left-[-2%] bottom-9"
-                            : "right-[-2%] bottom-9"
-                        }`}
-                      >
-                        *
-                      </p>
-                    )}
-
-                    <input
-                      id="phone"
-                      dir={i18n.language === "en" ? "ltr" : "rtl"}
-                      type="tel"
-                      placeholder={t("Phone number")}
-                      value={phone}
-                      onFocus={() => setPhoneError(false)}
-                      onChange={(e) => {
-                        const onlyDigits = e.target.value.replace(/\D/g, "");
-                        const iso2 = countries[countryIndex].emoji;
-
-                        const maxLength = emojiToISO2[iso2] || 15;
-                        if (onlyDigits.length < maxLength) {
-                          setPhoneError(
-                            `Phone Number Isn't valid, must be ${maxLength}-digit`
-                          );
-                        } else {
-                          setPhoneError("");
-                        }
-                        if (onlyDigits.length > maxLength) return;
-
-                        setPhone(onlyDigits);
-                      }}
-                      className={`w-full focus:outline-none bg-[#E8F0FE] px-2 ${
-                        i18n.language === "en"
-                          ? "rounded-l-none rounded-lg"
-                          : "rounded-r-none rounded-lg"
-                      } ${phoneError ? "" : ""}`}
-                    />
-                  </div> */}
                   <div className="flex flex-col gap-1">
                     <PhoneInput
                       name="phoneNumber"
-                      className={`flex flex-row w-full g`}
+                      className="flex flex-row w-full"
                       value={phone}
                       onChange={(phone) => setPhone(phone)}
                       defaultCountry="sa"
                       inputStyle={{
-                        // border: "#258F424D solid 2px",
                         borderRadius: "",
                         height: "44px",
                         width: "100%",
                         backgroundColor: "#DADFE4",
-                        fontSize: "15px",
+                        fontSize: "14px",
+                        "@media (min-width: 640px)": {
+                          fontSize: "15px",
+                        },
                       }}
                       countrySelectorStyleProps={{
                         flagStyle: {
                           borderRadius: "20px",
-                          height: "20px",
+                          height: "18px",
+                          width: "24px",
                           objectFit: "fill",
+                          "@media (min-width: 640px)": {
+                            height: "20px",
+                            width: "26px",
+                          },
                         },
                         buttonStyle: {
-                          width: "60px",
+                          width: "50px",
                           height: "44px",
                           backgroundColor: "#DADFE4",
+                          "@media (min-width: 640px)": {
+                            width: "60px",
+                          },
                         },
                       }}
                       prefix="+"
                     />
                   </div>
                   {phoneError && (
-                    <div className="text-xs bg-[#FFF3CD] text-[#8A6B3C] flex items-center justify-between px-1 py-1 mt-1">
-                      <p>{phoneError}</p>
-                      <p>
-                        {" "}
+                    <div className="text-xs bg-[#FFF3CD] text-[#8A6B3C] flex items-center justify-between px-2 py-1 mt-1 rounded">
+                      <p className="text-xs sm:text-sm">{phoneError}</p>
+                      <p className="text-sm sm:text-base">
                         <IoIosFlash />
                       </p>
                     </div>
                   )}
                 </div>
-                <div className="password w-4/5 mx-auto md:w-full relative">
+
+                <div className="password w-full sm:w-4/5 lg:w-full mx-auto relative">
                   {!password && (
                     <p
-                      className={`text-rose-600 absolute text-lg  ${
+                      className={`text-rose-600 absolute text-lg z-10 ${
                         i18n.language == "en" ? "left-[-1%]" : "right-[-2%]"
                       }`}
                     >
@@ -503,7 +427,7 @@ const SignUp = () => {
                   <Input
                     type="password"
                     placeholder={"••••••••"}
-                    className="placeholder:font-normal placeholder:text-xl placeholder:font-inter"
+                    className="placeholder:font-normal placeholder:text-lg sm:placeholder:text-xl placeholder:font-inter"
                     id="password"
                     autoComplete="password"
                     required
@@ -528,10 +452,11 @@ const SignUp = () => {
                     ]}
                   />
                 </div>
-                <div className="confirmPassword w-4/5 mx-auto md:w-full relative">
+
+                <div className="confirmPassword w-full sm:w-4/5 lg:w-full mx-auto relative">
                   {!confirmPassword && (
                     <p
-                      className={`text-rose-600 absolute text-lg  ${
+                      className={`text-rose-600 absolute text-lg z-10 ${
                         i18n.language == "en" ? "left-[-1%]" : "right-[-2%]"
                       }`}
                     >
@@ -545,7 +470,7 @@ const SignUp = () => {
                     type="password"
                     id="confirmPassword"
                     autoComplete="new-password"
-                    className="confirmPassword_input border-purple-dark border focus:!border relative placeholder:font-normal placeholder:text-xl placeholder:font-inter"
+                    className="confirmPassword_input border-purple-dark border focus:!border relative placeholder:font-normal placeholder:text-lg sm:placeholder:text-xl placeholder:font-inter"
                     required
                     labelIcon={<MdLockOutline />}
                     value={confirmPassword}
@@ -565,49 +490,70 @@ const SignUp = () => {
                       },
                     ]}
                   />
-                  {passwordError && (
-                    <div className="error flex justify-between items-start px-4   bg-[#FFF3CD] text-[#8A6B3C] py-2 text-xs mt-2 mx-auto text-center">
-                      <p>{passwordError}</p>
-                      <p className="text-lg">
-                        <IoIosFlash />
-                      </p>
-                    </div>
-                  )}
-                  {passwordErro2 && (
-                    <div className="error flex justify-between items-start px-4     bg-[#FFF3CD] text-[#8A6B3C] py-2 text-xs mt-2 mx-auto text-center">
-                      <p>{passwordErro2}</p>
-                      <p className="text-lg">
-                        <IoIosFlash />
-                      </p>
-                    </div>
-                  )}
+
+                  <div className="w-[350px]">
+                    {passwordError && (
+                      <div className="error flex justify-between items-start px-2 sm:px-4 bg-[#FFF3CD] text-[#8A6B3C] py-2 text-xs mt-2 mx-auto rounded">
+                        <p className="text-xs sm:text-sm break-words flex-1 mr-2">
+                          {passwordError}
+                        </p>
+                        <p className="text-sm sm:text-lg flex-shrink-0">
+                          <IoIosFlash />
+                        </p>
+                      </div>
+                    )}
+                    {passwordErro2 && (
+                      <div className="error flex justify-between items-start px-2 sm:px-4 bg-[#FFF3CD] text-[#8A6B3C] py-2 text-xs mt-2 mx-auto rounded">
+                        <p className="text-xs sm:text-sm break-words flex-1 mr-2">
+                          {passwordErro2}
+                        </p>
+                        <p className="text-sm sm:text-lg flex-shrink-0">
+                          <IoIosFlash />
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
+
                 {error && (
-                  <div className="error text-red mt-4 text-center">{error}</div>
+                  <div className="error text-red mt-4 text-center text-sm">
+                    {error}
+                  </div>
                 )}
 
                 <Button
                   type="submit"
-                  className="mt-5   flex justify-center  items-center w-4/5 mx-auto md:w-full"
+                  className="mt-5 flex justify-center items-center w-full sm:w-4/5 lg:w-full mx-auto"
                 >
                   {t("Register")}
                 </Button>
               </form>
-              <div className="my-2 flex items-center justify-center relative">
-                <span className="or">{t("or")}</span>
-              </div>
-              <div className="flex items-center justify-between mt-4 gap-4">
-                <div className="box_Google">
-                  <img src={Google} alt="Google" width={23} height={28} />
+
+              {/* <div className="my-4 sm:my-6 flex items-center justify-center relative">
+                <span className="or text-sm sm:text-base">{t("or")}</span>
+              </div> */}
+
+              <div className="flex items-center justify-center sm:justify-between mt-4 gap-2 sm:gap-4 max-w-xs sm:max-w-none mx-auto">
+                <div className="box_Google flex-1 sm:flex-none">
+                  <img
+                    src={Google}
+                    alt="Google"
+                    className="w-5 h-6 sm:w-6 sm:h-7"
+                  />
                 </div>
-                <div className="box_Apple">
-                  <img src={Apple} alt="Apple" width={23} height={28} />
+                <div className="box_Apple flex-1 sm:flex-none">
+                  <img
+                    src={Apple}
+                    alt="Apple"
+                    className="w-5 h-6 sm:w-6 sm:h-7"
+                  />
                 </div>
-                <Link to={"/LogIn"} className="box_phone">
-                  <FaPhoneAlt className="text-purple" />
+                <Link to={"/LogIn"} className="box_phone flex-1 sm:flex-none">
+                  <FaPhoneAlt className="text-purple text-sm sm:text-base" />
                 </Link>
               </div>
-              <p className="font-jost font-medium  text-lg text-center block md:hidden my-4">
+
+              <p className="font-jost font-medium text-sm sm:text-base lg:text-lg text-center block lg:hidden my-4 sm:my-6 px-4">
                 {t("if you do not have an account you can")}
                 <Link to="/sign-up" className="text-blue block">
                   {t("Register here!")}
@@ -617,10 +563,15 @@ const SignUp = () => {
           </div>
         </>
       )}
-      <div className=" py-4 px-4 mt-10">
-        <div className="  w-fit flex me-auto flex-row items-center">
-          <img src={image2} alt="" className="w-24" />
-          <p className="text-gray-600 max-w-2xl leading-relaxed">
+
+      <div className="py-4 px-4 mt-6 sm:mt-8 lg:mt-10">
+        <div className="w-fit flex items-center mx-auto sm:me-auto flex-col sm:flex-row text-center sm:text-left">
+          <img
+            src={image2}
+            alt=""
+            className="w-16 sm:w-20 md:w-24 mb-2 sm:mb-0 sm:mr-3"
+          />
+          <p className="text-gray-600 text-xs sm:text-sm md:text-base max-w-xs sm:max-w-md lg:max-w-2xl leading-relaxed">
             {t("Code Skills Information Technology Company")}
           </p>
         </div>

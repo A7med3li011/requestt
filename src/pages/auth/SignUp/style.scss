@@ -2,18 +2,28 @@ body {
   background-color: white !important;
 }
 
-.box_Apple,
-.box_phone,
-.box_Google {
+.box_Apple, .box_phone, .box_Google {
   border-radius: 10px;
   padding: 14px 38px;
+  transition: all 0.3s ease;
+  
+  @media (max-width: 640px) {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+  }
 }
 
-.box_Google,
-.box_phone {
+.box_Google, .box_phone {
   background: #f6f6f6;
   border: 1px solid #dddfdd;
 }
+
 .box_Apple {
   background-color: white;
   box-shadow: 0px 10px 13px 0px #00000021;
@@ -31,15 +41,18 @@ body {
   font-weight: 700;
   line-height: 56px;
   color: #98a2b2;
+  transition: all 0.3s ease;
 
   &.selected.owner {
     background-color: var(--purple2);
     color: white;
   }
+  
   &.selected.consultant {
     background-color: var(--red);
     color: white;
   }
+  
   &.selected.contractor {
     background-color: var(--blue);
     color: white;
@@ -52,22 +65,54 @@ body {
   &:hover:not(.selected):not(:disabled).owner {
     color: var(--purple2);
   }
+  
   &:hover:not(.selected):not(:disabled).consultant {
     color: var(--red);
   }
+  
   &:hover:not(.selected):not(:disabled).contractor {
     color: var(--blue);
   }
+  
   &:disabled {
     background-color: #ccc;
     color: #888;
     cursor: not-allowed;
   }
 
-  .RoleBtn:disabled.selected {
+  &:disabled.selected {
     background-color: #007bff;
     color: white;
     cursor: not-allowed;
+  }
+  
+  // Responsive styles
+  @media (max-width: 1024px) {
+    width: 290px;
+    padding: 20px;
+    font-size: 24px;
+    line-height: 32px;
+  }
+  
+  @media (max-width: 768px) {
+    width: 250px;
+    padding: 16px;
+    font-size: 20px;
+    line-height: 28px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  
+  @media (max-width: 320px) {
+    width: 180px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 
@@ -90,7 +135,33 @@ body {
 
   &::before {
     background-image: url("../../../assets/images/effect.jpg");
-    transform: translate(20%, 5%)!important;
+    transform: translate(20%, 5%) !important;
+  }
+  
+  // Responsive adjustments for effect
+  @media (max-width: 1024px) {
+    &::before,
+    &::after {
+      top: 100px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    &::before,
+    &::after {
+      top: 80px;
+      width: 40%;
+      filter: blur(80px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    &::before,
+    &::after {
+      top: 60px;
+      width: 30%;
+      filter: blur(60px);
+    }
   }
 }
 
@@ -98,6 +169,7 @@ body {
   opacity: 1;
   transition: all ease-in-out 0.5s;
 }
+
 .confirmPassword:focus-within .confirmPassword_label {
   opacity: 0 !important;
 }
@@ -106,15 +178,348 @@ body {
   border: 1px solid var(--purple2);
 }
 
-
-@media (max-width: 1024px) {
-  .RoleBtn{
-    width: 290px;
-    padding: 5px;
-    font-size: 24px;
-  }
-  .effect{
-    top: 100px;
+// Additional responsive utilities
+.Wrapper {
+  min-height: calc(100vh - 120px);
+  
+  @media (max-width: 1024px) {
+    min-height: auto;
   }
 }
 
+// Form specific responsive styles
+.form {
+  @media (max-width: 1024px) {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 400px;
+  }
+  
+  @media (max-width: 480px) {
+    max-width: 350px;
+  }
+  
+  @media (max-width: 320px) {
+    max-width: 300px;
+  }
+}
+
+// Error messages responsive
+.error {
+  @media (max-width: 480px) {
+    max-width: 300px;
+    word-wrap: break-word;
+  }
+}
+
+// OR separator responsive
+.or {
+  position: relative;
+  padding: 0 1rem;
+  background: white;
+  color: #666;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -100px;
+    right: -100px;
+    height: 1px;
+    background: #ddd;
+    z-index: -1;
+  }
+  
+  @media (max-width: 480px) {
+    &::before {
+      left: -80px;
+      right: -80px;
+    }
+  }
+}
+
+// Phone input responsive adjustments
+.react-international-phone-input {
+  @media (max-width: 480px) {
+    .react-international-phone-input-container {
+      font-size: 14px;
+    }
+  }
+}
+
+// Image responsive adjustments
+.image_phone img,
+.LogIn_Image img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Footer responsive
+.footer-info {
+  @media (max-width: 640px) {
+    text-align: center;
+    
+    .footer-content {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+// Social login buttons container
+.social-login-container {
+  @media (max-width: 640px) {
+    max-width: 280px;
+    margin: 0 auto;
+    
+    .box_Google,
+    .box_Apple,
+    .box_phone {
+      flex: 1;
+      min-width: 0;
+      
+      img {
+        width: 100%;
+        height: auto;
+        max-width: 20px;
+        max-height: 24px;
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    max-width: 240px;
+    gap: 0.5rem;
+    
+    .box_Google,
+    .box_Apple,
+    .box_phone {
+      padding: 6px 12px;
+      
+      img {
+        max-width: 18px;
+        max-height: 22px;
+      }
+    }
+  }
+}
+
+// Text responsive adjustments
+.signup-title {
+  @media (max-width: 640px) {
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+}
+
+.signup-subtitle {
+  @media (max-width: 640px) {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+}
+
+// Input field responsive adjustments
+.input-container {
+  @media (max-width: 480px) {
+    .input-field {
+      font-size: 14px;
+      padding: 10px 12px;
+    }
+    
+    .input-label {
+      font-size: 13px;
+    }
+  }
+}
+
+// Button responsive
+.signup-button {
+  @media (max-width: 480px) {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+// Loading spinner responsive
+.loader {
+  @media (max-width: 480px) {
+    .loader-spinner {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+// Header responsive adjustments
+.landing-header {
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
+}
+
+// Container max-width adjustments
+.container {
+  @media (max-width: 1400px) {
+    max-width: 1200px;
+  }
+  
+  @media (max-width: 1200px) {
+    max-width: 1000px;
+  }
+  
+  @media (max-width: 1024px) {
+    max-width: 900px;
+  }
+  
+  @media (max-width: 768px) {
+    max-width: 700px;
+  }
+  
+  @media (max-width: 640px) {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
+
+// Utility classes for responsive spacing
+.responsive-spacing {
+  @media (max-width: 640px) {
+    margin: 0.5rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    margin: 0.25rem 0;
+  }
+}
+
+// Password strength indicator responsive
+.password-strength {
+  @media (max-width: 480px) {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+
+// Form validation messages responsive
+.validation-message {
+  @media (max-width: 480px) {
+    font-size: 11px;
+    padding: 4px 8px;
+    
+    .validation-icon {
+      font-size: 12px;
+    }
+  }
+}
+
+// Responsive typography scale
+.text-responsive {
+  @media (max-width: 640px) {
+    font-size: 0.875rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+  
+  @media (max-width: 320px) {
+    font-size: 0.75rem;
+  }
+}
+
+// Responsive grid adjustments
+.grid-responsive {
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1rem;
+  }
+}
+
+// Responsive flex adjustments
+.flex-responsive {
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+// Media query for very small screens
+@media (max-width: 280px) {
+  .form {
+    max-width: 260px;
+  }
+  
+  .box_Google,
+  .box_Apple,
+  .box_phone {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .signup-title {
+    font-size: 0.9rem;
+  }
+  
+  .signup-button {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+
+// High DPI displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .box_Google img,
+  .box_Apple img,
+  .image_phone img,
+  .LogIn_Image img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+// Landscape orientation adjustments
+@media (orientation: landscape) and (max-height: 600px) {
+  .Wrapper {
+    min-height: auto;
+  }
+  
+  .image_phone {
+    display: none;
+  }
+  
+  .form {
+    margin-top: 1rem;
+  }
+}

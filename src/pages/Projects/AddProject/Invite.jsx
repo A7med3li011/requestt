@@ -3,18 +3,23 @@ import Input from "../../../Components/UI/Input/Input";
 import Select from "../../../Components/UI/Select/Select";
 import { CiSquarePlus, CiSquareRemove } from "react-icons/ci";
 import Button from "../../../Components/UI/Button/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { sendInvite } from "../../../Services/api";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+import InvitationsTable from "./InvitationsTable";
 
 const Invite = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [invitaionList, setInvitationList] = useState([]);
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
-  const [invites, setInvites] = useState([{ email: "", type: "" , comment :""}]);
+  const [invites, setInvites] = useState([
+    { email: "", type: "", comment: "" },
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   // const [fieldErrors, setFieldErrors] = useState({});
@@ -35,6 +40,16 @@ const Invite = () => {
     },
   ];
 
+  async function getInvetations() {
+    await axios
+      .get(`${import.meta.env.VITE_API_URL}project/invitations/${projectId}`)
+      .then((res) => setInvitationList(res?.data?.data))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getInvetations();
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -49,10 +64,10 @@ const Invite = () => {
         setError(t("This Email is not valid"));
         return;
       }
-         if (invite.email.trim() === user.email) {
-           setError(t("You cannot invite yourself"));
-           return;
-         }
+      if (invite.email.trim() === user.email) {
+        setError(t("You cannot invite yourself"));
+        return;
+      }
       if (!invite.type) {
         setError(t("role required"));
         return;
@@ -67,24 +82,24 @@ const Invite = () => {
         createdBy: user._id,
         comment,
         projectName,
-      })); 
-      (payload);
+      }));
+      payload;
 
       await sendInvite(token, payload);
       toast.success(t("toast.inviteSuccess"));
 
       setInvites([{ email: "", type: null, comment: "" }]);
-      if(fromProject === true) {
-         navigate("/Projects");
-      } else{
-         navigate("/Models", {
-           state: {
-             projectId,
-             projectName,
-           },
-         });
+      if (fromProject === true) {
+        navigate("/Projects");
+      } else {
+        navigate("/Models", {
+          state: {
+            projectId,
+            projectName,
+          },
+        });
       }
-     
+
       setLoading(false);
     } catch (err) {
       console.error("Error in adding new invite", err);
@@ -94,7 +109,7 @@ const Invite = () => {
   };
 
   const addNewInvite = () => {
-    const newInvite = { email: "", type: "", comment : "" };
+    const newInvite = { email: "", type: "", comment: "" };
     setInvites((prevInvites) => [...prevInvites, newInvite]);
   };
 
@@ -191,6 +206,7 @@ const Invite = () => {
           </div>
         </form>
       </div>
+      <InvitationsTable data={invitaionList} />
     </div>
   );
 };

@@ -37,6 +37,7 @@ const Sidebar = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
   const { t, i18n } = useTranslation();
+  // console.log(i18n.language)
   "NotificationCounts", NotificationCounts;
 
   const [notifications, setNotifications] = useState({
@@ -144,7 +145,7 @@ const Sidebar = () => {
         <MdKeyboardDoubleArrowLeft
           onClick={() => setOpen(!Open)}
           className={`bg-white rounded-full text-purple border border-purple p-1 text-3xl absolute ltr:-right-4 rtl:-left-3 top-20 cursor-pointer ${
-            !Open && "rotate-180"
+          i18n.language == "ar" ?  !Open && "rotate-180" :  Open && "rotate-180" 
           }`}
         />
         <div
