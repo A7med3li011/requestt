@@ -43,6 +43,7 @@ import ViewAllModels from "../pages/Requests/Models/ViewAllModels.jsx";
 import Page404 from "../pages/404Page/page404.jsx";
 import { Navigate } from "react-router-dom";
 import PreventAction from "../Services/PreventAction.jsx";
+import Support from "../pages/landing/Support.jsx";
 
 // Define public routes
 export const publicRoutes = [
@@ -65,6 +66,7 @@ export const publicRoutes = [
 // Define protected routes
 export const protectedRoutes = [
   { path: "/home", component: <Home /> },
+  { path: "/Support", component: <Support /> },
   // { path: "/ContactUs", component: <ContactUs /> },
   { path: "/Settings/Profile", component: <Profile /> },
   { path: "/Settings", component: <Setting /> },

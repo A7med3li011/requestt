@@ -15,8 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./style.scss";
 import Button from "../UI/Button/Button";
 import { handleLogout } from "../../redux/services/authServices";
-import avatar from "../../assets/images/Avatar.jpg";
-import { t } from "i18next";
+
 import { getNotificationCounts } from "../../Services/api";
 import {
   Dialog,
@@ -26,6 +25,7 @@ import {
   Button as Btn,
 } from "@material-tailwind/react";
 import { useTranslation } from "react-i18next";
+import { BiSupport } from "react-icons/bi";
 
 const Sidebar = () => {
   const [Open, setOpen] = useState(false);
@@ -117,6 +117,11 @@ const Sidebar = () => {
       notificationCount: notifications.Team,
     },
     {
+      title: t("Support"),
+      icon: <BiSupport className="sidebar_icon" />,
+      path: "/Support",
+    },
+    {
       title: t("settings"),
       icon: <GiSettingsKnobs className="sidebar_icon" />,
       path: "/Settings",
@@ -145,7 +150,7 @@ const Sidebar = () => {
         <MdKeyboardDoubleArrowLeft
           onClick={() => setOpen(!Open)}
           className={`bg-white rounded-full text-purple border border-purple p-1 text-3xl absolute ltr:-right-4 rtl:-left-3 top-20 cursor-pointer ${
-          i18n.language == "ar" ?  !Open && "rotate-180" :  Open && "rotate-180" 
+            i18n.language == "ar" ? !Open && "rotate-180" : Open && "rotate-180"
           }`}
         />
         <div

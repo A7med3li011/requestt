@@ -466,10 +466,6 @@ export const sendEmailContactUs = async (contactData, userId) => {
 };
 
 export const sendEmailGetInTouch = async (contactData) => {
-  // if (!localStorage.getItem("token")) {
-  //   toast.error("please login first");
-  //   return
-  // }
   try {
     const response = await axiosInstance.post(
       `users/getInTouch/`,
@@ -477,11 +473,12 @@ export const sendEmailGetInTouch = async (contactData) => {
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data", // Explicitly set for FormData
         },
       }
     );
 
-    "Response from send email contact us => ", response;
+    console.log("Response from send email contact us => ", response);
     return response.data;
   } catch (error) {
     console.error(

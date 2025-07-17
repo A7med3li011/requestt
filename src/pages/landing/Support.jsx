@@ -31,7 +31,7 @@ import { useTranslation } from "react-i18next";
 import { PhoneInput } from "react-international-phone";
 import image2 from "../../assets/images/sign-no-tagline-transparent-1500x1500 (1).png";
 
-const ContactUsLanding = () => {
+const Support = () => {
   const [nameError, setNameError] = useState(false);
   const [titleError, setTitleError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -59,7 +59,7 @@ const ContactUsLanding = () => {
   });
 
   const { i18n } = useTranslation();
-  
+
   const handlePhoneChange = (e) => {
     console.log(i18n.language);
     const value = e?.target?.value;
@@ -95,13 +95,18 @@ const ContactUsLanding = () => {
     const file = e.target.files[0];
     if (file) {
       // Optional: Add file validation
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
       if (!allowedTypes.includes(file.type)) {
         setImageError(true);
         setError("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
         return;
       }
-      
+
       // Optional: Add file size validation (e.g., max 5MB)
       const maxSize = 5 * 1024 * 1024; // 5MB in bytes
       if (file.size > maxSize) {
@@ -109,7 +114,7 @@ const ContactUsLanding = () => {
         setError("Image file size must be less than 5MB");
         return;
       }
-      
+
       setImage(file);
       setImageError(false);
       setError(""); // Clear any previous errors
@@ -126,9 +131,9 @@ const ContactUsLanding = () => {
     setPhone("");
     setImage(null);
     // Clear file input
-    const fileInput = document.getElementById('image');
+    const fileInput = document.getElementById("image");
     if (fileInput) {
-      fileInput.value = '';
+      fileInput.value = "";
     }
     setFieldErrors({
       Name: false,
@@ -176,7 +181,13 @@ const ContactUsLanding = () => {
     }
 
     // Check if required fields are filled
-    if (!trimmedName || !trimmedTitle || !trimmedEmail || !trimmedPhone || !image) {
+    if (
+      !trimmedName ||
+      !trimmedTitle ||
+      !trimmedEmail ||
+      !trimmedPhone ||
+      !image
+    ) {
       setError("Please fill all fields and select an image.");
       return;
     }
@@ -187,29 +198,29 @@ const ContactUsLanding = () => {
 
       // Create FormData object
       const formData = new FormData();
-      formData.append('name', trimmedName);
-      formData.append('title', trimmedTitle);
-      formData.append('email', trimmedEmail);
-      formData.append('phone', trimmedPhone);
-      formData.append('message', trimmedMessage);
-      
+      formData.append("name", trimmedName);
+      formData.append("title", trimmedTitle);
+      formData.append("email", trimmedEmail);
+      formData.append("phone", trimmedPhone);
+      formData.append("message", trimmedMessage);
+
       // Make sure the image is properly appended
       if (image instanceof File) {
-        formData.append('image', image, image.name);
+        formData.append("image", image, image.name);
       }
 
       // Debug: Log FormData contents
-      console.log('FormData contents:');
-      console.log('Image file:', image);
-      console.log('Image file type:', image?.type);
-      console.log('Image file size:', image?.size);
+      console.log("FormData contents:");
+      console.log("Image file:", image);
+      console.log("Image file type:", image?.type);
+      console.log("Image file size:", image?.size);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
 
       // Send FormData to API
       const res = await sendEmailGetInTouch(formData);
-      
+
       toast.success(t("toast.MsgSentSuccess"));
       clearFields();
       setLoading(false);
@@ -221,8 +232,8 @@ const ContactUsLanding = () => {
   };
 
   return (
-    <div className="ContactUsLanding grid  grid-cols-2 lg:grid-cols-4  gap-4 p-8  overflow-hidden relative">
-      <div className="form col-span-2 p-3 mt-10">
+    <div className=" grid  grid-cols-2 lg:grid-cols-4  gap-4 p-8 pt-0  overflow-hidden relative">
+      <div className="form col-span-2 p-3 ">
         <h2 className="text-purple-dark  text-2xl  font-bold my-1">
           {t("Get in touch")}
         </h2>
@@ -259,7 +270,7 @@ const ContactUsLanding = () => {
               }`}
             />
           </div>
-          
+
           <div className="Title my-2 relative">
             {!Title && (
               <p
@@ -369,7 +380,7 @@ const ContactUsLanding = () => {
               )}
             </div>
           </div>
-          
+
           {/* Image Upload Input */}
           <div className="image my-2 relative">
             {!image && (
@@ -473,16 +484,8 @@ const ContactUsLanding = () => {
           </p>
         </div>
       </div>
-      <div className=" py-4 px-4 bg-">
-        <div className="  w-fit flex me-auto flex-row items-center">
-          <img src={image2} alt="" className="w-24" />
-          <p className="text-gray-600 max-w-2xl leading-relaxed">
-            {t("Code Skills Information Technology Company")}
-          </p>
-        </div>
-      </div>
     </div>
   );
 };
 
-export default ContactUsLanding;
+export default Support;

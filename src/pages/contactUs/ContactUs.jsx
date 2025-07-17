@@ -99,7 +99,7 @@ const ContactUs = () => {
             className="border disabled:text-gray-400 disabled:cursor-not-allowed border-solid  border-purple focus:border focus:border-solid  focus:border-purple"
           />
         </div>
-        <div className="Email my-2">
+        {/* <div className="Email my-2">
           <UiInput
             type="text"
             disabled={true}
@@ -110,7 +110,7 @@ const ContactUs = () => {
             placeholder="name@email.com"
             className="border disabled:text-gray-400 disabled:cursor-not-allowed border-solid  border-purple focus:border focus:border-solid  focus:border-purple"
           />
-        </div>
+        </div> */}
         <div className="message">
           <label
             htmlFor="message"
