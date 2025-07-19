@@ -44,6 +44,7 @@ import Page404 from "../pages/404Page/page404.jsx";
 import { Navigate } from "react-router-dom";
 import PreventAction from "../Services/PreventAction.jsx";
 import Support from "../pages/landing/Support.jsx";
+import Review from "../Components/Reviewing/Review.jsx";
 
 // Define public routes
 export const publicRoutes = [
@@ -70,12 +71,12 @@ export const protectedRoutes = [
   // { path: "/ContactUs", component: <ContactUs /> },
   { path: "/Settings/Profile", component: <Profile /> },
   { path: "/Settings", component: <Setting /> },
+  { path: "/review", component: <Review /> },
   {
     path: "/ProjectDetails/:id",
     component: (
       <PreventAction>
-        {" "}
-        <ProjectDetails />{" "}
+        <ProjectDetails />
       </PreventAction>
     ),
   },
@@ -84,8 +85,7 @@ export const protectedRoutes = [
     path: "/TaskDetails/:id",
     component: (
       <PreventAction>
-        {" "}
-        <TaskDetails />{" "}
+        <TaskDetails />
       </PreventAction>
     ),
   },

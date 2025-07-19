@@ -26,6 +26,7 @@ import {
 } from "@material-tailwind/react";
 import { useTranslation } from "react-i18next";
 import { BiSupport } from "react-icons/bi";
+import { VscPreview } from "react-icons/vsc";
 
 const Sidebar = () => {
   const [Open, setOpen] = useState(false);
@@ -126,6 +127,11 @@ const Sidebar = () => {
       icon: <GiSettingsKnobs className="sidebar_icon" />,
       path: "/Settings",
       notificationCount: notifications.Settings,
+    },
+    {
+      title: t("Reviews and Rating"),
+      icon: <VscPreview className="sidebar_icon" />,
+      path: "/review",
     },
   ];
 
