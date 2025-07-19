@@ -69,8 +69,8 @@ const LandingHeader = () => {
         </div>
 
         {/* Navigation Container */}
-        <div className="flex items-center justify-center flex-1 max-w-4xl mx-4">
-          <div className="flex items-center px-3 sm:px-4 md:px-6 lg:px-10 py-2 md:py-4 lg:py-6 shadow-lg ring-1 rounded-full border transition-all duration-300 hover:shadow-xl bg-white">
+        <div className="flex items-center justify-center flex-1 max-w-4xl mx-4 ">
+          <div className="flex items-center px-3 sm:px-4 md:px-6 lg:px-10 py-2 md:py-4 lg:py-6 shadow-lg ring-1 rounded-full border transition-all duration-300 hover:shadow-xl  ">
             {/* Mobile Menu Button */}
             <div className="block lg:hidden">
               <button
@@ -117,6 +117,12 @@ const LandingHeader = () => {
                   >
                     {t("Contact us")}
                   </Link>
+                  <Link
+                    to={"/testimonials"}
+                    className="font-medium text-lg w-full text-center py-2 hover:text-purple focus:text-purple cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-purple/5 rounded-lg"
+                  >
+                    {i18n.language == "en" ? "Testimonials" : "آراء العملاء"}
+                  </Link>
 
                   {/* Mobile Language Switcher */}
                   <div className="flex items-center justify-between w-full px-4 py-2 select-none gap-3 font-medium text-lg">
@@ -132,36 +138,42 @@ const LandingHeader = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+            <nav className="hidden lg:flex items-center gap-4 x  ">
               <Link
                 to={"/"}
-                className="font-medium text-sm xl:text-lg hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
+                className="font-medium text-s  hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
               >
                 {t("Home")}
               </Link>
               <Link
                 to={"/services"}
-                className="font-medium text-sm xl:text-lg hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
+                className="font-medium text-s  hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
               >
                 {t("Services")}
               </Link>
               <Link
                 to={"/seePlans"}
-                className="font-medium text-sm xl:text-lg hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
+                className="font-medium text-s  hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
               >
                 {t("Price")}
               </Link>
               <Link
                 to={"/ContactUs"}
-                className="font-medium text-sm xl:text-lg hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
+                className="font-medium text-s  hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
               >
-                {t("Contact us")}
+                {t("Contact us").split(" ")}
+              </Link>
+              <Link
+                to={"/testimonials"}
+                className="font-medium text-sm w-full text-center py-2 hover:text-purple focus:text-purple cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-purple/5 rounded-lg"
+              >
+                {i18n.language == "en" ? "Testimonials" : "آراء العملاء"}
               </Link>
 
               {/* Desktop Language Switcher */}
               <div className="flex items-center gap-2 ml-4 px-3 py-2 bg-gray-50 rounded-full">
                 <span
-                  className={`text-xs xl:text-sm font-medium transition-colors duration-200 ${
+                  className={`text-xs xl:text-xs font-medium transition-colors duration-200 ${
                     !languageChecked ? "text-purple" : "text-gray-500"
                   }`}
                 >
@@ -194,7 +206,7 @@ const LandingHeader = () => {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2  md:flex-col xl:flex-row">
           <Link to="/LogIn/Mail">
             <button className="px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 bg-linear_1 rounded-2xl md:rounded-3xl text-light font-semibold text-xs sm:text-sm md:text-base lg:text-xl transition-all duration-200 hover:scale-105 hover:shadow-lg flex items-center gap-1 sm:gap-2">
               <svg

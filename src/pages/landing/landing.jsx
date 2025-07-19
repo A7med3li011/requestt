@@ -1,5 +1,6 @@
 import LandingHeader from "../../Components/landingHeader/landingHeader";
 import ModifHeader from "../../Components/landingHeader/ModifiedHeader";
+import Testimnials from "../../Components/Reviewing/Testimonials";
 import Page404 from "../404Page/page404";
 import ContactUsLanding from "./ContactUsLanding";
 import Main from "./Main";
@@ -21,6 +22,7 @@ const Landing = () => {
         <Route path="seePlans" element={<SeePlansLanding />} />
         {/* <Route path="plansDetails" element={<PlansDetailsLanding />} /> */}
         <Route path="PlansInfo" element={<PlansInfoLanding />} />
+        <Route path="testimonials" element={<Testimnials />} />
       </Routes>
     </div>
   );

@@ -1,42 +1,100 @@
 import { useState } from "react";
 import { Star } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Review() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("en");
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  // Check if current language is Arabic
+  const isRTL = currentLanguage === "ar";
+  const { t, i18n } = useTranslation();
+  // Mock translations object - replace with your i18n setup
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (rating === 0) {
-      alert("Please select a rating");
+      toast.success(t("pleaseSelectRating"));
       return;
     }
     if (reviewText.trim() === "") {
-      alert("Please write a review");
+      toast.success(t("pleaseWriteReview"));
       return;
     }
+    const data = {
+      userId: user._id,
+      rating,
+      reviewText: reviewText,
+    };
+    await axios
+      .post(`${import.meta.env.VITE_API_URL}review`, data)
+      .then((res) => {
+        toast.success(t("Thankks"));
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // Reset form
+  };
 
-    // Here you would typically send the data to your backend
-
-    // Reset form after a delay
-    // axios.post()
+  const getRatingMessage = (rating) => {
+    const messages = {
+      1: t("rating1Message"),
+      2: t("rating2Message"),
+      3: t("rating3Message"),
+      4: t("rating4Message"),
+      5: t("rating5Message"),
+    };
+    return messages[rating] || "";
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 p-4">
+    <div
+      className={`min-h-screen p-4 ${isRTL ? "rtl" : "ltr"}`}
+      dir={isRTL ? "rtl" : "ltr"}
+    >
+      {/* Language Toggle */}
+      {/* <div className="max-w-2xl mx-auto mb-4">
+        <div className="flex justify-end gap-2">
+          <button
+            onClick={() => setCurrentLanguage("en")}
+            className={`px-3 py-1 rounded ${
+              currentLanguage === "en"
+                ? "bg-purple-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            English
+          </button>
+          <button
+            onClick={() => setCurrentLanguage("ar")}
+            className={`px-3 py-1 rounded ${
+              currentLanguage === "ar"
+                ? "bg-purple-600 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            العربية
+          </button>
+        </div>
+      </div> */}
       <div className="max-w-2xl mx-auto py-8">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-6">
             <h1 className="text-3xl font-bold text-white text-center">
-              Share Your Experience
+              {t("shareYourExperience")}
             </h1>
             <p className="text-purple-100 text-center mt-2">
-              We'd love to hear your feedback
+              {t("loveToHearFeedback")}
             </p>
           </div>
 
@@ -45,9 +103,13 @@ export default function Review() {
             {/* Star Rating */}
             <div className="text-center">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                How would you rate your experience?
+                {t("howWouldYouRate")}
               </h3>
-              <div className="flex justify-center gap-2">
+              <div
+                className={`flex justify-center gap-2 ${
+                  isRTL ? "flex-row-reverse" : ""
+                }`}
+              >
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
@@ -61,8 +123,8 @@ export default function Review() {
                       size={40}
                       className={`${
                         star <= (hoverRating || rating)
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300 hover:text-yellow-300"
+                          ? "fill-gold text-gold"
+                          : "text-gray-300 hover:text-gold"
                       } transition-colors duration-200`}
                     />
                   </button>
@@ -70,15 +132,7 @@ export default function Review() {
               </div>
               {rating > 0 && (
                 <p className="mt-3 text-sm text-gray-600 animate-fade-in">
-                  {rating === 1 &&
-                    "We're sorry to hear that. Please tell us how we can improve."}
-                  {rating === 2 &&
-                    "We appreciate your feedback. How can we do better?"}
-                  {rating === 3 &&
-                    "Thanks for your review. What could we improve?"}
-                  {rating === 4 &&
-                    "Great! We're glad you had a good experience."}
-                  {rating === 5 && "Awesome! We're thrilled you loved it!"}
+                  {getRatingMessage(rating)}
                 </p>
               )}
             </div>
@@ -87,20 +141,29 @@ export default function Review() {
             <div>
               <label
                 htmlFor="review"
-                className="block text-lg font-semibold text-gray-800 mb-3"
+                className={`block text-lg font-semibold text-gray-800 mb-3 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
               >
-                Tell us more about your experience
+                {t("tellUsMore")}
               </label>
               <textarea
                 id="review"
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
-                placeholder="Share your thoughts, suggestions, or any details about your experience..."
-                className="w-full h-32 px-4 py-3 border-2 border-gray-200 rounded-xl resize-none focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200 text-gray-700"
+                placeholder={t("shareYourThoughts")}
+                className={`w-full h-32 px-4 py-3 border-2 border-gray-200 rounded-xl resize-none focus:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:outline-none transition-all duration-200 text-gray-700 ${
+                  isRTL ? "text-right" : "text-left"
+                }`}
                 maxLength={500}
+                dir={isRTL ? "rtl" : "ltr"}
               />
-              <div className="text-right mt-2 text-sm text-gray-500">
-                {reviewText.length}/500 characters
+              <div
+                className={`mt-2 text-sm text-gray-500 ${
+                  isRTL ? "text-left" : "text-right"
+                }`}
+              >
+                {reviewText.length}/500 {t("characters")}
               </div>
             </div>
 
@@ -111,7 +174,7 @@ export default function Review() {
                 onClick={handleSubmit}
                 className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-8 py-4 rounded-xl hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
               >
-                Submit Review
+                {t("submitReview")}
               </button>
             </div>
           </div>
@@ -119,9 +182,7 @@ export default function Review() {
 
         {/* Footer */}
         <div className="text-center mt-8 text-gray-600">
-          <p className="text-sm">
-            Your feedback helps us improve and serve you better
-          </p>
+          <p className="text-sm">{t("feedbackHelpsImprove")}</p>
         </div>
       </div>
     </div>

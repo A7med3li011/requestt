@@ -160,7 +160,7 @@ const ProjectDetails = () => {
       const marginY = (pageHeight - scaledHeight) / 2;
 
       pdf.addImage(imgData, "PNG", marginX, marginY, scaledWidth, scaledHeight);
-      pdf.save("screenshot.pdf");
+      pdf.save(`${Project.name}.pdf`);
     } catch (error) {
       console.error("PDF generation error:", error);
     }
@@ -250,7 +250,7 @@ const ProjectDetails = () => {
             </h1>
             <div className="flex items-center gap-2">
               {/* Enhanced PDF Button */}
-              <button
+              {/* <button
                 onClick={takeScreenshot}
                 disabled={isCapturing}
                 className="bg-white flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -264,7 +264,7 @@ const ProjectDetails = () => {
                 <span className="font-jost text-sm font-normal">
                   {isCapturing ? t("Creating PDF...") : t("Save as PDF")}
                 </span>
-              </button>
+              </button> */}
 
               <Link
                 to={`/Project/Tasks/${projectId}`}
@@ -603,8 +603,8 @@ const ProjectDetails = () => {
                         <IoMdPersonAdd className="text-red h-8 w-8" />
                       </span>
                     </Link>
-                    <AddNote  projectId={Project._id} Notes={Project.notes} />
-                    <button className="print mx-1"  >
+                    <AddNote projectId={Project._id} Notes={Project.notes} />
+                    <button onClick={takeScreenshot} className="print mx-1">
                       <span>
                         <IoPrint className="h-7 w-7 text-yellow" />
                       </span>

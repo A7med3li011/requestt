@@ -318,8 +318,8 @@
     "subHead": "We provide the best technical solutions for efficient project management",
     "HeadServices": "Why Subscribe?"
   },
-  "DELETEPROJECT":"Delete Project",
-  "messageDelete":"project deleted successfully",
+  "DELETEPROJECT": "Delete Project",
+  "messageDelete": "project deleted successfully",
   "ProjectName": "Project Name",
   "happyClient": "Happy Client",
   "amazingProjects": "Amazing Projects",
@@ -342,6 +342,22 @@
   "CreateTask": "Create Task",
   "UpdateTask": "Update Task",
   "GeneralChange": "General Change",
+  "shareYourExperience": "Share Your Experience",
+  "loveToHearFeedback": "We'd love to hear your feedback",
+  "howWouldYouRate": "How would you rate your experience?",
+  "tellUsMore": "Tell us more about your experience",
+  "shareYourThoughts": "Share your thoughts, suggestions, or any details about your experience...",
+  "characters": "characters",
+  "submitReview": "Submit Review",
+  "feedbackHelpsImprove": "Your feedback helps us improve and serve you better",
+  "pleaseSelectRating": "Please select a rating",
+  "pleaseWriteReview": "Please write a review",
+  "thanksForReviewing": "Thanks for your review!",
+  "rating1Message": "We're sorry to hear that. Please tell us how we can improve.",
+  "rating2Message": "We appreciate your feedback. How can we do better?",
+  "rating3Message": "Thanks for your review. What could we improve?",
+  "rating4Message": "Great! We're glad you had a good experience.",
+  "rating5Message": "Awesome! We're thrilled you loved it!",
   "toast": {
     "userCreatedSuccessfully": "User created successfully",
     "userDeletedSuccessfully": "User deleted successfully",
@@ -354,7 +370,9 @@
     "GeneralSettingSuccess": "General settings saved successfully!",
     "ProfileChangesSuccess": "Profile changes saved successfully!",
     "TagsCreatedSuccess": "tags created Successfully",
+
     "VocCreatedSuccess": "Vocations created Successfully",
+    "Thankks": "thanks for your reviewing",
     "you have been added to {{projectName}} successfully": "you have been added to {{projectName}} successfully",
     "You have canceled the invitation to {{projectName}} successfully": "You have canceled the invitation to {{projectName}} successfully",
     "inviteSuccess": "Invite Sent Successfully",
@@ -417,5 +435,6 @@
       "Providing a secure and organized space for archiving all previous and current paperwork.",
       "Providing instant reports showing project status and adherence to timelines. Have reports been activated in the platform?"
     ]
-  }
+  },
+  "testo": "testimonials"
 }
