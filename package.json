@@ -30,6 +30,7 @@
     "i18next-browser-languagedetector": "^8.0.0",
     "jspdf": "^3.0.1",
     "jszip": "^3.10.1",
+    "jwt-decode": "^4.0.0",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.525.0",
     "payment": "^2.4.7",
