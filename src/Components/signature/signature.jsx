@@ -189,7 +189,7 @@ export function SignatureBtn({ onSignatureChange, company }) {
             },
           }
         )
-        .then((res) => console.log(res))
+        .then((res) => setPreview(res?.data?.updates?.signature))
         .catch((err) => console.log(err));
     }
     // console.log(file);
@@ -247,7 +247,7 @@ export function SignatureBtn({ onSignatureChange, company }) {
           {company?.signature ? (
             <img
               className="w-[66px] h-[62px] object-contain"
-              src={`https://api.request-sa.com/${company.signature}`}
+              src={`https://api.request-sa.com/${preview || company.signature}`}
               alt="Signature"
             />
           ) : (

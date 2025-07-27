@@ -6,6 +6,7 @@ function isTokenExpired(token) {
   try {
     const decoded = jwtDecode(token);
     const currentTime = Date.now() / 1000; // in seconds
+    console.log(decoded.exp < currentTime)
     return decoded.exp < currentTime;
   } catch (error) {
     return true; // If decoding fails, treat as expired

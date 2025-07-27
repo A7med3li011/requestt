@@ -17,6 +17,7 @@ import { Image } from "../../../Components/UI/Image/image";
 import ProfileAvatar from "../../../Components/UI/profilePic/profilePic";
 import Select from "../../../Components/UI/Select/Select";
 import axios from "axios";
+import { FaFileLines } from "react-icons/fa6";
 const allStatus = [
   {
     value: "working",
@@ -63,8 +64,14 @@ const TaskDetails = () => {
     formData.append("document", file);
 
     await axios
-      .post(`http://localhost:8000/api/v1/docs`, formData)
-      .then((res) => console.log(res))
+      .post(`${import.meta.env.VITE_API_URL}docs`, formData)
+      .then((res) => {
+        if (res.data.err) {
+          toast.error(res.data.err);
+        } else {
+          toast.success("file uploaded ");
+        }
+      })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
@@ -417,8 +424,15 @@ const TaskDetails = () => {
                 {/* {Task?.documents?.length} */}
               </span>
 
-              {/* <input type="file" onChange={handleFileChange} /> */}
-              {/* <FaFileLines className="text-purple-dark h-7 w-7" /> */}
+              <label htmlFor="fille">
+                <FaFileLines className="text-purple-dark h-7 w-7" />
+              </label>
+              <input
+                id="fille"
+                hidden
+                type="file"
+                onChange={handleFileChange}
+              />
             </button>
 
             <AddNote
