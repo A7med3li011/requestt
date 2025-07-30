@@ -45,6 +45,7 @@ import { Navigate } from "react-router-dom";
 import PreventAction from "../Services/PreventAction.jsx";
 import Support from "../pages/landing/Support.jsx";
 import Review from "../Components/Reviewing/Review.jsx";
+import LiveChat from "../Components/LiveChat.jsx";
 
 // Define public routes
 export const publicRoutes = [
@@ -68,6 +69,7 @@ export const publicRoutes = [
 export const protectedRoutes = [
   { path: "/home", component: <Home /> },
   { path: "/Support", component: <Support /> },
+  { path: "/live-support", component: <LiveChat /> },
   // { path: "/ContactUs", component: <ContactUs /> },
   { path: "/Settings/Profile", component: <Profile /> },
   { path: "/Settings", component: <Setting /> },

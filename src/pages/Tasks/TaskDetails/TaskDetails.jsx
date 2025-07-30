@@ -42,6 +42,7 @@ const TaskDetails = () => {
   const location = useLocation();
   const { taskId } = location.state || {};
   const [loading, setLoading] = useState(false);
+  const [allDocs, setllDocs] = useState([]);
   const [Task, setTask] = useState({});
   const [initialTask, setInitialTask] = useState({});
   const [IsToq, setIsToq] = useState(false);
@@ -107,6 +108,17 @@ const TaskDetails = () => {
 
       .catch((err) => console.log(err));
   }
+
+  async function geyallDocs() {
+    await axios
+      .get(`${import.meta.env.VITE_API_URL}docs/task/${taskId}`)
+      .then((res) => setllDocs(res?.data?.data))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    geyallDocs();
+  }, [taskId]);
 
   const getUpdatedFields = () => {
     const updatedFields = {};
@@ -630,6 +642,122 @@ const TaskDetails = () => {
           >
             {Task.description}
           </div>
+        </div>
+      </div>
+
+      {/* Files Section */}
+      <div className="files-section">
+        <h6 className="title m-2">{t("Uploaded Files")}</h6>
+        <div className="bg-white rounded-3xl m-2">
+          {allDocs && allDocs.length > 0 ? (
+            <div className="files-grid p-4 grid gap-4 grid-cols-1 lg  xl:grid-cols-2">
+              {allDocs.map((doc, index) => (
+                <div
+                  key={doc._id}
+                  className="file-item bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow duration-200"
+                  style={{ transition: "all 0.2s ease", cursor: "pointer" }}
+                  onMouseEnter={(e) =>
+                    (e.target.style.transform = "translateY(-2px)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.target.style.transform = "translateY(0)")
+                  }
+                >
+                  {/* File Header */}
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="file-icon bg-purple-100 p-2 rounded-lg">
+                        <FaFileLines className="text-purple h-5 w-5" />
+                      </div>
+                      <div className="file-info">
+                        <h4 className="font-inter font-semibold text-sm text-gray-800 truncate max-w-xs">
+                          {doc.path.split("/").pop().replace(/^\d+-/, "")}
+                        </h4>
+                        <span
+                          className={`inline-block px-2 py-1 text-xs rounded-full font-medium mt-1 ${
+                            doc.status === "pending"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : doc.status === "approved"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {t(doc.status)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Download/View Button */}
+                    <button
+                      onClick={() =>
+                        window.open(
+                          `https://api.request-sa.com/${doc.path}`,
+                          "_blank"
+                        )
+                      }
+                      className="text-purple hover:text-purple-dark transition-colors duration-200 p-1"
+                      title={t("View File")}
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Uploader Info */}
+                  <div className="uploader-info flex items-center justify-between text-sm text-gray-600">
+                    <div className="flex items-center gap-2">
+                      <ProfileAvatar
+                        className="h-6 w-6 rounded-full"
+                        profilePic={doc.uploadedBy?.profilePic}
+                        name={doc.uploadedBy?.name || "Unknown"}
+                        alt="Uploader"
+                      />
+                      <span className="font-medium">
+                        {doc.uploadedBy?.name || t("Unknown User")}
+                      </span>
+                      {/* {doc.uploadedBy?.role && (
+                        <span className="text-xs bg-gray-200 px-2 py-1 rounded">
+                          {doc.uploadedBy.role.jobTitle}
+                        </span>
+                      )} */}
+                    </div>
+
+                    {/* Upload Date */}
+                    <span className="text-xs text-gray-500">
+                      {formatDate(doc.createdAt)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-files p-8 text-center text-gray-500">
+              <FaFileLines className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+              <p className="font-inter text-base">
+                {t("No files uploaded yet")}
+              </p>
+              <p className="font-inter text-sm mt-1">
+                {t("Upload files using the file icon above")}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

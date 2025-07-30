@@ -18,6 +18,7 @@ import { Typography } from "@material-tailwind/react";
 import { MdAlarmAdd } from "react-icons/md";
 import { RiProgress4Line } from "react-icons/ri";
 import ListView from "../../Components/ListView/listView";
+import axios from "axios";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.user);
@@ -50,7 +51,7 @@ const Home = () => {
       try {
         const projectsData = await getAllProjectsForUser(userId, token);
         setData(projectsData);
-       console.log( projectsData,"xxxxxxxx");
+        console.log(projectsData, "xxxxxxxx");
       } catch (error) {
         console.error("Error fetching projects data:", error);
       } finally {
@@ -63,6 +64,18 @@ const Home = () => {
     setViewMode(mode);
   };
 
+  async function getAdmin() {
+    await axios
+      .get(`${import.meta.env.VITE_API_URL}message/admin/data`)
+      .then((res) => {
+        localStorage.setItem("___admin", res?.data?.data?._id);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getAdmin();
+  }, []);
   const formatDate = (date) => {
     if (!date) return "";
     return format(new Date(date), "dd MMM");

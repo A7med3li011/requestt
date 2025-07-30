@@ -123,6 +123,11 @@ const Sidebar = () => {
       path: "/Support",
     },
     {
+      title: t("Live_Support"),
+      icon: <BiSupport className="sidebar_icon" />,
+      path: "/live-support",
+    },
+    {
       title: t("settings"),
       icon: <GiSettingsKnobs className="sidebar_icon" />,
       path: "/Settings",
