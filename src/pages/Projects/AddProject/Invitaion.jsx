@@ -44,7 +44,7 @@ const Invitation = () => {
     //   return;
     // }
     // if (!invitationId) {
-    //   navigate("/");
+    //   navigate("/home");
     //   return;
     // }
     const fetchData = async () => {
@@ -60,10 +60,10 @@ const Invitation = () => {
         console.error("Error fetching data:", error);
         toast.error(error.message);
         if (error.message === "Invitation Not found") {
-          navigate("/");
+          navigate("/home");
         }
         if (error.message === "Email Not Match") {
-          navigate("/");
+          navigate("/home");
         }
       } finally {
         setLoading(false);
@@ -87,7 +87,7 @@ const Invitation = () => {
           projectName: data.projectName,
         })
       );
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error approving invitation:", error);
     }
@@ -105,7 +105,7 @@ const Invitation = () => {
           { projectName: data.projectName }
         )
       );
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Error approving invitation:", error);
       setError(error.message);
