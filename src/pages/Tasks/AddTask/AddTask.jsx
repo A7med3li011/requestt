@@ -215,7 +215,7 @@ const AddTask = () => {
       res;
       clearFormFields();
       if (!isSubtask) {
-        navigate(`/Models`, {
+        navigate(-1, {
           state: {
             fromTask: true,
             TaskId: res.addedTasks[0]._id,
@@ -224,7 +224,7 @@ const AddTask = () => {
           },
         });
       } else {
-        navigate("/");
+        navigate(-1);
       }
     } catch (err) {
       setError({

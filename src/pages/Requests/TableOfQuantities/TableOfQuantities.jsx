@@ -180,7 +180,7 @@ const TableOfQuantities = () => {
       toast.success(t("toast.TaskSavedSuccess"));
       "All tasks saved:", tasks;
       setTasks([]);
-      navigate(`/`);
+      navigate(-1);
       if (!taskType) {
         handleUpdateProject();
         navigate("/Models", {

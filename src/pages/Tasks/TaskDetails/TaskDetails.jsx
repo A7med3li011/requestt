@@ -691,7 +691,7 @@ const TaskDetails = () => {
                     <button
                       onClick={() =>
                         window.open(
-                          `https://api.request-sa.com/${doc.path}`,
+                          `https://api.request-sa.com${doc.path}`,
                           "_blank"
                         )
                       }

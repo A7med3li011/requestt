@@ -55,13 +55,13 @@ const Setting = () => {
   const profileRef = useRef();
   const generalRef = useRef();
   const lang = i18next.language;
-
+  console.log(location.state);
   const openDrawer = () => setOpen(true);
   const closeDrawer = () => setOpen(false);
 
   useEffect(() => {
-    if (location.state && location.state.tabIndex !== undefined) {
-      setSelectedTab(location.state.tabIndex);
+    if (location.state && location.state.value !== undefined) {
+      setSelectedTab(location.state.value);
     }
   }, [location.state]);
 
@@ -205,7 +205,7 @@ const Setting = () => {
   const handleTabChange = (tab, index) => {
     setSelectedTab(index);
   };
-
+  0;
   console.log(buttons[selectedTab].label);
   return (
     <div className="Settings">

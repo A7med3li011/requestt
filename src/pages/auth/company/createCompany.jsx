@@ -113,7 +113,7 @@ const CreateCompany = () => {
       setLoading(false);
       toast.success(t("toast.userCreatedSuccessfully"));
       clearFields();
-      navigate("/");
+      navigate("/home");
       // window.location.reload();
     } catch (err) {
       console.error("Update user failed:", err);

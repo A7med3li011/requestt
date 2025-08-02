@@ -19,21 +19,34 @@ const Invitation = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const invitationId = queryParams.get("id");
+  const role = queryParams?.get("role") ?? "";
+  const signup = queryParams?.get("signup") ?? "";
+  // console.log(role.split("?"));
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const lang = i18next.language;
-  (lang);
-
+  lang;
+  console.log(signup == "false", "aaa");
+  console.log(isAuth == false, "bbb");
   useEffect(() => {
-    if (!isAuth) {
-      navigate("/SignUp/ChooseRole");
-      return;
+    if (signup == "false" && isAuth == false) {
+      if (role.split("?")[0] == "consultant") {
+        navigate("/SignUp", { state: { roleId: "66d33e7a4ad80e468f231f8d" } });
+      } else if (role.split("?")[0] == "owner") {
+        navigate("/SignUp", { state: { roleId: "66d33a4b4ad80e468f231f83" } });
+      } else if (role.split("?")[0] == "contractor") {
+        navigate("/SignUp", { state: { roleId: "66d33ec44ad80e468f231f91" } });
+      }
     }
-    if (!invitationId) {
-      navigate("/");
-      return;
-    }
+    // if (!isAuth) {
+    //   navigate("/SignUp/ChooseRole");
+    //   return;
+    // }
+    // if (!invitationId) {
+    //   navigate("/");
+    //   return;
+    // }
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -42,7 +55,7 @@ const Invitation = () => {
         const data = await getDataForInvite(token, invitationId, userId);
         setData(data.results);
 
-        ("data:", data);
+        "data:", data;
       } catch (error) {
         console.error("Error fetching data:", error);
         toast.error(error.message);
@@ -68,7 +81,7 @@ const Invitation = () => {
         isApproved: true,
       };
       const res = await approveInvite(invitationId, payload);
-      (res);
+      res;
       toast.success(
         t("toast.you have been added to {{projectName}} successfully", {
           projectName: data.projectName,
@@ -85,7 +98,7 @@ const Invitation = () => {
     setError(null);
     try {
       const res = await cancelInvite(token, invitationId, lang);
-      (res);
+      res;
       toast.success(
         t(
           "toast.You have canceled the invitation to {{projectName}} successfully",
@@ -108,7 +121,8 @@ const Invitation = () => {
       ) : (
         <div className="wrapper flex flex-col gap-4 ">
           <h3 className="font-inter font-bold text-2xl md:text-3xl lg:text-5xl leading-[50px]  text-purple-dark text-center">
-            {t("welcome")} <span className=" italic">"{user?.name}"</span> {t("to")} Request !
+            {t("welcome")} <span className=" italic">"{user?.name}"</span>{" "}
+            {t("to")} Request !
           </h3>
           <p className="font-inter font-medium text-base md:text-lg lg:text-xl leading-8 ] text-center lg:mt-4 text-gray-600">
             {t("You have been invited to")}

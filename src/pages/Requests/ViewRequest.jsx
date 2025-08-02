@@ -133,7 +133,7 @@ const ViewRequest = () => {
         body
       )
       .then((res) => {
-        navigate("/");
+        navigate("/home");
         window.location.reload();
       })
       .catch((err) => console.log(err));

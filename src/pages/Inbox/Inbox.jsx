@@ -334,6 +334,7 @@ const Inbox = () => {
         ),
       })).filter((project) => project.members.length > 0);
       setFilteredProjects(filtered);
+      console.log(filter);
     },
     [Projects]
   );

@@ -63,8 +63,8 @@ export const publicRoutes = [
     component: <Navigate to="/404" replace />,
   },
   { path: "/404", component: <Page404 /> },
+  { path: "/Invitation", component: <Invitation /> },
 ];
-
 // Define protected routes
 export const protectedRoutes = [
   { path: "/home", component: <Home /> },
@@ -101,7 +101,7 @@ export const protectedRoutes = [
     ),
   },
   { path: "/AddProject/Invite", component: <Invite /> },
-  { path: "/Invitation", component: <Invitation /> },
+
   {
     path: "/AddTask/:ProjectId",
     component: (

@@ -7,8 +7,10 @@ import {
   XCircle,
   ExternalLink,
   Copy,
+  AlertCircle,
 } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const InvitationsCards = ({ data }) => {
   const [copiedId, setCopiedId] = useState(null);
@@ -18,78 +20,11 @@ const InvitationsCards = ({ data }) => {
       .post(`${import.meta.env.VITE_API_URL}project/resendInivite`, {
         invitationId: id,
       })
-      .then((res) => {})
+      .then((res) => {
+        toast.success("resend invite successfully");
+      })
       .catch((err) => console.log(err));
   }
-  // Direct array data without wrapper
-  //   const data = [
-  //     {
-  //       _id: "687774131f8925e0a3d9ff0a",
-  //       project: {
-  //         _id: "687773de1f8925e0a3d9feda",
-  //         name: "invi",
-  //         progress: 0,
-  //         tags: [],
-  //       },
-  //       role: {
-  //         _id: "66d33e7a4ad80e468f231f8d",
-  //         jobTitle: "consultant",
-  //         rights: [
-  //           {
-  //             model: {
-  //               _id: "66ba00b0e39d9694110fd3df",
-  //               name: "model1",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       email: "7mama3li0111@gmail.com",
-  //       comment: "welcome",
-  //       projectName: "invi",
-  //       isSignUp: true,
-  //       isApproved: false,
-  //       createdBy: "6851bee9028597549a4ffbcb",
-  //       date: "2025-07-16T09:42:43.441Z",
-  //       createdAt: "2025-07-16T09:42:43.441Z",
-  //       updatedAt: "2025-07-16T09:42:43.497Z",
-  //       __v: 0,
-  //       inivitaionLink:
-  //         "https://request-sa.com/Invitation?id=687774131f8925e0a3d9ff0a",
-  //     },
-  //     {
-  //       _id: "687774a11f8925e0a3da0038",
-  //       project: {
-  //         _id: "687773de1f8925e0a3d9feda",
-  //         name: "invi",
-  //         progress: 0,
-  //         tags: [],
-  //       },
-  //       role: {
-  //         _id: "66d33a4b4ad80e468f231f83",
-  //         jobTitle: "owner",
-  //         rights: [
-  //           {
-  //             model: {
-  //               _id: "66ba00b0e39d9694110fd3df",
-  //               name: "model1",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       email: "a7med3li0111@gmail.com",
-  //       comment: "s",
-  //       projectName: "invi",
-  //       isSignUp: true,
-  //       isApproved: true,
-  //       createdBy: "6851bee9028597549a4ffbcb",
-  //       date: "2025-07-16T09:45:05.673Z",
-  //       createdAt: "2025-07-16T09:45:05.673Z",
-  //       updatedAt: "2025-07-16T09:45:05.728Z",
-  //       __v: 0,
-  //       inivitaionLink:
-  //         "https://request-sa.com/Invitation?id=687774a11f8925e0a3da0038",
-  //     },
-  //   ];
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -108,26 +43,32 @@ const InvitationsCards = ({ data }) => {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const StatusBadge = ({ isApproved }) => {
+  const StatusBadge = ({ isApproved, reject }) => {
+    // Check if rejected first
+    if (reject === true) {
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#EF4444] text-[#FFFFFF]">
+          <AlertCircle className="w-3 h-3 mr-1" />
+          Rejected
+        </span>
+      );
+    }
+
+    // Then check if approved
+    if (isApproved) {
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#10B981] text-[#FFFFFF]">
+          <CheckCircle className="w-3 h-3 mr-1" />
+          Approved
+        </span>
+      );
+    }
+
+    // Default to pending
     return (
-      <span
-        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-          isApproved
-            ? "bg-[#10B981] text-[#FFFFFF]"
-            : "bg-[#F59E0B] text-[#FFFFFF]"
-        }`}
-      >
-        {isApproved ? (
-          <>
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Approved
-          </>
-        ) : (
-          <>
-            <XCircle className="w-3 h-3 mr-1" />
-            Pending
-          </>
-        )}
+      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#F59E0B] text-[#FFFFFF]">
+        <XCircle className="w-3 h-3 mr-1" />
+        Pending
       </span>
     );
   };
@@ -159,9 +100,6 @@ const InvitationsCards = ({ data }) => {
           Project Invitations
         </h2>
         <p className="text-white text-sm">Invitations loaded successfully</p>
-        {/* <div className="mt-4 text-white text-sm">
-          Total invitations: {data.length}
-        </div> */}
       </div>
 
       {/* Cards Grid */}
@@ -187,7 +125,10 @@ const InvitationsCards = ({ data }) => {
                     </p>
                   </div>
                 </div>
-                <StatusBadge isApproved={invitation.isApproved} />
+                <StatusBadge
+                  isApproved={invitation.isApproved}
+                  reject={invitation.reject}
+                />
               </div>
             </div>
 
@@ -203,22 +144,6 @@ const InvitationsCards = ({ data }) => {
                     {invitation.project.name}
                   </p>
                 </div>
-                {/* <div className="text-right">
-                  <p className="text-xs text-[#6B7280] font-medium mb-1">
-                    Progress
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-12 h-2 bg-[#E5E7EB] rounded-full">
-                      <div
-                        className="h-full bg-[#10B981] rounded-full transition-all duration-300"
-                        style={{ width: `${invitation.project.progress}%` }}
-                      ></div>
-                    </div>
-                    <span className="text-xs text-[#6B7280]">
-                      {invitation.project.progress}%
-                    </span>
-                  </div>
-                </div> */}
               </div>
 
               {/* Role */}
@@ -244,23 +169,6 @@ const InvitationsCards = ({ data }) => {
                 <Calendar className="w-4 h-4 mr-2 text-[#9CA3AF]" />
                 <span>{formatDate(invitation.date)}</span>
               </div>
-
-              {/* Model Rights */}
-              {/* <div>
-                <p className="text-xs text-[#6B7280] font-medium mb-1">
-                  Model Access
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {invitation.role.rights.map((right, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-block px-2 py-1 bg-[#EFF6FF] text-[#1D4ED8] text-xs rounded"
-                    >
-                      {right.model.name}
-                    </span>
-                  ))}
-                </div>
-              </div> */}
             </div>
 
             {/* Card Footer */}
@@ -274,16 +182,6 @@ const InvitationsCards = ({ data }) => {
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Resend
                 </button>
-
-                {/* <button
-                  onClick={() =>
-                    copyToClipboard(invitation.inivitaionLink, invitation._id)
-                  }
-                  className="flex items-center justify-center px-4 py-2 bg-[#6B7280] text-[#FFFFFF] rounded-md text-sm font-medium hover:bg-[#4B5563] transition-colors duration-200"
-                >
-                  <Copy className="w-4 h-4 mr-1" />
-                  cancel
-                </button> */}
               </div>
             </div>
           </div>
