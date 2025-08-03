@@ -238,7 +238,13 @@ const TasksPerProject = () => {
                     state={{ taskId: task._id }}
                   >
                     <BoardView
-                      ProgressValue={task?.progress}
+                      ProgressValue={
+                        task?.requiredQuantity &&
+                        task?.approvedQuantity !== undefined
+                          ? (task?.approvedQuantity / task?.requiredQuantity) *
+                            100
+                          : 0
+                      }
                       NameOfTask={task.title}
                       Tagname={task?.tags?.name}
                       Tag={task.tags}
@@ -270,7 +276,13 @@ const TasksPerProject = () => {
                     state={{ taskId: task._id }}
                   >
                     <ListView
-                      ProgressValue={task.progress}
+                      ProgressValue={
+                        task?.requiredQuantity &&
+                        task?.approvedQuantity !== undefined
+                          ? (task?.approvedQuantity / task?.requiredQuantity) *
+                            100
+                          : 0
+                      }
                       NameOfTask={task.title}
                       Tagname={task.title}
                       taskPriority={task.taskPriority}
