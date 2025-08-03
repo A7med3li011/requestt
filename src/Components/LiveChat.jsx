@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Send, User } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function LiveChat() {
   // Mock user data - replace with your actual user state management
+
+  const userr = useSelector((state) => state.auth.user);
+  console.log(userr);
   const user = {
-    _id: "6863e8e24c9a8578b3abdfa8",
-    name: "Ahmed Ali",
-    profilePic: "profilePic/438320398-jpg_44-2.jpg",
+    _id: userr?._id,
+    name: userr?.name || "",
+    profilePic: userr?.profilePic || "",
   };
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -270,7 +274,6 @@ export default function LiveChat() {
             <span className="font-medium  ">Send</span>
           </button>
         </div>
-       
       </div>
     </div>
   );

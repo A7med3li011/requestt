@@ -112,7 +112,7 @@ const LandingHeader = () => {
                     {t("Price")}
                   </Link>
                   <Link
-                    to={"/ContactUs"}
+                    to={"/Contact Us"}
                     className="font-medium text-lg w-full text-center py-2 hover:text-purple focus:text-purple cursor-pointer transition-all duration-300 hover:scale-105 hover:bg-purple/5 rounded-lg"
                   >
                     {t("Contact us")}
@@ -158,7 +158,7 @@ const LandingHeader = () => {
                 {t("Price")}
               </Link>
               <Link
-                to={"/ContactUs"}
+                to={"/Contact Us"}
                 className="font-medium text-s  hover:text-purple focus:text-purple cursor-pointer transition-colors duration-200 px-2 py-1 rounded-md hover:bg-purple/5"
               >
                 {t("Contact us").split(" ")}

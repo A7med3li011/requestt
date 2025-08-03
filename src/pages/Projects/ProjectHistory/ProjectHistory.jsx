@@ -31,8 +31,6 @@ const ProjectHistory = () => {
       .replace("/", "-");
   };
 
-  
-
   const buttonData = [
     { label: t("All"), value: "all" },
     { label: t("Waiting"), value: "waiting" },

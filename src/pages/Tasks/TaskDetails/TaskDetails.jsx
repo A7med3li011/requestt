@@ -50,6 +50,7 @@ const TaskDetails = () => {
   const [status, setStatus] = useState(Task?.taskStatus);
   const [doc, setDoc] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [acc, setAcc] = useState(0);
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -71,6 +72,8 @@ const TaskDetails = () => {
           toast.error(res.data.err);
         } else {
           toast.success("file uploaded ");
+          setAcc(Math.random());
+          console.log(acc);
         }
       })
       .catch((err) => console.log(err));
@@ -118,7 +121,7 @@ const TaskDetails = () => {
 
   useEffect(() => {
     geyallDocs();
-  }, [taskId]);
+  }, [taskId, acc]);
 
   const getUpdatedFields = () => {
     const updatedFields = {};
@@ -437,7 +440,7 @@ const TaskDetails = () => {
               </span>
 
               <label htmlFor="fille">
-                <FaFileLines className="text-purple-dark h-7 w-7" />
+                <FaFileLines className="text-purple-dark h-7 w-7 cursor-pointer" />
               </label>
               <input
                 id="fille"
