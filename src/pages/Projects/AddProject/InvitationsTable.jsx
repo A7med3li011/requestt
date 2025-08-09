@@ -104,7 +104,7 @@ const InvitationsCards = ({ data }) => {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1  lg:grid-cols-2 gap-6">
-        {data.map((invitation, index) => (
+        {data?.map((invitation, index) => (
           <div
             key={invitation._id}
             className="bg-[#FFFFFF] rounded-lg shadow-lg border border-[#E5E7EB] overflow-hidden hover:shadow-xl transition-shadow duration-300"
