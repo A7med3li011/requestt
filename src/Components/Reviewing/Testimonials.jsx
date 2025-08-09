@@ -26,6 +26,8 @@ export default function Testimonials() {
     handleGetData();
   }, []);
 
+  
+
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === data.length - 1 ? 0 : prevIndex + 1
