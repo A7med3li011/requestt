@@ -58,18 +58,22 @@ const Invite = () => {
     for (const invite of invites) {
       if (!invite.email.trim()) {
         setError(t("Email can not be empty"));
+        setLoading(false);
         return;
       }
       if (!emailPattern.test(invite.email.trim())) {
         setError(t("This Email is not valid"));
+        setLoading(false);
         return;
       }
       if (invite.email.trim() === user.email) {
         setError(t("You cannot invite yourself"));
+        setLoading(false);
         return;
       }
       if (!invite.type) {
         setError(t("role required"));
+        setLoading(false);
         return;
       }
     }
@@ -145,9 +149,10 @@ const Invite = () => {
                   autoComplete="email"
                   required
                   value={invite.email}
-                  onChange={(e) =>
-                    handleInviteChange(index, "email", e.target.value)
-                  }
+                  onChange={(e) => {
+                    handleInviteChange(index, "email", e.target.value);
+                    setError(null);
+                  }}
                 />
               </div>
               <div className="lg:w-1/4 w-2/3 mx-auto">
