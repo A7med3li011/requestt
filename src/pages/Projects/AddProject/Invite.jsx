@@ -75,7 +75,7 @@ const Invite = () => {
     }
 
     try {
-      const payload = invites.map(({ email, type, comment }) => ({
+      const payload = invites?.map(({ email, type, comment }) => ({
         email: email.trim(),
         role: type,
         project: projectId,

@@ -189,7 +189,7 @@ const InvitationsCards = ({ data }) => {
       </div>
 
       {/* Empty State */}
-      {data.length === 0 && (
+      {data?.length === 0 && (
         <div className="text-center py-12">
           <Mail className="w-16 h-16 text-[#9CA3AF] mx-auto mb-4" />
           <h3 className="text-lg font-medium text-[#1F2937] mb-2">
