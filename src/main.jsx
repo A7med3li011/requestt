@@ -10,6 +10,11 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { LanguageProvider } from "./context/LanguageContext.jsx";
 import { NotificationsProvider } from "./context/NotificationsContext.jsx";
 import { ChatProvider } from "./context/ChatContext.jsx";
+import ReactGA from 'react-ga4';
+
+const GA_MEASUREMENT_ID = 'G-RVP04QER7J';
+
+ReactGA.initialize(GA_MEASUREMENT_ID);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

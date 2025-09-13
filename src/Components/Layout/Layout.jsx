@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { useLocation } from "react-router-dom";
+import ReactGA from 'react-ga4';
 import Sidebar from "../SideBar/Sidebar";
 import Header from "../Header/Header";
 import { ToastContainer } from "react-toastify";
@@ -7,8 +9,14 @@ import useAuthRedirect from "../../hooks/useAuthRedirect";
 import AppRoutes from "../../Routes/AppRoutes";
 import Footer from "../Footer/Footer";
 
+
 const Layout = () => {
   const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+  }, [location]);
+
   // useAuthRedirect();
   const options = {
     position: "bottom-right",

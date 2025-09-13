@@ -41,6 +41,7 @@
     "react-credit-cards-2": "^1.0.3",
     "react-day-picker": "^9.0.8",
     "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
     "react-i18next": "^14.1.2",
     "react-icons": "^5.4.0",
     "react-infinite-scroll-component": "^6.1.0",
@@ -74,6 +75,6 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.41",
     "tailwindcss": "^3.4.7",
-    "vite": "^5.3.1"
+    "vite": "^7.1.5"
   }
 }
