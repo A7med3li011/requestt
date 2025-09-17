@@ -208,6 +208,7 @@ const Invite = () => {
           {error && <p className="error text-red text-center">{error}</p>}
           <div className="col-span-6 flex justify-end mt-4">
             <Button disabled={loading} onClick={handleSubmit}>
+              
               {t("invite")}
             </Button>
           </div>
